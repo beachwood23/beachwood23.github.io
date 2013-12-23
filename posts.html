@@ -1,0 +1,15 @@
+---
+layout: default
+title: rywhite.com - Posts
+---
+
+<h1> Posts </h1>
+<hr>
+
+{% for post in site.posts %}
+<li>
+	<small>{{ post.date | date_to_string }} </small>
+	<h2><a href="{{ post.url }}">{{ post.title }}</a></h2>
+	<p> {{post.excerpt }} </p>
+</li>
+{% endfor %}
