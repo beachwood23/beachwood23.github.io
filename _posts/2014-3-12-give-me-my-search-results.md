@@ -44,40 +44,40 @@ I've included the actual images and searches at the bottom of this post. Meanwhi
 
 As an aside, I don't like Google's implementation of its context suggestions, where they are located on the right side of the page. It takes effort to see those, since they're not in the normal eye flow of scanning down the search results. I didn't even notice the box until I was editing the image. DuckDuckGo's instant-answer box is a much better solution I think, although I understand Google is a bit more committed to advertising revenue.
 
---
+---
 
 **Google:**
 
 ![Google](/images/ggle_pixel.png)
 
---
+---
 
 **Bing:**
 
 ![Bing](/images/bing_pixel.png)
 
---
+---
 
 **Yahoo!:**
 
 ![Yahoo!](/images/yahoo_pixel.png)
 
---
+---
 
 **DuckDuckGo:**
 
 ![DuckDuckGo](/images/ddg_pixel.png)
 
---
+---
 
 **Yandex (the major search engine in Russia):**
 
 ![Yandex](/images/yandex_pixel.png)
 
---
+---
 
 **Finally, out of nostalgia, I looked at Dogpile:**
 
 ![Dogpile](/images/dogpile_pixel.png)
 
---
+---
