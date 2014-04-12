@@ -17,6 +17,6 @@ For comparison, take a look at the Skype for iPhone reviews:
 
 Now these are some useful reviews. Useful for me, as a consumer, but also useful for Microsoft as feedback on their app. Both sides benefit from spam-less app reviews. 
 
-I was going to make my next phone (and first smartphone) a Windows Phone, but after seeing that Microsoft can't get something as simple as spam filtering right, I'm suspicious that other parts of Windows Phone are still unfinished as well. Maybe in a few years. 
+I was going to make my next phone (and first smartphone) a Windows Phone, but after seeing that Microsoft can't get something as basic as spam filtering implemented, I'm suspicious that other parts of Windows Phone are still unfinished as well. Maybe in a few years. 
 
 ---
