@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Automating the Creation of Posts in Jekyll
+title: Top premier league players of 2015
 ---
 
 The Guardian newspaper recently released its list of the Best 100 Footballers in the World. Any list such as this will be, at its core, subjective, but each of the players named in the list have undeniable skill and class. As such, teams spend millions of pounds each year attempting to develop, acquire, and retain these top players. These players often have tremendous impact on games, capable of going against the run of the game and changing the result on their own. Strikers might make wonder shots, midfielders an incisive pass requiring tremendous vision, keepers a one-handed save. In the Premier League, the New Big Four of Manchester City, Manchester United, Chelsea, and Arsenal have more than 80% of all top footballers. 
