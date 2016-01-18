@@ -25,6 +25,7 @@ Other notes:
 
 | Team              | Players in TheGuardian's Top 100 Footballers | Net spend per season | Season £ spent per top player | 2015/16 Wages |
 |-------------------|----------------------------------------------|----------------------|-------------------------------|---------------|
+<<<<<<< HEAD
 | Manchester City   | £6                                           | £64,480,000          | £10,746,667                   | £193,800,000  |
 | Chelsea           | £6                                           | £44,041,800          | £7,340,300                    | £215,600,000  |
 | Manchester United | £6                                           | £57,660,000          | £9,610,000                    | £203,000,000  |
