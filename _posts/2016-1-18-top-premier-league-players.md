@@ -17,11 +17,11 @@ Other notes:
 - Leicester has done amazingly, with a wage bill only 45% as large as Tottenham's (and 33% of Liverpool's) while amassing two top footballers.
 
 
-![]("/images/netspend.png")
+![](/images/netspend.png)
 
-![]("/images/netspendperplayer.png")
+![](/images/netspendperplayer.png)
 
-![]("/images/wages.png")
+![](/images/wages.png)
 
 Sources:
 
