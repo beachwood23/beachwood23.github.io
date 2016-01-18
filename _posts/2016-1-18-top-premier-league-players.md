@@ -23,6 +23,17 @@ Other notes:
 
 ![](/images/wages.png)
 
+| Team              | Players in TheGuardian's Top 100 Footballers | Net spend per season | Season £ spent per top player | 2015/16 Wages |
+|-------------------|----------------------------------------------|----------------------|-------------------------------|---------------|
+| Manchester City   | 6                                            | £64,480,000          | £10,746,667                   | £193,800,000  |
+| Chelsea           | 6                                            | £44,041,800          | £7,340,300                    | £215,600,000  |
+| Manchester United | 6                                            | £57,660,000          | £9,610,000                    | £203,000,000  |
+| Arsenal           | 5                                            | £19,805,000          | £3,961,000                    | £192,000,000  |
+| Leicester City    | 2                                            | £10,030,000          | £5,015,000                    | £48,200,000   |
+| Tottenham         | 1                                            | -£8,240,000          | -£8,240,000                   | £110,500,000  |
+| Liverpool         | 1                                            | £32,666,000          | £32,666,000                   | £152,000,000  |
+| West Ham United   | 1                                            | £19,850,000          | £19,850,000                   | £69,500,000   |
+
 Sources:
 
 From [http://www.theguardian.com/football/ng-interactive/2015/dec/21/the-100-best-footballers-in-the-world-2015-interactive](http://www.theguardian.com/football/ng-interactive/2015/dec/21/the-100-best-footballers-in-the-world-2015-interactive) grabbed players.
