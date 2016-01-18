@@ -17,11 +17,11 @@ Other notes:
 - Leicester has done amazingly, with a wage bill only 45% as large as Tottenham's (and 33% of Liverpool's) while amassing two top footballers.
 
 
-![]("C:\Users\Ryan White\Documents\github\rywhite.github.io\images\netspend.png")
+![]("/images/netspend.png")
 
-![]("C:\Users\Ryan White\Documents\github\rywhite.github.io\images\netspendperplayer.png")
+![]("/images/netspendperplayer.png")
 
-![]("C:\Users\Ryan White\Documents\github\rywhite.github.io\images\wages.png")
+![]("/images/wages.png")
 
 Sources:
 
