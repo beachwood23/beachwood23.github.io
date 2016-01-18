@@ -94,6 +94,11 @@ th {
 
 img {
   max-width:100%;
+  
+}
+
+img:hover {
+  transform: scale(2,2);
 }
 
 header {
