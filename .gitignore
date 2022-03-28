@@ -1,3 +1,5 @@
 # ignore postmaker
 postmaker.rb
 .DS_Store
+.jekyll-cache
+_site
