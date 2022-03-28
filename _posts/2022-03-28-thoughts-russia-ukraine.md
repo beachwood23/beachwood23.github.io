@@ -1,9 +1,9 @@
 ---
 layout: post
-title: Thoughts on Russia invasion of Ukraine
+title: Thoughts on Russia's invasion of Ukraine
 ---
 
-It is not necessary for me to do this, but I've started to digest some thoughts and I would like to share them.
+It is not necessary for me to do this, but I've started to digest some thoughts and I would like to share them. I'd like to talk about geopolitics and economics.
 
 ## My understanding so far
 This whole situation is awful. Russia is making an aggressive, violent move, that has a chance of escalating in nuclear war. But why are they making this move?

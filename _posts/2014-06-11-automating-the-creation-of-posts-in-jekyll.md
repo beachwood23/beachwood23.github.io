@@ -3,7 +3,7 @@ layout: post
 title: Automating the Creation of Posts in Jekyll
 ---
 
-I don't write blog posts often. Even so, I've been annoyed by the tedious routine required by the Jekyll engine to create a post. 
+I like to automate things that are a bit tedious. So, I've automated a slightly tedious thing and probably put more time into than will pay off. But perhaps it might help someone else.
 
 To make a post, you put a new file in the `_posts/` directory. This file must be named strictly in the form of ``"yyyy-mm-dd-post-title.md"``. Once the file is created, a header is required of the following form:
 
