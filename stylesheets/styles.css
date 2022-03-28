@@ -97,10 +97,10 @@ img {
   
 }
 
-img:hover {
+/*img:hover {
   transform: scale(1.5,1.5);
 }
-
+*/
 header {
   width:180px;
   float:left;
