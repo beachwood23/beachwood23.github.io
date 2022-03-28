@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Thoughts on Russia invasion of Ukraine, March 2022
+title: Thoughts on Russia invasion of Ukraine
 ---
 
 It is not necessary for me to do this, but I've started to digest some thoughts and I would like to share them.
