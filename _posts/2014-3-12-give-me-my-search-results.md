@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Give Me My Search Results
+title: Give me my search results
 ---
 
 How much space do search engines devote to advertising space? Unless we're shopping, the results we're looking for in a search query are usually tucked beneath text ads. 

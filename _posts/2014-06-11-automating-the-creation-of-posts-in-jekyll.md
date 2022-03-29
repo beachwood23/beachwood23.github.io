@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Automating the Creation of Posts in Jekyll
+title: Automating the creation of posts in Jekyll
 ---
 
 I like to automate things that are a bit tedious. So, I've automated a slightly tedious thing and probably put more time into than will pay off. But perhaps it might help someone else.
