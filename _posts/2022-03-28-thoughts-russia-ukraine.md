@@ -1,6 +1,6 @@
 ---
 layout: post
-title: Thoughts on Russia's invasion of Ukraine
+title: Who wins in Ukraine?
 ---
 
 It is not necessary for me to do this, but I've started to digest some thoughts and I would like to share them. I'd like to talk about geopolitics and economics.
