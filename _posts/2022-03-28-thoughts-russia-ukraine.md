@@ -19,6 +19,14 @@ This balance of Russian and NATO power in Ukraine has been shaky for some time. 
 
 
 ## What I think will happen in the near term
+Ukraine will either fall to the Russians, or perhaps Russia will leave as a shattered, broken country, and let NATO pick up the pieces. A Ukrainian president's advisor [stated just this, back in 2019.](https://twitter.com/SDyorin/status/1503626407309713411?s=20&t=qk34-wCB7M9v4MTLoRs--Q)
+
+The above tweet now appears deleted. Thankfully, I archived it and saved it for safekeeping. It is here: 
+<video controls width='300' src='/assets/1503626407309713411.mp4' type='video/mp4'>
+</video>
+
+> With a probability of 99.9%, our price for joining NATO is a big war with Russia. And if we do not join NATO, it is absorption by Russia within 10 to 12 years.
+
 We pushed Russia to the breaking point, and now we get to see what plays out. 
 
 It is doubtful that we will directly intervene in Ukraine -- this would escalate the situation by making US troops fight Russian troops, and directly lead to WW3. 
@@ -27,12 +35,6 @@ Russia will be exiled on the Western stage (basically America / EU aligned count
 
 America will take the "win" of seeing the Western empire align against Russia. Russia will become much economically closer with China, and potentially Africa (much of Africa has been turning to Chinese investment over the past twenty years). Do they also become closer to other countries that are facing extreme sanctions from the West and are "almost" exiled, like Iran, Pakistan, Venezuela, Cuba, etc? Perhaps we are seeing the concrete formation of the next world war's "Axis" powers.
 
-Ukraine will either fall to the Russians, or perhaps Russia will leave as a shattered, broken country, and let NATO to pick up the pieces. A Ukrainian president's advisor [stated just this, back in 2019.](https://twitter.com/SDyorin/status/1503626407309713411?s=20&t=qk34-wCB7M9v4MTLoRs--Q)
-
-The above video now appears deleted. Thankfully, I archived it and saved it for safekeeping. It is here: 
-<a href='/assets/1503626407309713411.mp4'>1503626407309713411.mp4</a>
-
-> With a probability of 99.9%, our price for joining NATO is a big war with Russia. And if we do not join NATO, it is absorption by Russia within 10 to 12 years.
 
 ## Who wins economically?
 This one is interesting. Russia will struggle economically for a while. But so will Europe and the US. 
