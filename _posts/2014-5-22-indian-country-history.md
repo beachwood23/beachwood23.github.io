@@ -1,6 +1,6 @@
 ---
 layout: post
-title: The Roots of Indian Repression in the U.S.
+title: The roots of Native American repression in the U.S.
 ---
 
 I completed a research paper on the issues of modern Native American Country and how those issues came to be. I've edited it to be more palatable, and the following article is the result. 
