@@ -3,10 +3,7 @@ layout: post
 title: Who wins in Ukraine?
 ---
 
-It is not necessary for me to do this, but I've started to digest some thoughts and I would like to share them. I'd like to talk about geopolitics and economics.
-
-## My understanding so far
-This whole situation is awful. Russia is making an aggressive, violent move, that has a chance of escalating in nuclear war. But why are they making this move?
+The whole situation is awful and depressing. Russia is making an aggressive, violent move, that has a chance of escalating in nuclear war. But why are they doing this?
 
 Ukraine was close to joining NATO. [This has been the goal of US policy in Ukraine for years](https://fair.org/home/what-you-should-really-know-about-ukraine/), and is why the [National Endowment for Democracy funded the ukrainian coup / revolution in 2014](https://www.commondreams.org/newswire/2014/03/18/ukraine-and-national-endowment-democracy-form-intervention), so that their handpicked man, sympathetic to Europe / EU / NATO / US, could be placed in power. It is also why [the US funded pro-American political parties in the 2004 election](https://web.archive.org/save/https://www.theguardian.com/world/2004/nov/26/ukraine.usa) -- manipulating voters in Ukraine and steering them towards conflict with their Russian neighbor.
 
