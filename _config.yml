@@ -1,2 +1,9 @@
 markdown: kramdown
 pygments: true
+
+plugins:
+  - jekyll-feed
+
+title: beachwood23.com
+description: Your new favorite blog.
+author: beachwood23
