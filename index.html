@@ -4,27 +4,52 @@ title: beachwood23
 ---
 
 <img src="/images/canyonlands.png" alt="Canyonlands National Park, Utah, USA" />
-<p>Hello, welcome to my web page. Please make yourself at home.</p>
+<p>
+    Hello, welcome to my web page. Please make yourself at home.
+</p>
 
 <!--JavaScript code for single Quote of the Day, http://www.tqpage.com/-->
 <script language="javascript" src="http://www.quotationspage.com/data/1qotd.js">
 </script>
 <!--End JavaScript Quotations code-->
 <script language="javascript">
-    // Select the span element with class 'tqpFooter'
+    // Adding some custom formatting to the quote of the day.
+
     var footerSpan = document.querySelector('span.tqpFooter');
-    // Check if the element exists
     if (footerSpan) {
-        // Remove the element from the DOM
         footerSpan.parentNode.removeChild(footerSpan);
     } else {
         console.log('No element with class tqpFooter found.');
     }
     var headerLink = document.querySelector('a.tqpHeader');
-    headerLink.style.fontSize = '0.8em';
+    headerLink.style.fontSize = '0.65em';
 
     let dl = document.querySelector('dl');
-    let blockquote = document.createElement('blockquote');
-    blockquote.innerHTML = dl.innerHTML; // Copy the content
-    dl.parentNode.replaceChild(blockquote, dl); // Replace <dl> with <blockquote>
+    if (dl) {
+        let blockquote = document.createElement('blockquote');
+        blockquote.innerHTML = dl.innerHTML;
+
+        dl.parentNode.replaceChild(blockquote, dl);
+    } else {
+        console.log('No dl element found.');
+    }
+
+    let dt = document.querySelector('dt.tqpQuote');
+    if (dt) {
+        let p = document.createElement('p');
+        p.className = dt.className;
+        p.innerHTML = dt.innerHTML;
+
+        let authorLink = document.querySelector('.tqpAuthor');
+        if (authorLink) {
+            p.appendChild(document.createElement('br'));
+            p.appendChild(document.createTextNode(' - '));
+            authorLink.style.fontSize = '0.8em';
+            p.appendChild((authorLink));
+        }
+
+        dt.parentNode.replaceChild(p, dt);
+    } else {
+        console.log('No dt element with class tqpQuote found.');
+    }
 </script>
