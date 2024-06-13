@@ -8,48 +8,46 @@ title: beachwood23
     Hello, welcome to my web page. Please make yourself at home.
 </p>
 
-<!--JavaScript code for single Quote of the Day, http://www.tqpage.com/-->
-<script language="javascript" src="http://www.quotationspage.com/data/1qotd.js">
-</script>
-<!--End JavaScript Quotations code-->
-<script language="javascript">
-    // Adding some custom formatting to the quote of the day.
+<a href="https://github.com/lukePeavey/quotable" style="font-size: 0.8em">
+    Random quote from Quotable.io
+</a>
+<div id="rand-quote">
+    <!-- quote will go here -->
+</div>
 
-    var footerSpan = document.querySelector('span.tqpFooter');
-    if (footerSpan) {
-        footerSpan.parentNode.removeChild(footerSpan);
-    } else {
-        console.log('No element with class tqpFooter found.');
-    }
-    var headerLink = document.querySelector('a.tqpHeader');
-    headerLink.style.fontSize = '0.65em';
+<script>
+fetch('https://api.quotable.io/quotes/random')
+    .then(response => response.json())
+    .then(data => {
+        // Handle the data here
+        console.log(data); // For debugging
+        // Now you can format and display the quote
+        displayQuote(data[0]);
+    })
+    .catch(error => {
+        console.error('Error fetching quote:', error);
+    });
 
-    let dl = document.querySelector('dl');
-    if (dl) {
-        let blockquote = document.createElement('blockquote');
-        blockquote.innerHTML = dl.innerHTML;
+function displayQuote(quoteData) {
 
-        dl.parentNode.replaceChild(blockquote, dl);
-    } else {
-        console.log('No dl element found.');
-    }
+    // Create a blockquote element
+    const blockquote = document.createElement('blockquote');
 
-    let dt = document.querySelector('dt.tqpQuote');
-    if (dt) {
-        let p = document.createElement('p');
-        p.className = dt.className;
-        p.innerHTML = dt.innerHTML;
+    // Set the quote text
+    blockquote.textContent = quoteData.content;
 
-        let authorLink = document.querySelector('.tqpAuthor');
-        if (authorLink) {
-            p.appendChild(document.createElement('br'));
-            p.appendChild(document.createTextNode(' - '));
-            authorLink.style.fontSize = '0.8em';
-            p.appendChild((authorLink));
-        }
+    // Get the element where you want to display the quote
+    const quoteContainer = document.getElementById('rand-quote');
 
-        dt.parentNode.replaceChild(p, dt);
-    } else {
-        console.log('No dt element with class tqpQuote found.');
-    }
+    // Append the blockquote to the container element
+    quoteContainer.appendChild(blockquote);
+
+    // Create a footer element for the author
+    const footer = document.createElement('p');
+    footer.textContent = ' - ' + quoteData.author;
+    footer.style.fontSize = '0.8em';
+
+    // Append the footer to the container element
+    quoteContainer.appendChild(footer);
+}
 </script>
