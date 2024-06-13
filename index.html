@@ -7,8 +7,9 @@ title: beachwood23
 <p>Hello, welcome to my web page. Please make yourself at home.</p>
 
 <!--JavaScript code for single Quote of the Day, http://www.tqpage.com/-->
-<script language="javascript" src="/javascripts/quotd.js">
-</script> <!--End JavaScript Quotations code-->
+<script language="javascript" src="http://www.quotationspage.com/data/1qotd.js">
+</script>
+<!--End JavaScript Quotations code-->
 <script language="javascript">
     // Select the span element with class 'tqpFooter'
     var footerSpan = document.querySelector('span.tqpFooter');
@@ -19,4 +20,11 @@ title: beachwood23
     } else {
         console.log('No element with class tqpFooter found.');
     }
+    var headerLink = document.querySelector('a.tqpHeader');
+    headerLink.style.fontSize = '0.8em';
+
+    let dl = document.querySelector('dl');
+    let blockquote = document.createElement('blockquote');
+    blockquote.innerHTML = dl.innerHTML; // Copy the content
+    dl.parentNode.replaceChild(blockquote, dl); // Replace <dl> with <blockquote>
 </script>
