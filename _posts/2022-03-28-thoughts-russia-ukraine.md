@@ -19,7 +19,7 @@ This balance of Russian and NATO power in Ukraine has been shaky for some time. 
 Ukraine will either fall to the Russians, or perhaps Russia will leave as a shattered, broken country, and let NATO pick up the pieces. A Ukrainian president's advisor [stated just this, back in 2019.](https://twitter.com/SDyorin/status/1503626407309713411?s=20&t=qk34-wCB7M9v4MTLoRs--Q)
 
 The above tweet now appears deleted. Thankfully, I archived it and saved it for safekeeping. It is here: 
-<video controls width='300' src='/assets/1503626407309713411.mp4' type='video/mp4'>
+<video controls width='500' src='/assets/1503626407309713411.mp4' type='video/mp4'>
 </video>
 
 > With a probability of 99.9%, our price for joining NATO is a big war with Russia. And if we do not join NATO, it is absorption by Russia within 10 to 12 years.
