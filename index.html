@@ -8,50 +8,30 @@ title: beachwood23
     Hello, welcome to my web page. Please make yourself at home.
 </p>
 
-<a href="https://github.com/lukePeavey/quotable" style="font-size: 0.8em">
-    Random quote from Quotable.io:
-</a>
+<p style="font-size: 0.8em">
+    A random quote from <a href="https://www.goodreads.com/quotes" >goodreads</a>:
+</p>
 <div id="rand-quote">
-    <!-- quote will go here -->
+    <blockquote id="rand-quote-text"></blockquote>
+    <p id="rand-quote-author" style="font-size: 0.8em"></p>
+    <script>
+        console.log('hello there');
+        document.addEventListener('DOMContentLoaded', () => {
+            fetch('/javascripts/quotes.json')
+                .then(response => response.json())
+                .then(data => {
+                    const randomIndex = Math.floor(Math.random() * data.length);
+                    const randomQuote = data[randomIndex];
+                    console.log(randomQuote)
+                    console.log(randomQuote.author);
+                    document.getElementById("rand-quote-text").textContent = randomQuote.quote;
+                    console.log(document.getElementById("rand-quote-text"));
+                    console.log(document.getElementById("rand-quote-author"));
+                    document.getElementById("rand-quote-author").textContent = randomQuote.author;
+                })
+                .catch(error => console.error('Error fetching the JSON:', error));
+        });
+    </script>
 </div>
 
-<script>
-fetch('https://api.quotable.io/quotes/random')
-    .then(response => response.json())
-    .then(data => {
-        // Handle the data here
-        console.log(data); // For debugging
-        // Now you can format and display the quote
-        displayQuote(data[0]);
-    })
-    .catch(error => {
-        console.error('Error fetching quote:', error);
-        document.getElementById('rand-quote')
-            .append(
-                'Error fetching random quote. Check https://github.com/lukePeavey/quotable/issues.'
-            );
-    });
 
-function displayQuote(quoteData) {
-
-    // Create a blockquote element
-    const blockquote = document.createElement('blockquote');
-
-    // Set the quote text
-    blockquote.textContent = quoteData.content;
-
-    // Get the element where you want to display the quote
-    const quoteContainer = document.getElementById('rand-quote');
-
-    // Append the blockquote to the container element
-    quoteContainer.appendChild(blockquote);
-
-    // Create a footer element for the author
-    const footer = document.createElement('p');
-    footer.textContent = ' - ' + quoteData.author;
-    footer.style.fontSize = '0.8em';
-
-    // Append the footer to the container element
-    quoteContainer.appendChild(footer);
-}
-</script>
