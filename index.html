@@ -3,19 +3,21 @@ layout: default
 title: beachwood23
 ---
 
+
+
 <img src="/images/canyonlands.jpeg" alt="Canyonlands National Park, Utah, USA" />
 <p>
     Hello, welcome to my web page. Please make yourself at home.
 </p>
 
 <p style="font-size: 0.8em">
-    A random quote from <a href="https://www.goodreads.com/quotes" >goodreads</a>:
+    If you like, click this magic button for a random quote from <a href="https://www.goodreads.com/quotes" >goodreads</a>: <input id="quoteButton" type="button" value="🪄"/>
 </p>
 <div id="rand-quote">
     <blockquote id="rand-quote-text"></blockquote>
     <p id="rand-quote-author" style="font-size: 0.8em"></p>
     <script>
-        document.addEventListener('DOMContentLoaded', () => {
+        document.getElementById("quoteButton").onclick = (event) => {
             fetch('/javascripts/quotes.json')
                 .then(response => response.json())
                 .then(data => {
@@ -25,7 +27,7 @@ title: beachwood23
                     document.getElementById("rand-quote-author").textContent = randomQuote.author;
                 })
                 .catch(error => console.error('Error fetching the JSON:', error));
-        });
+        };
     </script>
 </div>
 
