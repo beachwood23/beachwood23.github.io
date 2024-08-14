@@ -3,7 +3,7 @@ layout: default
 title: beachwood23
 ---
 
-
+<!-- todo: add dark mode -->
 
 <img src="/images/canyonlands.jpeg" alt="Canyonlands National Park, Utah, USA" />
 <p>
@@ -11,22 +11,26 @@ title: beachwood23
 </p>
 
 <p style="font-size: 0.8em">
-    If you like, click this magic button for a random quote from <a href="https://www.goodreads.com/quotes" >goodreads</a>: <input id="quoteButton" type="button" value="🪄"/>
+    If you like, click this <input id="quoteButton" type="button" value="🪄magic button"/> for a random quote from <a href="https://www.goodreads.com/quotes" >goodreads</a>.
 </p>
 <div id="rand-quote">
     <blockquote id="rand-quote-text"></blockquote>
     <p id="rand-quote-author" style="font-size: 0.8em"></p>
     <script>
-        document.getElementById("quoteButton").onclick = (event) => {
-            fetch('/javascripts/quotes.json')
-                .then(response => response.json())
-                .then(data => {
-                    const randomIndex = Math.floor(Math.random() * data.length);
-                    const randomQuote = data[randomIndex];
-                    document.getElementById("rand-quote-text").textContent = randomQuote.quote;
-                    document.getElementById("rand-quote-author").textContent = randomQuote.author;
-                })
-                .catch(error => console.error('Error fetching the JSON:', error));
+        let quotesData = [];
+
+        document.getElementById("quoteButton").onclick = async (event) => {
+            // populate quotes data on first request
+            if (quotesData.length == 0) {
+                const response = await fetch('/javascripts/quotes.json');
+                quotesData =  await response.json();
+            }
+
+            // use quotes data to populate new quote
+            const randomIndex = Math.floor(Math.random() * quotesData.length);
+            const randomQuote = quotesData[randomIndex];
+            document.getElementById("rand-quote-text").textContent = randomQuote.quote;
+            document.getElementById("rand-quote-author").textContent = randomQuote.author;
         };
     </script>
 </div>
