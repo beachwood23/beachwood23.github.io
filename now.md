@@ -5,6 +5,8 @@ title: beachwood23
 
 
 ## What am I doing now?
+Borrowing the idea of the "now" page from [Derek Sivers](https://sive.rs/now2).
+---
 ### December 1, 2024
 
 I am living in Burlington, Vermont. We moved over the summer. 
@@ -15,6 +17,7 @@ I'm excited for the ski season. Hoping to do more backcountry skiing this year, 
 
 I started a new job, as well. I'm now working as a performance engineer (once again), this time at [One](www.one.app). For some time, I've been interested in how modern finance can work better for us. And, it's a company with a lot of growth potential. I've been working a lot, and it's a bit of a change from Nuix, but I am learning a lot.
 
+---
 ### June 12, 2024
 
 I am living in Winooski, Vermont.
@@ -25,5 +28,3 @@ Last year, I switched positions at [Nuix](https://www.nuix.com). I was a perform
 
 With my back, I am trying to do "micro-runs" through out the day. Small jogs of around one mile, to break up the day, get my fitness levels back up, and allows for my back to rest in between workouts. I'm recording my workouts in [Strava](https://strava.app.link/YHUk3J60mKb) to track my progress.
 
----
-Borrowing the idea of the "now" page from [Derek Sivers](https://sive.rs/now2).
