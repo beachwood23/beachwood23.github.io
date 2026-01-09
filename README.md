@@ -11,3 +11,6 @@ Using [Jekyll with Bundler](https://jekyllrb.com/tutorials/using-jekyll-with-bun
 `bundle exec jekyll serve` in the root directory to start a dev server of the blog contents
 
 `bundle exec jekyll build` to build the whole site as static files, and put into `_site`.
+
+
+Use `chruby` to use the ruby in the `.ruby-version`.
