@@ -22,6 +22,7 @@ Obviously I'm just lazy. So, I wrote the ugliest Ruby code you've ever seen to a
 #!/usr/bin/ruby
 
 # introduce ourselves
+
 def greet
   puts "** rywhite's Postmaker - a Jekyll blog post Generator **"
 end
@@ -35,6 +36,7 @@ def getPostTitle
 end
 
 # construct file name
+
 def buildFileName(title)
   fileTitle = title.downcase # convert all letters to lower case
   fileTitle = fileTitle.strip # remove all leading or trailing whitespace

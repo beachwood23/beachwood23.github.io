@@ -4,6 +4,10 @@ pygments: true
 plugins:
   - jekyll-feed
 
+collections:
+  links:
+    output: false
+
 title: beachwood23.com
 description: Your new favorite blog.
 author: beachwood23

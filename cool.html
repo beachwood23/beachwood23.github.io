@@ -1,0 +1,21 @@
+---
+layout: default
+title: Ryan White - Cool Links
+---
+
+<h1>Cool stuff</h1>
+
+<p>A collection of 🆒 stuff I have found. Kind of like an old fashioned web ring.</p>
+<hr />
+
+<ul>
+{% for link in site.links %}
+<div class="cool-item">
+  <!-- <li> -->
+    <a href="{{ link.address }}" target="_blank">{{ link.title }}</a>
+    <p style="margin-left: 20px;">{{link.description }}</p>
+    <br/>
+  <!-- </li> -->
+</div>
+{% endfor %}
+<ul>

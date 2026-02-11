@@ -4,7 +4,7 @@ title: beachwood23
 ---
 
 
-## What am I doing now?
+# What am I doing now?
 Borrowing the idea of the "now" page from [Derek Sivers](https://sive.rs/now2).
 
 ---
