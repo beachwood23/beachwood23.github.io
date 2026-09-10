@@ -9,6 +9,18 @@ Borrowing the idea of the "now" page from [Derek Sivers](https://sive.rs/now2).
 
 ---
 
+### September 9, 2026
+
+No longer a new year... but there is new life! Quite a wild adventure. Many times frustrating, mostly tiring, but also incredibly dumbstruck. It is indescribable how much joy I get from seeing this baby break out a smile, and show their very tiny two teeth. Or when they start to explore their surroundings and try to pet the dog. 
+
+Puts everything else we worry about into a different kind of perspective. Not that other things are less important, but that I can put categorize things more appropriately now. 
+
+Still fortunate that the back is doing well. Finally doing a half-marathon this fall, after my previous half-marathon in Cambodia. I hit a 1:41 then, I definitely won't do that this time. I'll be happy and lucky to break 2:15, I think. It will be a trail marathon, at the [Von Trapp trails in Stowe, Vermont](https://www.vontrappresort.com/trails-and-conditions-summer-map.htm).
+
+Still learning a lot at [OnePay](https://www.onepay.com), and I hope to keep building cool things here for a while. 
+
+---
+
 ### January 9, 2026
 
 A new year! Some set backs from the herniated disc. Still posting runs and activites on my [Strava account](https://strava.app.link/YHUk3J60mKb).
