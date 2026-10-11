@@ -112,21 +112,12 @@
   .ico.down { clip-path: polygon(30% 0, 70% 0, 70% 50%, 100% 50%, 50% 100%, 0 50%, 30% 50%); }
   .ico.left { clip-path: polygon(0 50%, 50% 0, 50% 30%, 100% 30%, 100% 70%, 50% 70%, 50% 100%); }
   .ico.right { clip-path: polygon(100% 50%, 50% 100%, 50% 70%, 0 70%, 0 30%, 50% 30%, 50% 0); }
-  .ico.tri-l { clip-path: polygon(0 50%, 100% 0, 100% 100%); }
-  .ico.tri-r { clip-path: polygon(100% 50%, 0 0, 0 100%); }
   .go { position: relative; font: 16px/1 var(--display); letter-spacing: .12em; color: var(--night); background: var(--sun); border: 0; padding: 16px 22px; cursor: pointer;
     box-shadow: 4px 4px 0 var(--magenta), 0 0 22px rgba(255,207,58,.55); }
-  .go.sel { outline: 3px solid #fff; outline-offset: 4px; transform: translateY(-2px); }
-  .go.sel::before { content: ''; position: absolute; left: -24px; top: 50%; width: 12px; height: 14px; transform: translateY(-50%); background: #fff; clip-path: polygon(100% 50%, 0 0, 0 100%); filter: drop-shadow(2px 2px 0 var(--night)); }
+  .go.sel, .over-initials .go:focus { outline: 3px solid #fff; outline-offset: 4px; transform: translateY(-2px); }   /* SAVE focused looks picked, like a menu button */
+  .go.sel::before, .over-initials .go:focus::before { content: ''; position: absolute; left: -24px; top: 50%; width: 12px; height: 14px; transform: translateY(-50%); background: #fff; clip-path: polygon(100% 50%, 0 0, 0 100%); filter: drop-shadow(2px 2px 0 var(--night)); }
   .go:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--magenta); }
   .hint { font: 8px/1.4 var(--display); letter-spacing: .12em; color: var(--magenta); animation: blink 1s steps(2) infinite; }
-  .results { display: grid; grid-template-columns: auto auto; gap: 8px 22px; margin: 0; font: 24px/1 var(--body); }
-  .results dt { justify-self: end; font: 8px/26px var(--display); letter-spacing: .12em; color: var(--magenta); }
-  .results dd { margin: 0; justify-self: start; color: var(--ice); font-variant-numeric: tabular-nums; }
-  .results .total dd { color: var(--sun); font-size: 32px; }
-  /* course best, styled like the mountain cards */
-  .results .best dt { color: var(--sun); }
-  .results .best dd { color: var(--sun); font-size: 30px; text-shadow: 2px 2px 0 var(--night); margin-bottom: 8px; }
   .modes { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
   .go small { display: block; font-size: 8px; margin-top: 9px; letter-spacing: .14em; opacity: .8; }
   .go.alt { background: var(--cyan); box-shadow: 4px 4px 0 var(--magenta), 0 0 22px rgba(88,200,255,.5); }
@@ -174,7 +165,7 @@
   .roster button.sel::before { content: none; }
   @media (max-height: 760px) { .sel-big { width: 144px; height: 144px; } .roster button canvas { width: 56px; height: 56px; } .roster button { width: 78px; } }
   .courses { gap: 22px; align-items: stretch; }
-  /* finish screen: rider and course on the left, the run against the course best on the right */
+  /* finish screen: course and rider on the left, the run against your best on the right */
   .over-main { display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start; justify-content: center; }
   .over-left { display: flex; flex-direction: column; align-items: center; gap: 20px; width: 160px; }
   .over-card { display: flex; flex-direction: column; align-items: center; gap: 8px; text-align: center; }
@@ -196,7 +187,24 @@
   .over-table .main td.best { font-size: 30px; color: var(--dim); }
   .over-table .sub th { padding: 2px 16px 4px 34px; text-align: left; font-weight: normal; font-size: 22px; line-height: 1.1; color: var(--dim); }
   .over-table .sub td { padding: 2px 16px 4px; font-size: 24px; line-height: 1.1; color: var(--ice); white-space: pre-line; }
+  .over-table .sub td.rec { color: var(--dim); font-size: 20px; }   /* your best's and the world record's details */
+  .over-table .sub td.trick { font-size: 16px; max-width: 9em; }   /* biggest trick: small, and wraps */
   .over-table .end th, .over-table .end td { padding-bottom: 14px; }
+  .over-table.no-world .world { display: none; }   /* until the world board arrives */
+  .over-table .main td.world.new { color: var(--sun); }
+  .over-table td.world small { display: block; margin-top: 4px; font: 8px/1 var(--display); letter-spacing: .14em; color: var(--cyan); }
+  .over-initials { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 12px 16px; }
+  .over-initials label { font: 10px/1.4 var(--display); letter-spacing: .12em; color: var(--sun); text-shadow: 2px 2px 0 #3a0a5e; }
+  .over-initials input { width: 4.6em; padding: 8px 0 8px .3em; font: 22px/1 var(--display); letter-spacing: .3em; text-align: center; color: var(--ice);
+    background: var(--night); border: 3px solid var(--ice); box-shadow: 4px 4px 0 var(--magenta); }
+  .over-initials input:not(:focus) { border-color: rgba(244,249,255,.45); color: var(--dim); }   /* only the focused box looks live */
+  .over-initials input:focus { outline: 3px solid var(--sun); outline-offset: 3px; border-color: var(--sun); box-shadow: 4px 4px 0 var(--magenta), 0 0 18px rgba(255,207,58,.55); }
+  .over-initials .go { font-size: 12px; padding: 12px 16px; }
+  /* while you type your initials the menu below is out of play: dimmed, no highlight, and the hint says what to do */
+  #over:has(.over-initials :focus) .over-menu { opacity: .3; }
+  #over:has(.over-initials :focus) .over-menu .go.sel { outline: none; transform: none; }
+  #over:has(.over-initials :focus) .over-menu .go.sel::before { display: none; }
+  #over:has(.over-initials :focus) #overHint, #over:not(:has(.over-initials :focus)) #initialsHint { display: none; }
   .over-menu { display: flex; flex-direction: column-reverse; align-items: center; gap: 16px; }
   .go.share { font-size: 10px; padding: 10px 16px; }
   /* finish screen on a phone or a short screen: smaller pictures and numbers */
@@ -214,9 +222,22 @@
     .over-table .main td.best { font-size: 22px; }
     .over-table .sub th { padding: 2px 10px 3px 20px; font-size: 18px; }
     .over-table .sub td { padding: 2px 10px 3px; font-size: 19px; }
+    .over-table .sub td.rec { font-size: 17px; }
+    .over-table .sub td.trick { font-size: 14px; }
     .over-table .end th, .over-table .end td { padding-bottom: 10px; }
     #over .modes { gap: 10px; }
     #over .modes .go:not(.share) { font-size: 11px; padding: 11px 13px; }
+  }
+  /* a phone held upright: four columns, so headers wrap to two lines and everything tightens */
+  @media (max-width: 480px) {
+    .over-table th[scope=col] { padding: 8px 6px 6px; white-space: normal; line-height: 1.5; }
+    .over-table .main th { padding: 10px 6px 4px 8px; font-size: 8px; }
+    .over-table .main td { padding: 10px 6px 4px; font-size: 26px; }
+    .over-table .main td.best { font-size: 18px; }
+    .over-table .sub th { padding: 2px 6px 3px 14px; font-size: 16px; }
+    .over-table .sub td { padding: 2px 6px 3px; font-size: 16px; }
+    .over-table .sub td.rec { font-size: 14px; }
+    .over-table .sub td.trick { font-size: 13px; }
   }
   .course-card { display: flex; gap: 16px; align-items: stretch; width: min(460px, 44vw); padding: 12px; text-align: left; cursor: pointer;
     color: var(--ice); background: rgba(20,32,80,.82); border: 2px solid rgba(244,249,255,.45); box-shadow: 5px 5px 0 rgba(255,59,107,.55); position: relative; }
@@ -233,8 +254,39 @@
   .cc-facts { display: grid; grid-template-columns: auto 1fr; gap: 5px 12px; margin: auto 0 0; font: 20px/1 var(--body); }
   .cc-facts dt { font: 8px/20px var(--display); letter-spacing: .12em; color: var(--magenta); }
   .cc-facts dd { margin: 0; color: var(--ice); font-variant-numeric: tabular-nums; }
-  .cc-facts dt.best { color: var(--sun); line-height: 30px; }
-  .cc-facts dd.best { color: var(--sun); font-size: 30px; line-height: 30px; text-shadow: 2px 2px 0 var(--night); }
+  /* your best and the world record on a course card */
+  .cc-recs { border-collapse: collapse; font: 24px/1 var(--body); font-variant-numeric: tabular-nums; }
+  .cc-recs th { padding: 0 14px 6px 0; vertical-align: baseline; text-align: left; font: 8px/1 var(--display); letter-spacing: .12em; color: var(--cyan); white-space: nowrap; }
+  .cc-recs thead th { text-align: right; }
+  .cc-recs td { padding: 0 0 6px 14px; vertical-align: baseline; text-align: right; white-space: nowrap; }
+  .cc-recs .best th, .cc-recs .best td { color: var(--sun); }
+  .cc-recs .world td { color: var(--ice); }
+  .cc-recs small { display: block; margin-top: 3px; font: 8px/1 var(--display); letter-spacing: .12em; color: var(--cyan); }   /* initials under the score */
+  /* leaderboards: title pinned to the top, course tabs, then the course and its two top 10s side by side, always the
+     same size (10 rows each, see fillBoard), so nothing moves when the tab changes */
+  .boards-corner { position: absolute; right: 28px; bottom: 22px; }
+  .boards-corner .go { font-size: 11px; padding: 12px 14px; }
+  #btnBoardsBack { position: absolute; left: 24px; top: 24px; font-size: 11px; padding: 12px 14px; }   /* top left: keeps the screen short */
+  #boards { gap: 18px; justify-content: flex-start; padding: 32px 16px; }
+  #boards .logo { font-size: min(40px, 6.5vw); }   /* 12 letters: fits a phone */
+  .boards-tabs { flex-wrap: wrap; justify-content: center; gap: 12px; }
+  .boards-tabs .go { font-size: 10px; padding: 10px 12px; }
+  .boards-tabs .go[aria-pressed="true"] { background: var(--sun); }
+  .boards-main { display: flex; flex-wrap: wrap; justify-content: center; align-items: flex-start; gap: 24px; }
+  .boards-course { display: flex; flex-direction: column; align-items: center; gap: 10px; width: 170px; padding-top: 22px; text-align: center; }
+  .boards-course .cc-facts { margin: 4px 0 0; text-align: left; }
+  .boards-main h2 { margin: 0 0 10px; font: 12px/1 var(--display); letter-spacing: .14em; color: var(--magenta); text-align: center; }
+  .board { width: 320px; table-layout: fixed; border-collapse: collapse; background: rgba(20,32,80,.88); border: 2px solid rgba(244,249,255,.4); font: 26px/1 var(--body); color: var(--ice); font-variant-numeric: tabular-nums; }
+  .board td { padding: 0 8px; height: 46px; white-space: nowrap; overflow: hidden; }
+  .board td:first-child { width: 2.4ch; text-align: right; color: var(--dim); }
+  .board td.rider { width: 40px; padding: 0 2px; }
+  .board td.rider img { display: block; width: 36px; height: 36px; image-rendering: pixelated; }
+  .board td:nth-child(3) { width: 4.6em; font: 12px/1 var(--display); letter-spacing: .14em; }
+  .board td:last-child { text-align: right; }
+  .board td small { display: block; margin-top: 3px; font-size: 16px; color: var(--dim); }
+  .board tr.me td { color: var(--sun); }
+  .board tr.empty td { color: rgba(180,195,232,.35); }
+  .board td.msg { text-align: center; font: 10px/1 var(--display); letter-spacing: .14em; color: var(--dim); }
   .course-card .loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font: 16px/1 var(--display); color: var(--sun); background: rgba(20,32,80,.85); }
   .screen.intro { gap: 34px; background: linear-gradient(to bottom, rgba(20,32,80,.55), rgba(20,32,80,.15) 50%, rgba(20,32,80,.6)); cursor: pointer; }
   .intro-press { font: 16px/1 var(--display); letter-spacing: .2em; color: var(--sun); text-shadow: 0 0 12px rgba(255,207,58,.8), 3px 3px 0 var(--magenta); animation: blink 1s steps(2) infinite; }
@@ -269,8 +321,8 @@
     <div class="stat"><span class="lab">STYLE</span><span class="val" id="hStyle">0</span></div>
   </div>
   <div class="right">
-    <div class="stat best"><span class="lab">BEST TIME</span><span class="val" id="hBestTime">--</span></div>
-    <div class="stat best"><span class="lab">BEST STYLE</span><span class="val" id="hBestStyle">--</span></div>
+    <div class="stat best"><span class="lab">YOUR BEST TIME</span><span class="val" id="hBestTime">--</span></div>
+    <div class="stat best"><span class="lab">YOUR BEST STYLE</span><span class="val" id="hBestStyle">--</span></div>
     <button class="vcr vcr-sound" id="btnMute" type="button" aria-label="Sound off" aria-pressed="false">
       <span class="vcr-up"><svg viewBox="0 0 12 10" width="13" height="11" aria-hidden="true"><path d="M0 3h3l4-3v10l-4-3H0z" fill="currentColor"/><path d="M9 2.5q1.6 2.5 0 5M10.5 1q3 4 0 8" stroke="currentColor" fill="none" stroke-width="1.2"/></svg>SOUND ON</span>
       <span class="vcr-down"><svg viewBox="0 0 12 10" width="13" height="11" aria-hidden="true"><path d="M0 3h3l4-3v10l-4-3H0z" fill="currentColor"/><path d="M8.5 3l3 4M11.5 3l-3 4" stroke="currentColor" stroke-width="1.4"/></svg>SOUND OFF</span>
@@ -319,6 +371,7 @@
       </div>
       <div class="hint" id="startHint">PRESS SPACE</div>
     </div>
+    <div class="modes boards-corner"><button class="go alt" id="btnBoards" type="button">LEADERBOARDS</button></div>
   </div>
   <div class="legend" id="legend">LEGEND SAYS THE YETI HIDES IN A CAVE, DEEP IN THE BOWL...</div>
 </section>
@@ -366,20 +419,25 @@
   <div class="over-main">
     <div class="over-left">
       <div class="over-card">
-        <canvas class="over-portrait" id="overImg" width="96" height="96"></canvas>
-        <div class="over-name" id="overName"></div>
-        <div class="over-kind" id="overKind"></div>
-      </div>
-      <div class="over-card">
         <img class="over-map" id="overMap" alt="">
         <div class="over-kind" id="overCourse"></div>
         <div class="over-facts" id="overFacts"></div>
+      </div>
+      <div class="over-card">
+        <canvas class="over-portrait" id="overImg" width="96" height="96"></canvas>
+        <div class="over-name" id="overName"></div>
+        <div class="over-kind" id="overKind"></div>
       </div>
     </div>
     <div class="over-right">
       <table class="over-table" id="overTable"></table>
     </div>
   </div>
+  <form class="over-initials" id="overInitials" hidden>
+    <label for="initialsIn" id="initialsMsg">TOP 10 IN THE WORLD! YOUR INITIALS:</label>
+    <input id="initialsIn" maxlength="3" autocomplete="off" autocapitalize="characters" spellcheck="false" required>
+    <button class="go" type="submit">SAVE</button>
+  </form>
   <div class="over-menu">   <!-- reversed: SHARE shows above the menu but comes after it, so RUN IT AGAIN is picked first -->
     <div class="modes">
       <button class="go" id="btnAgain" type="button">RUN IT AGAIN</button>
@@ -387,9 +445,26 @@
       <button class="go alt" id="btnCourse" type="button">CHANGE MOUNTAIN</button>
       <button class="go alt" id="btnMenu" type="button">MAIN MENU</button>
     </div>
-    <div class="modes"><button class="go share" id="btnShare" type="button">SHARE</button></div>
+    <div class="modes"><button class="go share" id="btnShare" type="button">SHARE</button><button class="go share" id="btnBoardsOver" type="button">LEADERBOARD</button></div>
   </div>
   <div class="hint" id="overHint">ARROWS TO CHOOSE · SPACE TO SELECT</div>
+  <div class="hint" id="initialsHint">TYPE YOUR INITIALS · ENTER TO SAVE · ARROWS TO MOVE · ESC TO SKIP</div>
+</section>
+
+<section class="screen" id="boards" hidden>
+  <h1 class="logo boards-logo">LEADERBOARDS</h1>
+  <div class="modes boards-tabs" id="boardTabs"></div>
+  <div class="boards-main">
+    <div class="boards-course">
+      <img class="over-map" id="boardMap" alt="">
+      <div class="over-kind" id="boardName"></div>
+      <dl class="cc-facts" id="boardFacts"></dl>
+    </div>
+    <div><h2>TIME</h2><table class="board" id="boardTime"></table></div>
+    <div><h2>STYLE</h2><table class="board" id="boardStyle"></table></div>
+  </div>
+  <div class="modes"><button class="go alt" id="btnBoardsBack" type="button">BACK</button></div>
+  <div class="hint">ARROWS TO CHOOSE · SPACE TO SELECT · ESC TO GO BACK</div>
 </section>
 
 <script>
@@ -3339,18 +3414,26 @@ const Sound = {
 /* ---------- state ---------- */
 const keys = { left: false, right: false, up: false, down: false };
 let state = 'intro', mode = 'ski';   // 'ski' or 'yeti' (the yeti chases you the whole way down)
-// best time and style, per mountain and per mode (the first mountain keeps its original save keys)
+// your best time and style per mountain (ski and yeti runs alike), as records with the details the finish screen shows,
+// the same shape as the leaderboard's: time { value, clock, gates }, style { value, tricks, trick, pts }; null for none yet
 const best = {};
-const bestKey = (cid, m, key) => 'neonslope.' + (cid === COURSES[0].id ? '' : cid + '.') + m + '.' + key;
+const bestKey = cid => 'neonslope.best.' + cid;
 for (const c of COURSES) {
-  best[c.id] = {};
-  for (const m of ['ski', 'yeti']) {
-    const b = best[c.id][m] = { time: 0, style: 0 };
-    try { b.time = parseFloat(localStorage.getItem(bestKey(c.id, m, 'time')) || '0') || 0; b.style = parseInt(localStorage.getItem(bestKey(c.id, m, 'style')) || '0', 10) || 0; } catch (e) {}
-  }
+  best[c.id] = { time: null, style: null };
+  try { Object.assign(best[c.id], JSON.parse(localStorage.getItem(bestKey(c.id)))); } catch (e) {}
 }
-const bestNow = () => best[COURSE.id][mode];
-function saveBest(m, key, v) { best[COURSE.id][m][key] = v; try { localStorage.setItem(bestKey(COURSE.id, m, key), String(v)); } catch (e) {} }
+const bestNow = () => best[COURSE.id];
+function saveBest(key, rec) { best[COURSE.id][key] = rec; try { localStorage.setItem(bestKey(COURSE.id), JSON.stringify(best[COURSE.id])); } catch (e) {} }
+// a record's value or one of its details as text, for a finish-table cell (kind 'time' or 'style'); '' for rows without one
+function recText(kind, rec, key) {
+  if (!key) return '';
+  if (!rec) return '--';
+  if (key === 'value') return kind === 'time' ? fmt2(rec.value) : rec.value.toLocaleString();
+  if (key === 'clock') return fmt2(rec.clock);
+  if (key === 'gates') return rec.gates + '/' + course.gates.length;
+  if (key === 'tricks') return String(rec.tricks);
+  return rec.pts ? rec.trick + '\n' + rec.pts + ' points' : '--';   // 'trick'
+}
 const P = {};
 function resetPlayer() {
   Object.assign(P, { x: 0, z: -2, alt: groundY(0, -2), y: 0, vy: 0, heading: 0, travel: 0, slip: 0, pizza: 0, landSlip: 0, speed: 6, air: false, airTime: 0, spin: 0, spinT: 0, flip: 0, flipT: 0,
@@ -3375,7 +3458,7 @@ function resetRun() {
   hushYeti();
   for (const g of course.gates) g.passed = false;
   resetTrail(); resetPlayer();
-  run = { time: 0, style: 0, crashes: 0, gatesHit: 0, tricks: 0, bestTrick: 0, bestTrickName: '', dodges: 0, done: false };
+  run = { time: 0, style: 0, crashes: 0, gatesHit: 0, tricks: 0, bestTrick: 0, bestTrickName: '', dodges: 0, gateT: [], events: [], done: false };
   yeti.active = false; Y.group.visible = false; Y.shadow.visible = false; skier.root.visible = true;
   Sound.intense = false;
   $('hYeti').hidden = true; $('cYeti').hidden = true;
@@ -3394,8 +3477,9 @@ function toast(text, cls = '', sub = '') {
   $('toasts').appendChild(d);
   d.addEventListener('animationend', () => d.remove());
 }
-// round the total before splitting, so 59.97 s reads 1:00.0, never 0:60.0
-const clock2 = (t, dp) => { const f = 10 ** dp, r = Math.round(t * f) / f, m = Math.floor(r / 60), s = r - m * 60; return m + ':' + (s < 10 ? '0' : '') + s.toFixed(dp); };
+// round the total before splitting, so 59.97 s reads 1:00.0, never 0:60.0. Below zero (the gate bonus beat the clock)
+// it reads −0:04.20
+const clock2 = (t, dp) => { const f = 10 ** dp, r = Math.round(Math.abs(t) * f) / f, m = Math.floor(r / 60), s = r - m * 60; return (t < 0 && r ? '−' : '') + m + ':' + (s < 10 ? '0' : '') + s.toFixed(dp); };
 const fmt = t => clock2(t, 1), fmt2 = t => clock2(t, 2);
 const last = {};
 function setVal(id, v, unit) {
@@ -3404,14 +3488,14 @@ function setVal(id, v, unit) {
   if (unit) { const s = document.createElement('small'); s.textContent = unit; el.appendChild(s); }
 }
 const GATE_BONUS = 1;   // seconds off your time for every gate you ski through
-const finalTime = () => Math.max(0, run.time - run.gatesHit * GATE_BONUS);
+const finalTime = () => run.time - run.gatesHit * GATE_BONUS;   // can go below zero, if the gates are worth more than the clock
 function updateHud() {
   setVal('hTime', fmt(finalTime()));
   setVal('hSpeed', Math.round(P.speed * 3.6), 'KM/H');
   setVal('hGates', run.gatesHit + '/' + course.gates.length);
   setVal('hStyle', run.style);
-  setVal('hBestTime', bestNow().time ? fmt2(bestNow().time) : '--');
-  setVal('hBestStyle', bestNow().style || '--');
+  setVal('hBestTime', bestNow().time ? fmt2(bestNow().time.value) : '--');
+  setVal('hBestStyle', bestNow().style ? bestNow().style.value : '--');
   $('cMe').style.left = (clamp(-P.z / FINISH_S, 0, 1) * 100).toFixed(1) + '%';
   setVal('cNow', Math.round(clamp(-P.z, 0, FINISH_S)).toLocaleString() + ' M');   // distance so far, left end of the bar
   if (yeti.active) {
@@ -3438,13 +3522,13 @@ function unlockYeti() {
   setTimeout(() => { lg.classList.remove('woke'); refreshTitle(); }, 4500);
 }
 refreshTitle();
-const SCREENS = ['intro', 'title', 'coursePick', 'select', 'paused', 'over'];
-function show(id) {
+const SCREENS = ['intro', 'title', 'coursePick', 'select', 'paused', 'over', 'boards'];
+function show(id, sel = 0) {   // sel: the button highlighted first
   for (const s of SCREENS) $(s).hidden = s !== id;
   const paused = id === 'paused';   // also drives the HUD's pause key (see .vcr)
   document.body.classList.toggle('paused', paused);
   $('btnPause').setAttribute('aria-pressed', paused); $('btnPause').setAttribute('aria-label', paused ? 'Resume' : 'Pause');
-  menuSel = 0; markMenu();
+  menuSel = sel; markMenu();
 }
 // keyboard menus: arrows move the highlight across a screen's buttons, Space / Enter picks it
 let menuSel = 0;
@@ -3487,6 +3571,7 @@ function markMenu() {
   document.querySelectorAll('.modes button').forEach(b => b.classList.remove('sel'));
   if (bs.length) { menuSel = clamp(menuSel, 0, bs.length - 1); bs[menuSel].classList.add('sel'); }
   if (!$('select').hidden && bs[menuSel] && bs[menuSel].dataset.char) previewChar(+bs[menuSel].dataset.char);
+  if (!$('boards').hidden && bs[menuSel] && bs[menuSel].dataset.course) pickBoard(bs[menuSel].dataset.course);   // the board follows the highlight
 }
 
 /* ---------- character select ---------- */
@@ -3562,7 +3647,7 @@ const courseMaps = {};   // each mountain's map picture, also shown on the finis
     const b = document.createElement('button'); b.type = 'button'; b.className = 'course-card' + (c.small ? ' small' : ''); b.dataset.course = c.id;
     const map = document.createElement('img'); map.className = 'map'; map.alt = ''; map.src = courseMaps[c.id] = courseMap(c);
     const info = document.createElement('div'); info.className = 'cc-info';
-    info.innerHTML = '<div class="cc-region"></div><div class="cc-name"></div><p class="cc-blurb"></p><dl class="cc-facts"></dl>';
+    info.innerHTML = '<div class="cc-region"></div><div class="cc-name"></div><p class="cc-blurb"></p><dl class="cc-facts"></dl><table class="cc-recs"></table>';
     info.querySelector('.cc-region').textContent = c.region;
     info.querySelector('.cc-name').textContent = c.name;
     info.querySelector('.cc-blurb').textContent = c.blurb;
@@ -3574,14 +3659,25 @@ const courseMaps = {};   // each mountain's map picture, also shown on the finis
 })();
 function refreshCourseCards() {
   document.querySelectorAll('.course-card').forEach(b => {
-    const f = courseFacts[b.dataset.course], bt = best[b.dataset.course][mode], dl = b.querySelector('.cc-facts');
+    const cid = b.dataset.course, f = courseFacts[cid], bt = best[cid], dl = b.querySelector('.cc-facts');
     dl.textContent = '';
-    for (const [k, v, hi] of [['LENGTH', f.length.toLocaleString() + ' M'], ['VERTICAL', f.vertical + ' M'], ['GATES', f.gates],
-        ['BEST TIME', bt.time ? fmt2(bt.time) : '--', 1], ['BEST STYLE', bt.style ? bt.style.toLocaleString() : '--', 1]]) {
+    for (const [k, v] of [['LENGTH', f.length.toLocaleString() + ' M'], ['VERTICAL', f.vertical + ' M'], ['GATES', f.gates]]) {
       const dt = document.createElement('dt'), dd = document.createElement('dd'); dt.textContent = k; dd.textContent = v;
-      if (hi) { dt.className = dd.className = 'best'; }
       dl.append(dt, dd);
     }
+    // your best and the world record side by side: a row each, time and style across (the world row once the records arrive)
+    const t = b.querySelector('.cc-recs'); t.textContent = '';
+    const head = t.createTHead().insertRow(), body = t.createTBody();
+    for (const h of ['', 'TIME', 'STYLE']) { const th = document.createElement('th'); th.textContent = h; head.appendChild(th); }
+    const row = (label, cls, time, style) => {
+      const tr = body.insertRow(), th = document.createElement('th'); tr.className = cls; th.textContent = label; tr.appendChild(th);
+      [[time, fmt2], [style, v => v.toLocaleString()]].forEach(([rec, f]) => {
+        const td = tr.insertCell(); td.textContent = rec ? f(rec.value) : '--';
+        if (rec && rec.initials) { const s = document.createElement('small'); s.textContent = rec.initials; td.appendChild(s); }
+      });
+    };
+    row('YOUR BEST', 'best', bt.time, bt.style);
+    if (worldRecs) row('WORLD RECORD', 'world', worldRecs.time.find(r => r.course === cid), worldRecs.style.find(r => r.course === cid));
   });
 }
 function openCourse(m) {
@@ -3590,7 +3686,7 @@ function openCourse(m) {
   state = 'course';
   $('hud').hidden = true; $('course').hidden = true; $('hYeti').hidden = true;
   $('cpEyebrow').textContent = modeLabel() + ' · CHOOSE YOUR MOUNTAIN';
-  refreshCourseCards();
+  refreshCourseCards(); loadRecords();
   show('coursePick');
   menuSel = 0; markMenu();
 }
@@ -3697,23 +3793,23 @@ function celebrate(bursts = []) {
     if (now - t0 < 5000 && state === 'over') requestAnimationFrame(tick); else c.clearRect(0, 0, w, h);
   })(last);
 }
-// The finish screen: the rider and the course on the left, and a table of this run against the course best (as it stood
-// before the run) on the right. The same rows make the share image (shareCard). A row: { label, run, best, isNew, subs }
-// where subs are [label, value] lines under it; a value may hold '\n' for a second line.
+// The finish screen: the course and the rider on the left, and a table of this run against your best (as it stood
+// before the run) and the world record on the right. The same rows make the share image (shareCard). A row:
+// { label, kind, run, isNew, subs } where subs are [label, value, key] lines under it (a value may hold '\n' for a second
+// line), and key names the detail the record columns show on that line (see recText).
 let overRows = [], overTitle = '';
 function results(caughtBy) {
   state = 'over';
-  const prevT = bestNow().time, prevS = bestNow().style, total = finalTime(), gates = run.gatesHit + '/' + course.gates.length;
+  const prev = { ...bestNow() }, total = finalTime(), gates = run.gatesHit + '/' + course.gates.length;
   const trick = run.bestTrick ? run.bestTrickName + '\n' + run.bestTrick + ' points' : '--';
-  const styleSubs = [['tricks landed', run.tricks], ['biggest trick', trick]];
+  const styleSubs = [['tricks landed', run.tricks, 'tricks'], ['biggest trick', trick, 'trick']];
   if (mode === 'yeti') styleSubs.push(['yeti dodges', run.dodges]);
-  const newTime = !caughtBy && (!prevT || total < prevT), newStyle = !caughtBy && run.style > prevS;
+  const newTime = !caughtBy && (!prev.time || total < prev.time.value), newStyle = !caughtBy && run.style > (prev.style ? prev.style.value : 0);
   overRows = [
     caughtBy
-      ? { label: 'TIME', run: fmt2(run.time), best: prevT ? fmt2(prevT) : '--', subs: [['made it', Math.round(clamp(-P.z / FINISH_S, 0, 1) * 100) + '% down'], ['gates ' + gates, '--']] }
-      : { label: 'TIME', run: fmt2(total), best: prevT ? fmt2(prevT) : '--', isNew: newTime,
-          subs: [['on the clock', fmt2(run.time)], ['gates ' + gates, run.gatesHit ? '−' + run.gatesHit * GATE_BONUS + 's' : '0s']] },
-    { label: 'STYLE', run: run.style.toLocaleString(), best: prevS ? prevS.toLocaleString() : '--', isNew: newStyle, subs: styleSubs },
+      ? { label: 'TIME', kind: 'time', run: fmt2(run.time), subs: [['made it', Math.round(clamp(-P.z / FINISH_S, 0, 1) * 100) + '% down'], ['gates', gates, 'gates']] }
+      : { label: 'TIME', kind: 'time', run: fmt2(total), isNew: newTime, subs: [['on the clock', fmt2(run.time), 'clock'], ['gates', gates, 'gates']] },
+    { label: 'STYLE', kind: 'style', run: run.style.toLocaleString(), isNew: newStyle, subs: styleSubs },
   ];
   overTitle = caughtBy ? 'THE YETI GOT YOU' : mode === 'yeti' ? 'ESCAPED!' : 'FINISH!';
   if (caughtBy) { $('overTitle').innerHTML = 'THE YETI<br>GOT YOU'; $('overTitle').className = 'logo red'; }
@@ -3732,21 +3828,28 @@ function results(caughtBy) {
   const tbl = $('overTable'); tbl.textContent = '';
   const cell = (tag, text, cls, scope) => { const c = document.createElement(tag); c.textContent = text; if (cls) c.className = cls; if (scope) c.scope = scope; return c; };
   const head = tbl.createTHead().insertRow();
-  head.append(cell('th', '', '', 'col'), cell('th', 'THIS RUN', '', 'col'), cell('th', 'COURSE BEST', '', 'col'));
+  head.append(cell('th', '', '', 'col'), cell('th', 'THIS RUN', '', 'col'), cell('th', 'YOUR BEST', '', 'col'), cell('th', 'WORLD RECORD', 'world', 'col'));
   const body = tbl.createTBody();
+  // the world record cells are filled in when the board arrives (showWorld), from data-rec and data-key
+  const world = (kind, key, cls) => { const c = cell('td', '', cls); c.dataset.rec = kind; c.dataset.key = key || ''; return c; };
   for (const r of overRows) {
     const tr = body.insertRow(); tr.className = 'main';
-    tr.append(cell('th', r.label, '', 'row'), cell('td', r.run, r.isNew ? 'new' : ''), cell('td', r.best, 'best'));
-    r.subs.forEach(([k, v], i) => { const s = body.insertRow(); s.className = 'sub' + (i === r.subs.length - 1 ? ' end' : ''); s.append(cell('th', k, '', 'row'), cell('td', v), cell('td', '')); });
+    tr.append(cell('th', r.label, '', 'row'), cell('td', r.run, r.isNew ? 'new' : ''), cell('td', recText(r.kind, prev[r.kind], 'value'), 'best'), world(r.kind, 'value', 'best world'));
+    r.subs.forEach(([k, v, key], i) => {
+      const s = body.insertRow(), small = key === 'trick' ? 'trick' : '';   // a long trick name: smaller, so three fit across
+      s.className = 'sub' + (i === r.subs.length - 1 ? ' end' : '');
+      s.append(cell('th', k, '', 'row'), cell('td', v, small), cell('td', recText(r.kind, prev[r.kind], key), 'rec ' + small), world(r.kind, key, 'rec world ' + small));
+    });
   }
   const wipe = body.insertRow(); wipe.className = 'main';
-  wipe.append(cell('th', 'WIPEOUTS', '', 'row'), cell('td', run.crashes), cell('td', '', 'best'));
-  if (newTime) saveBest(mode, 'time', total);
-  if (newStyle) saveBest(mode, 'style', run.style);
+  wipe.append(cell('th', 'WIPEOUTS', '', 'row'), cell('td', run.crashes), cell('td', '', 'best'), cell('td', '', 'world'));
+  if (newTime) saveBest('time', { value: total, clock: run.time, gates: run.gatesHit });
+  if (newStyle) saveBest('style', { value: run.style, tricks: run.tricks, trick: run.bestTrickName, pts: run.bestTrick });
   $('hYeti').hidden = true; $('hud').hidden = true; $('course').hidden = true;   // the finish screen has all of these numbers
   refreshTitle();
   show('over');
   if (newTime || newStyle) celebrate([...tbl.querySelectorAll('td.new')]);   // after show: the bursts start from the cells
+  worldBoard(!caughtBy);
 }
 
 // The share image: the finish screen redrawn as a 1200 x 630 picture (the usual size for a post or a link preview), in the
@@ -3780,23 +3883,22 @@ function shareCard() {
   const TOP = 140, BOT = H - PAD;   // the content runs from TOP to BOT
   // the left column (LEFT wide) and the table (BOX wide) are centred together, GUTTER apart
   const LEFT = 250, GUTTER = 34, BOX = 660, x0 = Math.round((W - LEFT - GUTTER - BOX) / 2);
-  // left: rider and course, centred on CX
+  // left: course on top, rider under it (as on the finish screen), centred on CX
   const CX = x0 + LEFT / 2;
-  framed($('overImg'), CX - 60, TOP, 120, 120, '#2b3f86');
-  text(CH.name, CX, TOP + 136, 14, DISP, '#ffcf3a', 'center', '#ff3b6b', 250);
-  text($('overKind').textContent, CX, TOP + 160, 10, DISP, '#58c8ff', 'center');
-  framed($('overMap'), CX - 39, TOP + 188, 78, 210);
-  text(COURSE.name, CX, BOT - 46, 10, DISP, '#58c8ff', 'center', null, 250);
-  text($('overFacts').textContent, CX, BOT - 22, 22, BODY, '#b4c3e8', 'center');
+  framed($('overMap'), CX - 39, TOP, 78, 210);
+  text(COURSE.name, CX, TOP + 222, 10, DISP, '#58c8ff', 'center', null, 250);
+  text($('overFacts').textContent, CX, TOP + 242, 22, BODY, '#b4c3e8', 'center');
+  framed($('overImg'), CX - 56, BOT - 152, 112, 112, '#2b3f86');
+  text(CH.name, CX, BOT - 34, 14, DISP, '#ffcf3a', 'center', '#ff3b6b', 250);
+  text($('overKind').textContent, CX, BOT - 10, 10, DISP, '#58c8ff', 'center');
   // right: the table, in its blue box, with the address under it (bottom right, on the bottom margin)
-  const bx = x0 + LEFT + GUTTER, bw = BOX, bBot = BOT - 34, xLab = bx + 24, xSub = xLab + 30, xBest = bx + bw - 24, xRun = xBest - 190;
+  const bx = x0 + LEFT + GUTTER, bw = BOX, bBot = BOT - 34, xLab = bx + 24, xSub = xLab + 30, xRun = bx + bw - 24;
   g.fillStyle = '#142050'; g.fillRect(bx, TOP, bw, bBot - TOP);
   g.strokeStyle = 'rgba(244,249,255,.4)'; g.lineWidth = 2; g.strokeRect(bx + 1, TOP + 1, bw - 2, bBot - TOP - 2);
   text(SHARE_URL, bx + bw, BOT - 22, 22, BODY, '#58c8ff', 'right');
   text('THIS RUN', xRun, TOP + 22, 12, DISP, '#58c8ff', 'right');
-  text('COURSE BEST', xBest, TOP + 22, 12, DISP, '#58c8ff', 'right');
   // row heights: main rows MAIN, a gap GAP after each group; sub lines share what's left (a long trick takes two)
-  const MAIN = 48, GAP = 14, rows = [...overRows, { label: 'WIPEOUTS', run: String(run.crashes), best: '', subs: [] }];
+  const MAIN = 48, GAP = 14, rows = [...overRows, { label: 'WIPEOUTS', run: String(run.crashes), subs: [] }];
   // each sub row as lines: [label or '', text]. A value too wide to sit beside its label (a long trick) starts on the next line
   g.font = '28px ' + BODY;
   const subLines = ([k, v]) => {
@@ -3810,7 +3912,6 @@ function shareCard() {
   for (const r of rows) {
     text(r.label, xLab, y + 14, 16, DISP, '#ff3b6b');
     text(r.run, xRun, y, 52, BODY, r.isNew ? '#ffcf3a' : '#f4f9ff', 'right', r.isNew ? '#3a0a5e' : null);
-    if (r.best) text(r.best, xBest, y + 10, 36, BODY, '#b4c3e8', 'right');
     y += MAIN;
     for (const sub of r.subs) for (const [k, t] of subLines(sub)) {
       if (k) text(k, xSub, y, Math.min(28, LINE), BODY, '#b4c3e8');
@@ -3836,6 +3937,161 @@ async function shareRun() {
   toast('IMAGE SAVED', 'cool');
 }
 
+/* ---------- world bests: the online leaderboard (the worker in worker/) ---------- */
+// opened from disk (a local build), it talks to `npx wrangler dev` in worker/ instead of the live board
+const API = location.protocol === 'file:' ? 'http://localhost:8787' : 'https://api.beachwood23.com';
+const LB_V = 1;   // the worker's board version: bump both when a course changes
+let lbSeq = 0, lbRun = null;   // lbSeq drops answers that come back after the player has moved on
+const r3 = t => Math.round(t * 1000) / 1000;
+const lbFetch = (path, opt) => fetch(API + path, opt).then(r => r.ok ? r.json() : Promise.reject(r.status));
+// fill the finish table's WORLD RECORD column (the #1s and their details), which stays hidden until the board arrives
+// (offline, it never shows)
+function showWorld(b) {
+  const tbl = $('overTable');
+  tbl.querySelectorAll('td.world[data-rec]').forEach(c => {
+    const rec = b[c.dataset.rec][0];
+    c.textContent = recText(c.dataset.rec, rec, c.dataset.key);
+    if (rec && c.dataset.key === 'value') { const s = document.createElement('small'); s.textContent = rec.initials; c.appendChild(s); }
+  });
+  tbl.classList.remove('no-world');
+}
+// in the top 10: fewer than 10 entries yet, or better than the 10th (a tie goes to the run already there)
+const makesTop = (list, v, better) => list.length < 10 || better(v, list[list.length - 1].value);
+function worldBoard(finished) {
+  const id = ++lbSeq, form = $('overInitials');
+  $('overTable').classList.add('no-world'); form.hidden = true;
+  // the run as the worker checks it; the time is worked out there from the clock and the gates
+  lbRun = finished ? { v: LB_V, course: COURSE.id, char: CH.id, clock: r3(run.time), style: run.style, tricks: run.tricks,
+    trick: run.bestTrickName, pts: run.bestTrick, gates: run.gateT.map(r3), events: run.events.map(([t, p]) => [r3(t), p]) } : null;
+  lbFetch('/top?course=' + COURSE.id).then(b => {
+    if (id !== lbSeq) return;
+    showWorld(b);
+    const time = lbRun && lbRun.clock - lbRun.gates.length * GATE_BONUS;
+    if (lbRun && (makesTop(b.time, time, (a, c) => a < c) || lbRun.style > 0 && makesTop(b.style, lbRun.style, (a, c) => a > c))) {
+      $('initialsMsg').textContent = 'TOP 10 IN THE WORLD! YOUR INITIALS:';
+      try { $('initialsIn').value = localStorage.getItem('neonslope.initials') || ''; } catch (e) {}
+      form.hidden = false; $('initialsIn').focus();
+    }
+  }, () => {});
+}
+$('initialsIn').addEventListener('input', e => { e.target.value = e.target.value.replace(/[^a-z]/gi, '').toUpperCase(); });
+// while you're typing (the box or SAVE has focus), a click anywhere else does nothing: it can't take the focus away or
+// press a menu button, so a stray click never skips the entry. Esc is the way out (see below)
+for (const type of ['mousedown', 'click']) document.addEventListener(type, e => {
+  if ($('overInitials').matches(':focus-within') && !e.target.closest('.over-initials')) { e.preventDefault(); e.stopPropagation(); }
+}, true);
+// the form's keys: Esc goes back to the menu; arrows move between the box and SAVE (Tab does too)
+$('overInitials').addEventListener('keydown', e => {
+  const box = $('initialsIn'), save = $('overInitials').querySelector('.go');
+  if (e.key === 'Escape') e.target.blur();
+  else if (e.target === save && (e.key === 'ArrowLeft' || e.key === 'ArrowUp')) { e.preventDefault(); box.focus(); }
+  else if (e.target === box && (e.key === 'ArrowDown' || e.key === 'ArrowRight' && box.selectionStart === box.value.length)) { e.preventDefault(); save.focus(); }
+});
+$('overInitials').addEventListener('submit', e => {
+  e.preventDefault();
+  const initials = $('initialsIn').value, sent = lbRun, id = lbSeq;
+  if (!sent) return;
+  if (!/^[A-Z]{3}$/.test(initials)) return $('initialsIn').focus();   // not 3 letters yet: back to the box
+  try { localStorage.setItem('neonslope.initials', initials); } catch (err) {}
+  $('initialsIn').blur(); lbRun = null;   // one save per run
+  lbFetch('/score', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...sent, initials }) }).then(b => {
+    boardSaved(sent.course, b);
+    // moved on (another run started) while this was on its way: no celebrating in the middle of the next run
+    if (id !== lbSeq || state !== 'over') return;
+    $('overInitials').hidden = true;
+    showWorld(b);
+    // a world record: the same frame and confetti as a new best of your own, and the title says so
+    const time = sent.clock - sent.gates.length * GATE_BONUS, cells = $('overTable').querySelectorAll('.main td.world');
+    const won = [b.time[0], b.style[0]].map((top, i) => top && top.initials === initials && top.value === (i ? sent.style : time) ? cells[i] : null).filter(Boolean);
+    if (!won.length) return;
+    won.forEach(c => c.classList.add('new'));
+    overTitle = 'WORLD RECORD!'; $('overTitle').textContent = overTitle;
+    celebrate(won);
+  }, status => {
+    if (id !== lbSeq) return;
+    $('initialsMsg').textContent = status === 429 ? 'TOO FAST. TRY AGAIN IN A FEW SECONDS:' : "COULDN'T SAVE. TRY AGAIN?";
+    lbRun = sent;
+    $('initialsIn').focus();   // back to typing, so Enter tries again
+  });
+});
+
+// each board's #1 for the course cards (see refreshCourseCards), fetched each time the picker opens
+let worldRecs = null;
+function loadRecords() { lbFetch('/records').then(b => { worldRecs = b; if (state === 'course') refreshCourseCards(); }, () => {}); }
+
+// The leaderboards screen: a course's map and facts on the left, its top 10 times and style scores beside them. The
+// course tabs along the top switch boards as the highlight moves onto them (see markMenu). Always 10 rows a table, so
+// nothing moves when you switch. Opened from the title or the finish screen (on the course just skied); BACK / Esc returns.
+const ICON = 40;   // icon size, cut from the 96 px roster picture
+// each rider's icon, by id: head and shoulders cut from their roster picture (the whole rider is too small at row size)
+const icons = {};
+function riderIcon(id) {
+  if (id in icons) return icons[id];
+  const i = CHARS.findIndex(c => c.id === id), src = document.querySelector('#select [data-char="' + i + '"] canvas');
+  if (i < 0 || !src) return icons[id] = '';
+  // short riders stand lower in the picture: start the crop just above the first row with any rider in it
+  const a = src.getContext('2d').getImageData(0, 0, src.width, src.height).data;
+  let top = 0; while (top < src.height - ICON && !a.slice(top * src.width * 4, (top + 1) * src.width * 4).some((v, k) => k % 4 === 3 && v)) top++;
+  const cv = document.createElement('canvas'); cv.width = cv.height = ICON;
+  cv.getContext('2d').drawImage(src, (src.width - ICON) / 2, Math.max(0, top - 2), ICON, ICON, 0, 0, ICON, ICON);
+  return icons[id] = cv.toDataURL();
+}
+let boardsFrom = 'title', boardCourse = '', boardSeq = 0, boardCache = {};   // boardCache: boards seen since the screen opened
+function openBoards(from) {
+  boardsFrom = from; boardCourse = ''; boardCache = {};   // fresh boards each time the screen opens
+  const tabs = $('boardTabs'); tabs.textContent = '';
+  for (const c of COURSES) {
+    const b = document.createElement('button'); b.type = 'button'; b.className = 'go alt'; b.textContent = c.name; b.dataset.course = c.id;
+    b.addEventListener('click', () => pickBoard(c.id)); tabs.appendChild(b);
+  }
+  show('boards', COURSES.findIndex(c => c.id === COURSE.id));   // starts on this course's tab, which loads its board
+}
+function closeBoards() { show(boardsFrom); }
+// a save answers with the course's new board: the leaderboard screen keeps it (and shows it straight away if it's open
+// on that course), so after a top 10 run it never shows the board from before your entry
+function boardSaved(cid, b) {
+  boardCache[cid] = b;
+  if (!$('boards').hidden && boardCourse === cid) { boardCourse = ''; pickBoard(cid); }
+}
+function pickBoard(cid) {
+  if (cid === boardCourse) return;
+  boardCourse = cid;
+  const c = COURSES.find(k => k.id === cid), f = courseFacts[cid];
+  for (const b of $('boardTabs').children) b.setAttribute('aria-pressed', b.dataset.course === cid);
+  $('boardMap').src = courseMaps[cid]; $('boardName').textContent = c.name;
+  const dl = $('boardFacts'); dl.textContent = '';
+  for (const [k, v] of [['LENGTH', f.length.toLocaleString() + ' M'], ['VERTICAL', f.vertical + ' M'], ['GATES', f.gates]]) {
+    const dt = document.createElement('dt'), dd = document.createElement('dd'); dt.textContent = k; dd.textContent = v; dl.append(dt, dd);
+  }
+  const fill = (b, msg) => {
+    const plural = (n, w) => n + ' ' + w + (n === 1 ? '' : 's');
+    fillBoard($('boardTime'), b.time, fmt2, e => 'gates ' + e.gates + '/' + f.gates, msg);
+    fillBoard($('boardStyle'), b.style, v => v.toLocaleString(), e => plural(e.tricks, 'trick') + (e.pts ? ' · best ' + e.pts : ''), msg);
+  };
+  if (boardCache[cid]) return fill(boardCache[cid]);
+  const id = ++boardSeq, none = { time: [], style: [] };
+  fill(none, 'LOADING...');
+  lbFetch('/top?course=' + cid).then(b => { boardCache[cid] = b; if (id === boardSeq) fill(b); }, () => { if (id === boardSeq) fill(none, 'OFFLINE'); });
+}
+// always ROWS rows: rank, rider, initials, and the score with its detail under it. A row with your initials (the last
+// ones you saved) is lit up; empty rows are dashes, and the first carries msg (loading, offline) or NO RECORDS YET
+const ROWS = 10;
+function fillBoard(tbl, list, f, detail, msg = list.length ? '' : 'NO RECORDS YET') {
+  let mine = ''; try { mine = localStorage.getItem('neonslope.initials') || ''; } catch (e) {}
+  tbl.textContent = '';
+  const body = tbl.createTBody();
+  for (let i = 0; i < ROWS; i++) {
+    const e = list[i], tr = body.insertRow();
+    tr.className = !e ? 'empty' : e.initials === mine ? 'me' : '';
+    tr.insertCell().textContent = i + 1;
+    if (!e && !i && msg) { const c = tr.insertCell(); c.colSpan = 3; c.className = 'msg'; c.textContent = msg; continue; }
+    const ic = tr.insertCell(), src = e ? riderIcon(e.char) : ''; ic.className = 'rider';
+    if (src) { const img = document.createElement('img'); img.src = src; img.alt = CHARS.find(c => c.id === e.char).name; ic.appendChild(img); }
+    tr.insertCell().textContent = e ? e.initials : '---';
+    const v = tr.insertCell(); v.textContent = e ? f(e.value) : '--';
+    if (e) { const s = document.createElement('small'); s.textContent = detail(e); v.appendChild(s); }
+  }
+}
 /* ---------- gameplay ---------- */
 // Leaving the ground over a ridge (the "natural air" test in physics). Each skier gets a lift of 0 (slowest) to 1 (fastest)
 // from their speed stat, and every value below runs from its *_SLOW setting to its *_FAST setting along that lift.
@@ -3893,6 +4149,8 @@ function takeoff(vyRel, keepSpin) {
   if (vyRel > 0) Sound.play('jump');
 }
 
+// every style award is logged with its time: the leaderboard checks they add up to the total (see worker/)
+function addStyle(pts) { run.style += pts; run.events.push([run.time, pts]); }
 const GRABS = ['MUTE', 'INDY', 'SAFETY', 'JAPAN', 'TAIL'];
 function land() {
   const impact = Math.max(0, groundVy() - P.vy);
@@ -3919,16 +4177,16 @@ function land() {
     // floor: deg / 120 is 1.5 for a 180, and GRABS[1.5] is undefined
     if (deg) parts.push(deg + ' ' + GRABS[(Math.floor(deg / 120) + flips + run.tricks) % GRABS.length]);
     if (flips) parts.push(flips > 1 ? flips + 'X FLIP' : 'FLIP');
-    run.style += pts; run.tricks++;
+    addStyle(pts); run.tricks++;
     if (pts > run.bestTrick) { run.bestTrick = pts; run.bestTrickName = parts.join(' + '); }   // shown on the finish screen
     Sound.play('trick');
     toast(parts.join(' + ') + '!', '', '+' + pts + ' STYLE');
   } else if (cliffPts) {
-    run.style += cliffPts + air;
+    addStyle(cliffPts + air);
     Sound.play('trick');
     toast(cliffName + '!', 'cool big', '+' + (cliffPts + air) + ' STYLE');
   } else if (P.airTime > 0.7) {
-    run.style += air;
+    addStyle(air);
     toast('BIG AIR', 'cool', '+' + air + ' STYLE');
   }
 }
@@ -3959,7 +4217,7 @@ function collide(prevS) {
         if (!o.passed && prevS < o.s && s >= o.s) {
           o.passed = true;
           if (Math.abs(dx) < 3.5) {
-            run.gatesHit++;
+            run.gatesHit++; run.gateT.push(run.time);
             Sound.play('gate');
             toast('GATE ' + run.gatesHit + '/' + course.gates.length, 'cool', '-' + GATE_BONUS + ' SECOND');
           }
@@ -4079,7 +4337,7 @@ function physics(dt, steer, tuck, brake) {
     if (P.jibH > 0.2) { P.alt = g1 + P.jibH; takeoff(clean ? 1.5 : 0, true); }
     if (clean) {
       const pts = Math.round((o.s1 - o.sR) * JIB_STYLE_PER_M);
-      run.style += pts; Sound.play('trick');
+      addStyle(pts); Sound.play('trick');
       toast(o.label + '!', 'cool', '+' + pts + ' STYLE');
     }
   }
@@ -4168,7 +4426,7 @@ function updateYeti(dt) {
     yeti.minD = Math.min(yeti.minD, d);
     if (yeti.phaseT > 0.55) {
       setPhase('recover', 'YETI BEHIND YOU');
-      if (state === 'play' && yeti.minD < 7) { run.dodges++; run.style += 150; toast('DODGED!', 'cool big', '+150 STYLE'); }
+      if (state === 'play' && yeti.minD < 7) { run.dodges++; addStyle(150); toast('DODGED!', 'cool big', '+150 STYLE'); }
     }
   } else if (yeti.phase === 'recover') {
     const step = Math.min(d, 9 * dt);
@@ -4237,18 +4495,16 @@ function poseSkier(dt, now) {
   // in the air too (P.spin), so the head comes round as a 180 finishes instead of waiting for the landing
   const look = Math.cos(P.switch + P.spin);
   if (S.board) S.rider.rotation.y = -Math.PI / 2 + P.switch;
-  // pizza: rotate each ski so its tip sits just beside the centre line, which pushes the feet, knees and tails wide
+  // pizza: rotate each ski so its tip sits just beside the centre line, which pushes the feet and tails wide
   const pa = 0.38 * pz, tipGap = 0.05, TIP = 0.925;               // TIP: boot-to-tip distance
   S.feet.forEach(({ foot, s }, k) => {
     foot.rotation.set(0, s * pa, s * 0.18 * pz);                 // tips in, rolled onto the inside edges
     foot.position.x = lerp(s * S.stance, s * (tipGap + TIP * Math.sin(pa)), pz);
     S.legs[k].ankle.position.x = foot.position.x;
   });
-  S.legs.forEach(({ ankle, knee, tilt, s }) => {
-    const wide = Math.atan2(Math.abs(ankle.position.x) - 0.12, 0.8) * s;   // legs angle back in from wide feet: an A-frame, knees apart
-    // in the pizza the shins stand up straighter and the thighs angle in, so the knees bow out wide
-    const kw = 0.7 * pz;
-    ankle.rotation.set(-shinA, 0, wide * (1 - kw) - phi); knee.rotation.set(shinA + thighA, 0, wide * kw * 1.98);
+  S.legs.forEach(({ ankle, knee, s }) => {
+    const wide = Math.atan2(Math.abs(ankle.position.x) - 0.12, 0.8) * s;   // legs angle back in from wide feet: a straight A-frame
+    ankle.rotation.set(-shinA, 0, wide - phi); knee.rotation.set(shinA + thighA, 0, 0);
   });
   const L1 = 0.43, L2 = 0.42, AY = 0.2;
   const h = L2 * Math.cos(shinA) + L1 * Math.cos(thighA), hz = -L2 * Math.sin(shinA) + L1 * Math.sin(thighA);
@@ -4452,7 +4708,9 @@ window.addEventListener('resize', resize);
 /* ---------- input ---------- */
 const KEYMAP = { ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right', ArrowUp: 'up', KeyW: 'up', ArrowDown: 'down', KeyS: 'down' };
 window.addEventListener('keydown', e => {
+  if (e.target.closest('.over-initials')) return;   // typing initials or on SAVE: the form has its own keys (see 82-world.js)
   if (state === 'intro') { e.preventDefault(); return enterTitle(); }
+  if (!$('boards').hidden && e.code === 'Escape') return closeBoards();
   if (state === 'select' && e.code === 'Escape') return toTitle();
   if (state === 'course' && e.code === 'Escape') return openSelect();
   if (state === 'title' || state === 'course' || state === 'select' || state === 'paused' || state === 'over') {
@@ -4468,7 +4726,7 @@ window.addEventListener('keydown', e => {
     keys[k] = true;
   }
   if (e.repeat) return;
-  if (state === 'title' || state === 'over') {
+  if ((state === 'title' || state === 'over') && $('boards').hidden) {
     if (e.code === 'KeyF' && state === 'title') return unlockYeti();
     if (e.code === 'Digit1' || e.code === 'Numpad1') return openSelect('ski');
     if ((e.code === 'Digit2' || e.code === 'Numpad2') && yetiUnlocked) return openSelect('yeti');
@@ -4498,6 +4756,9 @@ click('btnChar', () => openSelect());
 click('btnAgain', () => startGame());
 click('btnMenu', toTitle);
 click('btnShare', shareRun);
+click('btnBoards', () => openBoards('title'));
+click('btnBoardsOver', () => openBoards('over'));
+click('btnBoardsBack', closeBoards);
 click('btnResume', () => pause(false));
 click('btnRestart', () => startGame());
 click('btnQuit', toTitle);
