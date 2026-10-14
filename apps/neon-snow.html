@@ -97,6 +97,9 @@
   .keys dd { margin: 0; color: var(--ice); }
   .title-grid { display: contents; }
   #title .controls { position: absolute; left: 32px; top: 50%; transform: translateY(-50%); }
+  #title .pad-controls { left: auto; right: 32px; }
+  .controls .ctl-title { margin: 0 0 2px; font-size: 10px; color: var(--cyan); }
+  kbd.face { border-radius: 13px; }   /* a face button: round */
   .controls { display: flex; flex-direction: column; gap: 12px; align-items: flex-start; padding: 18px 22px; background: rgba(20,32,80,.6); border: 2px solid rgba(244,249,255,.25); }
   .controls h2 { margin: 6px 0 0; font: 8px/1 var(--display); letter-spacing: .2em; color: var(--sun); }
   .controls .keys { grid-template-columns: 76px auto; justify-items: start; }
@@ -117,6 +120,8 @@
   .go.sel, .over-initials .go:focus { outline: 3px solid #fff; outline-offset: 4px; transform: translateY(-2px); }   /* SAVE focused looks picked, like a menu button */
   .go.sel::before, .over-initials .go:focus::before { content: ''; position: absolute; left: -24px; top: 50%; width: 12px; height: 14px; transform: translateY(-50%); background: #fff; clip-path: polygon(100% 50%, 0 0, 0 100%); filter: drop-shadow(2px 2px 0 var(--night)); }
   .go:active { transform: translate(2px,2px); box-shadow: 2px 2px 0 var(--magenta); }
+  body.pad .hint[data-pad] { font-size: 0; }   /* playing on a controller: its buttons, from data-pad */
+  body.pad .hint[data-pad]::after { content: attr(data-pad); font-size: 8px; }
   .hint { font: 8px/1.4 var(--display); letter-spacing: .12em; color: var(--magenta); animation: blink 1s steps(2) infinite; }
   .modes { display: flex; gap: 16px; flex-wrap: wrap; justify-content: center; }
   .go small { display: block; font-size: 8px; margin-top: 9px; letter-spacing: .14em; opacity: .8; }
@@ -199,6 +204,7 @@
     background: var(--night); border: 3px solid var(--ice); box-shadow: 4px 4px 0 var(--magenta); }
   .over-initials input:not(:focus) { border-color: rgba(244,249,255,.45); color: var(--dim); }   /* only the focused box looks live */
   .over-initials input:focus { outline: 3px solid var(--sun); outline-offset: 3px; border-color: var(--sun); box-shadow: 4px 4px 0 var(--magenta), 0 0 18px rgba(255,207,58,.55); }
+  .over-initials label.wr { font-size: 14px; }
   .over-initials .go { font-size: 12px; padding: 12px 16px; }
   /* while you type your initials the menu below is out of play: dimmed, no highlight, and the hint says what to do */
   #over:has(.over-initials :focus) .over-menu { opacity: .3; }
@@ -285,6 +291,9 @@
   .board td:last-child { text-align: right; }
   .board td small { display: block; margin-top: 3px; font-size: 16px; color: var(--dim); }
   .board tr.me td { color: var(--sun); }
+  .board tr.run td { box-shadow: inset 0 3px var(--sun), inset 0 -3px var(--sun); }   /* the run just saved */
+  .board tr.run td:first-child { box-shadow: inset 3px 3px var(--sun), inset 0 -3px var(--sun); }
+  .board tr.run td:last-child { box-shadow: inset -3px 3px var(--sun), inset 0 -3px var(--sun); }
   .board tr.empty td { color: rgba(180,195,232,.35); }
   .board td.msg { text-align: center; font: 10px/1 var(--display); letter-spacing: .14em; color: var(--dim); }
   .course-card .loading { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font: 16px/1 var(--display); color: var(--sun); background: rgba(20,32,80,.85); }
@@ -350,6 +359,7 @@
   <h1 class="logo">NEON<br>SNOW</h1>
   <div class="title-grid">
     <div class="controls">
+      <h2 class="ctl-title">KEYBOARD CONTROLS</h2>
       <h2>ON THE GROUND</h2>
       <dl class="keys">
         <dt><kbd class="arw" aria-label="Left arrow"><i class="ico left"></i></kbd><kbd class="arw" aria-label="Right arrow"><i class="ico right"></i></kbd></dt><dd>Steer</dd>
@@ -363,6 +373,23 @@
         <dt><kbd class="arw" aria-label="Left arrow"><i class="ico left"></i></kbd><kbd class="arw" aria-label="Right arrow"><i class="ico right"></i></kbd></dt><dd>Line up your landing</dd>
       </dl>
       <div class="keys-foot"><kbd>P</kbd> pause · <kbd>M</kbd> sound</div>
+    </div>
+    <!-- the face buttons' letters follow the controller in use (padLabels); until one is used, PlayStation / Switch -->
+    <div class="controls pad-controls">
+      <h2 class="ctl-title">GAMEPAD CONTROLS</h2>
+      <h2>ON THE GROUND</h2>
+      <dl class="keys">
+        <dt><kbd class="arw" aria-label="Stick left"><i class="ico left"></i></kbd><kbd class="arw" aria-label="Stick right"><i class="ico right"></i></kbd></dt><dd>Steer</dd>
+        <dt><kbd class="face" data-face="tuck">X / B</kbd></dt><dd>Tuck for speed</dd>
+        <dt><kbd class="arw" aria-label="Stick up"><i class="ico up"></i></kbd></dt><dd>Pizza to slow down</dd>
+      </dl>
+      <h2>IN THE AIR</h2>
+      <dl class="keys">
+        <dt><kbd class="face" data-face="spin">O / A</kbd></dt><dd>Spin</dd>
+        <dt><kbd class="arw" aria-label="Stick up"><i class="ico up"></i></kbd></dt><dd>Flip</dd>
+        <dt><kbd class="arw" aria-label="Stick left"><i class="ico left"></i></kbd><kbd class="arw" aria-label="Stick right"><i class="ico right"></i></kbd></dt><dd>Line up your landing</dd>
+      </dl>
+      <div class="keys-foot"><kbd>START</kbd> pause · <kbd>SELECT</kbd> sound</div>
     </div>
     <div class="start-col">
       <div class="modes">
@@ -379,7 +406,7 @@
 <section class="screen" id="coursePick" hidden>
   <div class="eyebrow" id="cpEyebrow">CHOOSE YOUR MOUNTAIN</div>
   <div class="modes courses" id="courseCards"></div>
-  <div class="hint">ARROWS TO CHOOSE · SPACE TO SELECT · ESC TO GO BACK</div>
+  <div class="hint" data-pad-t="STICK TO CHOOSE · {ok} TO SELECT · {back} TO GO BACK">ARROWS TO CHOOSE · SPACE TO SELECT · ESC TO GO BACK</div>
 </section>
 
 <section class="screen" id="select" hidden>
@@ -399,7 +426,7 @@
     <div class="eyebrow">SNOWBOARDERS</div>
     <div class="modes roster" id="rosterBoard"></div>
   </div>
-  <div class="hint" id="selHint">ARROWS TO CHOOSE · SPACE TO SELECT · ESC TO GO BACK</div>
+  <div class="hint" id="selHint" data-pad-t="STICK TO CHOOSE · {ok} TO SELECT · {back} TO GO BACK">ARROWS TO CHOOSE · SPACE TO SELECT · ESC TO GO BACK</div>
 </section>
 
 <section class="screen" id="paused" hidden>
@@ -410,7 +437,7 @@
     <button class="go alt" id="btnRestart" type="button">RESTART</button>
     <button class="go alt" id="btnQuit" type="button">MAIN MENU</button>
   </div>
-  <div class="hint" id="pauseHint">ARROWS TO CHOOSE · SPACE TO SELECT</div>
+  <div class="hint" id="pauseHint" data-pad-t="STICK TO CHOOSE · {ok} TO SELECT">ARROWS TO CHOOSE · SPACE TO SELECT</div>
 </section>
 
 <canvas id="confetti" aria-hidden="true"></canvas>
@@ -447,8 +474,8 @@
     </div>
     <div class="modes"><button class="go share" id="btnShare" type="button">SHARE</button><button class="go share" id="btnBoardsOver" type="button">LEADERBOARD</button></div>
   </div>
-  <div class="hint" id="overHint">ARROWS TO CHOOSE · SPACE TO SELECT</div>
-  <div class="hint" id="initialsHint">TYPE YOUR INITIALS · ENTER TO SAVE · ARROWS TO MOVE · ESC TO SKIP</div>
+  <div class="hint" id="overHint" data-pad-t="STICK TO CHOOSE · {ok} TO SELECT">ARROWS TO CHOOSE · SPACE TO SELECT</div>
+  <div class="hint" id="initialsHint" data-pad-t="UP / DOWN TO PICK A LETTER · {ok} FOR THE NEXT ONE, THEN SAVE · {back} TO SKIP">TYPE YOUR INITIALS · ENTER TO SAVE · ARROWS TO MOVE · ESC TO SKIP</div>
 </section>
 
 <section class="screen" id="boards" hidden>
@@ -464,7 +491,7 @@
     <div><h2>STYLE</h2><table class="board" id="boardStyle"></table></div>
   </div>
   <div class="modes"><button class="go alt" id="btnBoardsBack" type="button">BACK</button></div>
-  <div class="hint">ARROWS TO CHOOSE · SPACE TO SELECT · ESC TO GO BACK</div>
+  <div class="hint" data-pad-t="STICK TO CHOOSE · {ok} TO SELECT · {back} TO GO BACK">ARROWS TO CHOOSE · SPACE TO SELECT · ESC TO GO BACK</div>
 </section>
 
 <script>
@@ -1418,6 +1445,7 @@ const MESH_S0 = -70, MESH_S1 = 1900, HALF_X = 200;
 // the start platform tilts gently downhill, so a rider who brakes to a stop at the top always rolls off again
 // (gravity at this pitch, ~1.1 m/s², beats the 0.4 m/s² rolling drag)
 const START_TILT = 0.1;
+const TEST_BUILD = false;   // build.py makes this false in the release build
 const COURSES = [
   {
     id: 'bowl', name: 'CHUTE TO BOWL', region: 'COLORADO',
@@ -1582,7 +1610,59 @@ const COURSES = [
     finishHalf: 30,
     scenery: 'alpine',
   },
-];
+  // THE LAB (test build only): three straight lanes side by side for trying things out (tuck, speed, big air). Left to
+  // right a steady, a medium and a steep pitch, each ending in a mega kicker over a cliff; below, the lanes land and run
+  // out until they meet again before the finish. No race: no gates, no ice, no dye, no leaderboard (see c.lab).
+  // The lanes' heights are worked out in setup (LAB_LANES); the slope table is only the middle lane's run-in.
+  {
+    id: 'lab', name: 'THE LAB', region: 'TEST BENCH', small: true, lab: true, blurb: '',
+    start: 8, finish: 1130,
+    slope: [[-70, START_TILT], [5, START_TILT], [6.2, 0.5], [7.5, 0.8], [20, 0.6], [34, 0.4], [1900, 0.4]],
+    w: [[-70, 13], [30, 13], [110, 72], [1900, 72]],
+    bowl: [[-70, 0], [1900, 0]],   // flat across: once in a lane, no need to steer
+    cx: [[-70, 0], [1900, 0]],
+    split: [[0, 0]],
+    line: [[-70, 0], [1900, 0]],
+    lanes: [{ x: -45, pitch: 0.2, cliff: 60 }, { x: 0, pitch: 0.4, cliff: 80 }, { x: 45, pitch: 0.7, cliff: 100 }],
+    // s: the lanes spread out (from, to); the lane pitches run from `to` to the cliff lips at `lip`; then a landing
+    // (pitch `land` for `landLen`), then every lane runs at `after` to the finish; from `close` to `meet` each lane's
+    // pitch evens out the heights, the lowest at `after`
+    at: { from: 30, to: 110, lip: 480, land: 0.8, landLen: 180, after: 0.7, close: 700, meet: 1060 },
+    setup() {
+      const A = this.at, n = PROFILE.length, ds = PROFILE_DS;
+      const pitch = (l, s) => s < A.to ? SLOPE(s) : s < A.lip ? l.pitch : s < A.lip + 2.5 ? l.cliff / 2.5 : s < A.lip + A.landLen ? A.land : A.after;
+      const H = this.lanes.map(() => new Float32Array(n));
+      this.lanes.forEach((l, k) => { let y = 0; for (let i = 0; i < n; i++) { H[k][i] = y; y -= pitch(l, MESH_S0 + i * ds) * ds; } });
+      // from close to meet, each lane drops at `after` plus whatever it needs to come down to the lowest one
+      const ic = Math.round((A.close - MESH_S0) / ds), im = Math.round((A.meet - MESH_S0) / ds), low = Math.min(...H.map(h => h[ic]));
+      for (const h of H) {
+        const p = A.after + (h[ic] - low) / (A.meet - A.close);
+        for (let i = ic + 1; i < n; i++) h[i] = h[i - 1] - (i <= im ? p : MESH_S0 + i * ds < this.finish + 20 ? A.after : 0.03) * ds;   // then the run-out
+      }
+      // the middle lane is the profile; the others ride on it as offsets (hills)
+      PROFILE.set(H[1]);
+      this.dh = H.map(h => h.map((y, i) => y - H[1][i]));
+    },
+    hills(x, s) {
+      const spread = smooth(this.at.from, this.at.to, s), c = this.lanes.map(l => l.x * spread), d = this.dh.map(a => sampleArr(a, s));
+      const wall = (a, b) => smooth((a + b) / 2 - 4, (a + b) / 2 + 4, x);   // 8 m rock walls between the lanes
+      return d[1] + (d[0] - d[1]) * (1 - wall(c[0], c[1])) + (d[2] - d[1]) * wall(c[1], c[2]);
+    },
+    // each lane's mega kicker (11 m long) ends just above its cliff lip; the cliffs score over their lane only
+    airs: [[467, -45, 'XXL', 'MEGA KICKER'], [467, 0, 'XXL', 'MEGA KICKER'], [467, 45, 'XXL', 'MEGA KICKER']],
+    cliffs: [[480, 60, 'BIG CLIFF', -45, 18], [480, 80, 'HUGE CLIFF', 0, 18], [480, 100, 'MEGA CLIFF', 45, 18]],
+    mogulBands() { return 0; },
+    edge: [[-70, 1], [1900, 1]],
+    drops: [],
+    kickers: [],
+    pillowFields: [],
+    rocks: [],
+    randomRocks: [0, 0, 0],
+    treeP(ts, d, w, rel) { return rel > 1.05 ? 0.3 : 0; },   // trees up on the rims only
+    finishHalf: 70,
+    scenery: 'alpine',
+  },
+].filter(c => TEST_BUILD || !c.lab);
 
 // The active course. These bindings are swapped by setCourse(); everything below reads them at call time.
 let EDGE;
@@ -1598,6 +1678,7 @@ function setCourse(c) {
   PROFILE = new Float32Array(n); EXTRA = new Float32Array(n);
   let y = 0;
   for (let i = 0; i < n; i++) { PROFILE[i] = y; y -= SLOPE(MESH_S0 + i * PROFILE_DS) * PROFILE_DS; }
+  if (c.setup) c.setup();   // a course that builds its own heights (the lab)
   if (c.left) {
     // EXTRA: how much higher the left side sits than the race side. Flats build it up, cliffs knock it
     // down, and the closing pitch is as steep as it needs to be to bring it back to zero.
@@ -1667,7 +1748,7 @@ const nearLedgeOrRidge = (c, x, s, up, down) => [...c.ledges || [], ...c.ridges 
   .some(([fs, fdx, half]) => s > fs - up && s < fs + down && Math.abs(x - CX(s) - fdx) < half + 6);
 // 0..1: how far inside the iced race corridor (between the red dye lines) a point is
 function iceAt(x, s) {
-  if (s < START_S + 4 || s > FINISH_S + 6) return 0;
+  if (COURSE.lab || s < START_S + 4 || s > FINISH_S + 6) return 0;
   return 1 - smooth(EDGE(s) - 1.2, EDGE(s) + 0.6, Math.abs(x - LINE(s)));
 }
 function mogulMask(x, s) {
@@ -1894,6 +1975,7 @@ function buildTerrain() {
   const PPM = 2, dyeW = 2 * HALF_X * PPM, dyeH = Math.round((MESH_S1 - MESH_S0) * PPM);
   const DROPS = COURSE.drops;
   const dyeTex = canvasTex(dyeW, dyeH, (g) => {
+    if (COURSE.lab) return;   // no race, no dye
     const X = x => (x + HALF_X) * PPM, S = sv => (sv - MESH_S0) * PPM, rnd = seeded(77);
     // the iced corridor, as a soft-edged band in the green channel
     g.fillStyle = '#00ff00'; g.filter = 'blur(2px)'; g.beginPath();
@@ -2128,7 +2210,7 @@ function buildCourse() {
 
   // race gates along the line, alternating red/blue and swinging side to side
   let flip = 1, color = 0;
-  for (let s = 45; s < FINISH_S - 30;) {
+  if (!c.lab) for (let s = 45; s < FINISH_S - 30;) {
     const { space, swing } = c.gateRule(s), x = LINE(s) + flip * swing, z = -s;
     if (underJump(c, x, s)) { s += space; continue; }   // no gate where you land
     const g = new THREE.Group(), sides = [], m = color ? MAT.blue : MAT.red;
@@ -2231,7 +2313,7 @@ function buildCourse() {
   // cliff bands on the freeride side: launching off one is worth style
   if (c.left) for (const [cs, h, label] of c.left.cliffs) course.cliffs.push({ s: cs, h, label });
   for (const [cs, dx, half, h, label] of c.ledges || []) course.cliffs.push({ s: cs, h, label, dx, half });   // ledges score like cliffs
-  for (const [cs, h, label] of c.cliffs || []) course.cliffs.push({ s: cs, h, label, dx: 0, half: 1e3 });         // full-width cliffs
+  for (const [cs, h, label, dx = 0, half = 1e3] of c.cliffs || []) course.cliffs.push({ s: cs, h, label, dx, half });   // full width, or one lane's
 
   // checkered banner arch
   const arch = (s, half, label, colorA, colorB, height = 7) => {
@@ -3061,6 +3143,18 @@ const VO = {
   youth: 'data:audio/mp4;base64,AAAAHGZ0eXBNNEEgAAAAAE00QSBtcDQyaXNvbQAAA+ptb292AAAAbG12aGQAAAAA5u2ctebtnLUAAF3AAACgAAABAAABAAAAAAAAAAAAAAAAAQAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAACfHRyYWsAAABcdGtoZAAAAAfm7Zy15u2ctQAAAAEAAAAAAACgAAAAAAAAAAAAAAAAAAEAAAAAAQAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAhhtZGlhAAAAIG1kaGQAAAAA5u2ctebtnLUAAF3AAACgAAAAAAAAAAAiaGRscgAAAAAAAAAAc291bgAAAAAAAAAAAAAAAAAAAAABzm1pbmYAAAAQc21oZAAAAAAAAAAAAAAAJGRpbmYAAAAcZHJlZgAAAAAAAAABAAAADHVybCAAAAABAAABknN0YmwAAAB2c3RzZAAAAAAAAAABAAAAZm1wNGEAAAAAAAAAAQAAAAAAAAAAAAIAEAAAAABdwAAAAAAAM2VzZHMAAAAAA4CAgCIAAAAEgICAFEAUABgAAADYQAAAu4AFgICAAhMIBoCAgAECAAAAD3NidGQAAAAARjMyAAAAGHN0dHMAAAAAAAAAAQAAACgAAAQAAAAAKHN0c2MAAAAAAAAAAgAAAAEAAAAMAAAAAQAAAAQAAAAEAAAAAQAAALRzdHN6AAAAAAAAAAAAAAAoAAAABAAAADgAAAIoAAACUwAAAVUAAAEmAAABBAAAAQEAAAEBAAAA/QAAAPoAAAECAAABIwAAAVkAAAEeAAAA9gAAAQYAAAD0AAAA+gAAAOsAAAD+AAABAgAAAO8AAAGoAAABDQAAAPcAAAD1AAAA8gAAAO4AAADwAAABEAAAAVgAAAEkAAABAwAAAQYAAABAAAAADQAAAFwAAAGbAAAAcAAAACBzdGNvAAAAAAAAAAQAABAAAAAdMQAAKjcAADXVAAAA+nVkdGEAAADybWV0YQAAAAAAAAAiaGRscgAAAAAAAAAAbWRpcmFwcGwAAAAAAAAAAAAAAAAAxGlsc3QAAAC8LS0tLQAAABxtZWFuAAAAAGNvbS5hcHBsZS5pVHVuZXMAAAAUbmFtZQAAAABpVHVuU01QQgAAAIRkYXRhAAAAAQAAAAAgMDAwMDAwMDAgMDAwMDA4NDAgMDAwMDAxQzAgMDAwMDAwMDAwMDAwOTYwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMCAwMDAwMDAwMAAAC/JmcmVlAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA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'
 };
 /* VO-END */
+/* ---------- music and sound effects ---------- */
+// The music is composed live in Web Audio: no recordings. It came from these prompts to Claude Code (Oct 8, 2026),
+// each one a rewrite of the code below:
+// - "update the soundtrack to have more of an jungle beat feel, like a 90s or early 2000s videogame"
+// - "add some fun poppy chord progression over the breakbeat, and just a bit of dance hall flair."
+// - "the music feels a bit too static. add some bach or classical inspired active bass line underneath the chords.
+//   switch up the progression a bit, every now and then. and sometimes add some melody on the high notes"
+//   (the moving bass line, the A/B/C sections and the occasional high melody)
+// - "change the chord progression entirely, I don't like these chords. follow something on jungle beat, fine to use
+//   more rap / keyboard sounds rather than videogame sounds." (the F minor chords on Rhodes)
+// - "Can we have a title screen music that starts slowly with a few chord progressions, then builds with a drop into
+//   a similar jungle beat style song that we play during the game, but still different" (the title song)
 const TAUNTS = ['COME HERE!', 'SNACK TIME!', 'YOU CAN\'T OUT-SKI ME!', 'I SMELL SKIER!', 'NOM NOM NOM!', 'GET BACK HERE!'];
 
 const Sound = {
@@ -3507,6 +3601,8 @@ let yetiUnlocked = false;   // not saved: every visit has to find the yeti again
 function refreshTitle() {
   $('btnYeti').hidden = !yetiUnlocked; $('legend').hidden = yetiUnlocked && !$('legend').classList.contains('woke');
   $('startHint').textContent = yetiUnlocked ? 'ARROWS TO CHOOSE · SPACE TO SELECT' : 'PRESS SPACE TO DROP IN';
+  $('startHint').dataset.padT = yetiUnlocked ? 'STICK TO CHOOSE · {ok} TO SELECT' : 'PRESS {ok} TO DROP IN';
+  if (document.body.classList.contains('pad')) padLabels();   // else the first controller press fills it in (padUse)
 }
 // SkiFree's F key: press F on the title screen to wake the yeti
 function unlockYeti() {
@@ -3630,13 +3726,13 @@ function courseMap(c) {
   const X = x => (x - x0) / xs, Y = sv => (sv - sTop) / ss;
   const path = (fn, color, dash) => { g.strokeStyle = color; g.lineWidth = 2; g.setLineDash(dash || []); g.beginPath(); for (let sv = 4; sv < c.finish; sv += 4) { const px = X(fn(sv)), py = Y(sv); sv === 4 ? g.moveTo(px, py) : g.lineTo(px, py); } g.stroke(); };
   if (TLINE) path(sv => TLINE(sv), '#ffcf3a', [3, 3]);
-  path(sv => LINE(sv), '#e02a36');
+  if (!c.lab) path(sv => LINE(sv), '#e02a36');   // the race line (the lab has none)
   g.setLineDash([]); g.fillStyle = '#142050';
   for (const yy of [Y(c.start), Y(c.finish)]) for (let i = 0; i < w; i += 4) g.fillRect(i, yy - 1, 2, 3);
   if (c.bar) { g.fillStyle = '#c98e60'; g.fillRect(X(CX(c.finish + 48) + 16) - 5, Y(c.finish + 48) - 3, 10, 6); }
   // facts for the card
   let gates = 0, flip = 1;   // counted the way buildCourse places them, skipping jump landings
-  for (let sv = 45; sv < c.finish - 30; sv += c.gateRule(sv).space) if (!underJump(c, LINE(sv) + flip * c.gateRule(sv).swing, sv)) { gates++; flip = -flip; }
+  if (!c.lab) for (let sv = 45; sv < c.finish - 30; sv += c.gateRule(sv).space) if (!underJump(c, LINE(sv) + flip * c.gateRule(sv).swing, sv)) { gates++; flip = -flip; }
   courseFacts[c.id] = { length: c.finish, vertical: Math.round(profile(c.start) - profile(c.finish)), gates };
   return cv.toDataURL();
 }
@@ -3941,7 +4037,7 @@ async function shareRun() {
 // opened from disk (a local build), it talks to `npx wrangler dev` in worker/ instead of the live board
 const API = location.protocol === 'file:' ? 'http://localhost:8787' : 'https://api.beachwood23.com';
 const LB_V = 1;   // the worker's board version: bump both when a course changes
-let lbSeq = 0, lbRun = null;   // lbSeq drops answers that come back after the player has moved on
+let lbSeq = 0, lbRun = null, lbMine = 0;   // lbSeq drops answers that come back after the player has moved on; lbMine: this run's saved id
 const r3 = t => Math.round(t * 1000) / 1000;
 const lbFetch = (path, opt) => fetch(API + path, opt).then(r => r.ok ? r.json() : Promise.reject(r.status));
 // fill the finish table's WORLD RECORD column (the #1s and their details), which stays hidden until the board arrives
@@ -3959,7 +4055,8 @@ function showWorld(b) {
 const makesTop = (list, v, better) => list.length < 10 || better(v, list[list.length - 1].value);
 function worldBoard(finished) {
   const id = ++lbSeq, form = $('overInitials');
-  $('overTable').classList.add('no-world'); form.hidden = true;
+  $('overTable').classList.add('no-world'); form.hidden = true; lbMine = 0;
+  if (COURSE.lab) return;   // the lab has no leaderboard
   // the run as the worker checks it; the time is worked out there from the clock and the gates
   lbRun = finished ? { v: LB_V, course: COURSE.id, char: CH.id, clock: r3(run.time), style: run.style, tricks: run.tricks,
     trick: run.bestTrickName, pts: run.bestTrick, gates: run.gateT.map(r3), events: run.events.map(([t, p]) => [r3(t), p]) } : null;
@@ -3968,9 +4065,21 @@ function worldBoard(finished) {
     showWorld(b);
     const time = lbRun && lbRun.clock - lbRun.gates.length * GATE_BONUS;
     if (lbRun && (makesTop(b.time, time, (a, c) => a < c) || lbRun.style > 0 && makesTop(b.style, lbRun.style, (a, c) => a > c))) {
-      $('initialsMsg').textContent = 'TOP 10 IN THE WORLD! YOUR INITIALS:';
+      // beats the #1 (or the board is empty; a tie goes to the run already there): say so now, before the initials
+      const rows = $('overTable').querySelectorAll('tr.main'), won = [];
+      if (!b.time.length || time < b.time[0].value) won.push(['TIME', rows[0]]);
+      if (lbRun.style > 0 && (!b.style.length || lbRun.style > b.style[0].value)) won.push(['STYLE', rows[1]]);
+      $('initialsMsg').textContent = won.length ? 'NEW WORLD RECORD ' + won.map(w => w[0]).join(' & ') + '! YOUR INITIALS:' : 'TOP 10 IN THE WORLD! YOUR INITIALS:';
+      $('initialsMsg').classList.toggle('wr', won.length > 0);
+      if (won.length) {
+        const cells = won.map(w => w[1].cells[1]);   // this run's cells
+        cells.forEach(c => c.classList.add('new'));
+        overTitle = 'WORLD RECORD!'; $('overTitle').textContent = overTitle;
+        celebrate(cells);
+      }
       try { $('initialsIn').value = localStorage.getItem('neonslope.initials') || ''; } catch (e) {}
       form.hidden = false; $('initialsIn').focus();
+      if (document.body.classList.contains('pad')) { const box = $('initialsIn'); box.value ||= 'A'; box.setSelectionRange(0, 1); }   // a controller starts on the first letter
     }
   }, () => {});
 }
@@ -3980,9 +4089,25 @@ $('initialsIn').addEventListener('input', e => { e.target.value = e.target.value
 for (const type of ['mousedown', 'click']) document.addEventListener(type, e => {
   if ($('overInitials').matches(':focus-within') && !e.target.closest('.over-initials')) { e.preventDefault(); e.stopPropagation(); }
 }, true);
-// the form's keys: Esc goes back to the menu; arrows move between the box and SAVE (Tab does too)
+// the form's keys: Esc goes back to the menu; arrows move between the box and SAVE (Tab does too). A controller (e.pad,
+// see 88-gamepad.js) can't type, so it picks letters arcade style: up / down run through the alphabet on the letter
+// lit up, left / right move along, A goes on to the next letter and saves on the last; B is Esc
 $('overInitials').addEventListener('keydown', e => {
   const box = $('initialsIn'), save = $('overInitials').querySelector('.go');
+  if (e.pad && e.code !== 'Escape') {
+    e.preventDefault();
+    if (e.target !== box) { if (e.code === 'Space') $('overInitials').requestSubmit(); return; }
+    const c = Math.min(box.selectionStart, 2), v = box.value.padEnd(c + 1, 'A');
+    const go = i => { box.value = v.padEnd(i + 1, 'A'); box.setSelectionRange(i, i + 1); };
+    if (e.code === 'ArrowUp' || e.code === 'ArrowDown') {
+      const n = (v.charCodeAt(c) - 65 + (e.code === 'ArrowUp' ? 1 : 25)) % 26;
+      box.value = v.slice(0, c) + String.fromCharCode(65 + n) + v.slice(c + 1); box.setSelectionRange(c, c + 1);
+    }
+    else if (e.code === 'ArrowLeft') go(Math.max(0, c - 1));
+    else if (e.code === 'ArrowRight' || e.code === 'Space' && c < 2) go(Math.min(2, c + 1));
+    else if (e.code === 'Space') { box.value = v; $('overInitials').requestSubmit(); }
+    return;
+  }
   if (e.key === 'Escape') e.target.blur();
   else if (e.target === save && (e.key === 'ArrowLeft' || e.key === 'ArrowUp')) { e.preventDefault(); box.focus(); }
   else if (e.target === box && (e.key === 'ArrowDown' || e.key === 'ArrowRight' && box.selectionStart === box.value.length)) { e.preventDefault(); save.focus(); }
@@ -3995,18 +4120,12 @@ $('overInitials').addEventListener('submit', e => {
   try { localStorage.setItem('neonslope.initials', initials); } catch (err) {}
   $('initialsIn').blur(); lbRun = null;   // one save per run
   lbFetch('/score', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ ...sent, initials }) }).then(b => {
-    boardSaved(sent.course, b);
-    // moved on (another run started) while this was on its way: no celebrating in the middle of the next run
-    if (id !== lbSeq || state !== 'over') return;
+    // moved on (another run started) while this was on its way: leave the next run alone
+    if (id !== lbSeq || state !== 'over') return boardSaved(sent.course, b);
+    lbMine = b.id;
     $('overInitials').hidden = true;
     showWorld(b);
-    // a world record: the same frame and confetti as a new best of your own, and the title says so
-    const time = sent.clock - sent.gates.length * GATE_BONUS, cells = $('overTable').querySelectorAll('.main td.world');
-    const won = [b.time[0], b.style[0]].map((top, i) => top && top.initials === initials && top.value === (i ? sent.style : time) ? cells[i] : null).filter(Boolean);
-    if (!won.length) return;
-    won.forEach(c => c.classList.add('new'));
-    overTitle = 'WORLD RECORD!'; $('overTitle').textContent = overTitle;
-    celebrate(won);
+    openBoards('over', { [sent.course]: b });   // straight to the board, this run framed in yellow; BACK returns to the finish screen
   }, status => {
     if (id !== lbSeq) return;
     $('initialsMsg').textContent = status === 429 ? 'TOO FAST. TRY AGAIN IN A FEW SECONDS:' : "COULDN'T SAVE. TRY AGAIN?";
@@ -4037,14 +4156,14 @@ function riderIcon(id) {
   return icons[id] = cv.toDataURL();
 }
 let boardsFrom = 'title', boardCourse = '', boardSeq = 0, boardCache = {};   // boardCache: boards seen since the screen opened
-function openBoards(from) {
-  boardsFrom = from; boardCourse = ''; boardCache = {};   // fresh boards each time the screen opens
+function openBoards(from, saved = {}) {   // saved: boards a save just answered with, by course
+  boardsFrom = from; boardCourse = ''; boardCache = saved;   // fresh boards each time the screen opens
   const tabs = $('boardTabs'); tabs.textContent = '';
-  for (const c of COURSES) {
+  for (const c of COURSES.filter(c => !c.lab)) {
     const b = document.createElement('button'); b.type = 'button'; b.className = 'go alt'; b.textContent = c.name; b.dataset.course = c.id;
     b.addEventListener('click', () => pickBoard(c.id)); tabs.appendChild(b);
   }
-  show('boards', COURSES.findIndex(c => c.id === COURSE.id));   // starts on this course's tab, which loads its board
+  show('boards', Math.max(0, COURSES.filter(c => !c.lab).findIndex(c => c.id === COURSE.id)));   // starts on this course's tab, which loads its board
 }
 function closeBoards() { show(boardsFrom); }
 // a save answers with the course's new board: the leaderboard screen keeps it (and shows it straight away if it's open
@@ -4082,7 +4201,7 @@ function fillBoard(tbl, list, f, detail, msg = list.length ? '' : 'NO RECORDS YE
   const body = tbl.createTBody();
   for (let i = 0; i < ROWS; i++) {
     const e = list[i], tr = body.insertRow();
-    tr.className = !e ? 'empty' : e.initials === mine ? 'me' : '';
+    tr.className = !e ? 'empty' : (e.initials === mine ? 'me' : '') + (e.id === lbMine ? ' run' : '');
     tr.insertCell().textContent = i + 1;
     if (!e && !i && msg) { const c = tr.insertCell(); c.colSpan = 3; c.className = 'msg'; c.textContent = msg; continue; }
     const ic = tr.insertCell(), src = e ? riderIcon(e.char) : ''; ic.className = 'rider';
@@ -4118,6 +4237,7 @@ const LANDING_GRIP_LOSS = 0.8;          // grip drops by up to 80% just after bi
 // Snowboards: one edge instead of two, no poles, and a stand-up stance. Each value is the board's version
 // of a number used for skis, which is given in the comment.
 const BOARD_ICE_GRIP = 0.85;            // boards hold 85% of ICE_GRIP, so they slide a little wider on ice (skis: 1)
+const UPRIGHT_TOP = 0.9;               // top speed standing up, against tucked
 const BOARD_TUCK_DRAG = 0.0018;         // air drag while tucked: a rider can't fold as small (skis: 0.0014, upright: 0.0024)
 const BOARD_FLAT_DRAG = 0.2;            // extra rolling drag (m/s²) with no poles to push on, felt on the flats (skis: 0)
 const BOARD_MOGUL_DRAG = 0.009;         // speed lost in the moguls, which are rougher on one plank (skis: 0.006)
@@ -4125,7 +4245,7 @@ function crash(reason) {
   P.cliff = null;
   P.crash = 1.25; P.air = false; P.switch = 0; P.kick = null; P.jib = null; P.vy = 0; P.spin = P.spinT = P.flip = P.flipT = 0; P.grab = 0;
   run.crashes++; shake = 0.6;
-  Sound.play('crash');
+  Sound.play('crash'); rumble(0.9, 0.6, 300);
   toast(reason, 'bad big mid');   // crashes are the only call that lands mid-screen
   const y = groundY(P.x, P.z) + 0.5;
   for (let k = 0; k < 60; k++) emit(P.x, y, P.z, (Math.random() - 0.5) * 9, Math.random() * 7, (Math.random() - 0.5) * 9 - P.speed * 0.2, 0.5 + Math.random() * 0.7, Math.random() < 0.15 ? [1, 0.23, 0.42] : [0.82, 0.88, 1]);
@@ -4142,8 +4262,8 @@ function takeoff(vyRel, keepSpin) {
   P.air = true; P.vy = groundVy() + vyRel; P.alt += 0.05; P.airTime = 0;
   P.cliff = null; P.takeoffS = -P.z;
   if (vyRel === 0 && course.cliffs.length) {   // went off the lip of a cliff band on the freeride side, or a ledge
-    const sv = -P.z, cl = course.cliffs.find(c => sv > c.s - 6 && sv < c.s + 4);
-    if (cl && overCliff(cl, P.x, sv)) P.cliff = cl;
+    const sv = -P.z, cl = course.cliffs.find(c => sv > c.s - 6 && sv < c.s + 4 && overCliff(c, P.x, sv));   // side by side (the lab): the one you're over
+    if (cl) P.cliff = cl;
   }
   if (!keepSpin) { P.spin = P.spinT = P.flip = P.flipT = 0; P.grab = 0; }
   if (vyRel > 0) Sound.play('jump');
@@ -4168,7 +4288,7 @@ function land() {
   const air = Math.floor(P.airTime * 40);
   P.spin = P.spinT = P.flip = P.flipT = 0; P.grab = 0;
   if (state !== 'play' && state !== 'finished') return;
-  Sound.play('land');
+  Sound.play('land'); if (P.airTime > 0.4) rumble(Math.min(1, P.airTime * 0.4), 0.4, 90);   // the bigger the air, the harder
   let cliffPts = 0, cliffName = '';
   if (P.cliff) { cliffPts = Math.round(P.cliff.h * 30); cliffName = P.cliff.label; P.cliff = null; }
   if (deg || flips) {
@@ -4218,7 +4338,7 @@ function collide(prevS) {
           o.passed = true;
           if (Math.abs(dx) < 3.5) {
             run.gatesHit++; run.gateT.push(run.time);
-            Sound.play('gate');
+            Sound.play('gate'); rumble(0, 0.35, 50);
             toast('GATE ' + run.gatesHit + '/' + course.gates.length, 'cool', '-' + GATE_BONUS + ' SECOND');
           }
         }
@@ -4281,7 +4401,10 @@ function physics(dt, steer, tuck, brake) {
     // gravity pull scales with accel; drag is scaled so the terminal speed scales with the speed stat
     let a = 11 * MUL.accel * drop / Math.sqrt(1 + drop * drop) - (tuck ? (B ? BOARD_TUCK_DRAG : 0.0014) : 0.0024) * MUL.accel / (MUL.speed * MUL.speed * (1 + ice * 0.32)) * P.speed * P.speed - 0.4 * (1 - ice * 0.6) - (B ? BOARD_FLAT_DRAG : 0) - Math.abs(steer) * 0.9 - (brake ? 14 : 0)
       - mog * (B ? BOARD_MOGUL_DRAG : 0.006) * P.speed * P.speed;
-    P.speed = clamp(P.speed + a * dt, 0, 40 * MUL.speed * (1 + ice * 0.15));   // top speed scales with the speed stat, and +15% on ice
+    // top speed scales with the speed stat, +15% on ice and -10% standing up. Over it (out of a tuck, off the ice) the speed
+    // bleeds down at 6 m/s per second instead of snapping
+    const top = 40 * MUL.speed * (1 + ice * 0.15) * (tuck ? 1 : UPRIGHT_TOP);
+    P.speed = clamp(P.speed + a * dt, 0, Math.max(top, P.speed - 6 * dt));
     // natural air off convex roll-overs and the cornice
     // Ground that curves away faster than gravity can pull you down can't be followed, so you leave it:
     // curvature * speed^2 against a share of gravity. Slower skiers get a lighter test (see RIDGE_* above).
@@ -4439,7 +4562,7 @@ function updateYeti(dt) {
 function caught() {
   state = 'caught'; caughtT = 0;
   skier.root.visible = false; skier.shadow.visible = false;
-  Sound.play('chomp'); shake = 0.8;
+  Sound.play('chomp'); shake = 0.8; rumble(1, 1, 600);
   setTimeout(() => Voice.say('GOTCHA!', 'yeti_gotcha'), 500);
   for (let k = 0; k < 80; k++) emit(P.x, groundY(P.x, P.z) + 1, P.z, (Math.random() - 0.5) * 10, Math.random() * 9, (Math.random() - 0.5) * 10, 0.6 + Math.random() * 0.8, [0.82, 0.88, 1]);
 }
@@ -4451,6 +4574,82 @@ function finish() {
   $('hYeti').hidden = true;
 }
 
+/* ---------- game controllers ---------- */
+// A controller presses the keyboard's keys: each button, as it goes down and up, sends the key it stands for (see
+// padHeld), so every menu and screen works without code of its own. Only the left stick's steering is read directly,
+// for the partial turns a key can't give (padSteer). Standard layout only (pad.mapping 'standard'). Browsers show a
+// controller only once one of its buttons is pressed.
+// The face buttons go by where they sit, so their letters change with the brand: in a run the bottom one tucks and the
+// right one spins (Switch B / A, PlayStation X / O, Xbox A / B); in menus each brand's own confirm button selects and
+// the other goes back (Switch: A, the right one; PlayStation and Xbox: the bottom one)
+const FACES = { xbox: { bottom: 'A', right: 'B' }, ps: { bottom: 'X', right: 'O' }, switch: { bottom: 'B', right: 'A' } };
+const padFamily = gp => /054c|sony|playstation|dualsense|dualshock/i.test(gp.id) ? 'ps' : /057e|nintendo|pro controller|joy-con/i.test(gp.id) ? 'switch' : 'xbox';
+const PAD_CODES = ['Space', 'Escape', 'KeyP', 'KeyM', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
+const PAD_KEY = { Space: ' ', Escape: 'Escape', KeyP: 'p', KeyM: 'm' };
+const STICK_ON = 0.5, STICK_OFF = 0.35, STEER_DEAD = 0.15;   // the stick as arrows: pressed past ON, let go under OFF
+const padDown = {};   // 'pad index:code' -> held
+let padLast = null, padFam = '';   // the controller used last: it rumbles, and the hints show its buttons while it's the last input
+// the keys a controller is holding down right now
+function padHeld(gp) {
+  const btn = i => gp.buttons[i] && gp.buttons[i].pressed, held = {}, [x, y] = gp.axes;
+  if (state === 'play' || state === 'countdown') { if (btn(0)) held.ArrowDown = true; if (btn(1)) held.Space = true; }
+  else { const ok = padFamily(gp) === 'switch' ? 1 : 0; if (btn(ok)) held.Space = true; if (btn(1 - ok)) held.Escape = true; }
+  if (btn(9)) held.KeyP = true;   // Start
+  if (btn(8)) held.KeyM = true;   // Back / Share / minus
+  [[12, 'ArrowUp', -y], [13, 'ArrowDown', y], [14, 'ArrowLeft', -x], [15, 'ArrowRight', x]].forEach(([b, code, v]) => {
+    if (btn(b) || v > (padDown[gp.index + ':' + code] ? STICK_OFF : STICK_ON)) held[code] = true;
+  });
+  return held;
+}
+// the button letters on screen: hints carry data-pad-t templates ({ok} {back} {tuck} {spin}), the controls box data-face
+function padLabels(fam = padFam || 'xbox') {
+  const f = FACES[fam], ok = fam === 'switch' ? f.right : f.bottom, back = fam === 'switch' ? f.bottom : f.right;
+  const word = { ok, back, tuck: f.bottom, spin: f.right };
+  document.querySelectorAll('[data-pad-t]').forEach(el => { el.dataset.pad = el.dataset.padT.replace(/\{(\w+)\}/g, (m, k) => word[k]); });
+  if (padFam) document.querySelectorAll('[data-face]').forEach(el => { el.textContent = word[el.dataset.face]; });
+}
+function padUse(gp) {
+  padLast = gp; document.body.classList.add('pad');
+  const fam = padFamily(gp); if (fam !== padFam) { padFam = fam; padLabels(); }
+}
+function padKey(type, code) {
+  // sent where a real key would go, so the initials form sees its keys; e.pad marks it
+  const e = new KeyboardEvent(type, { code, key: PAD_KEY[code] || code, bubbles: true, cancelable: true });
+  e.pad = true;
+  (document.activeElement || document.body).dispatchEvent(e);
+}
+function pollPads() {
+  if (!navigator.getGamepads) return;
+  for (const gp of navigator.getGamepads()) {
+    if (!gp || gp.mapping !== 'standard') continue;
+    const held = padHeld(gp);
+    if (state === 'intro' && gp.buttons.some(b => b.pressed)) {   // any button gets past the title card, and does nothing more
+      padUse(gp);
+      for (const code in held) padDown[gp.index + ':' + code] = true;
+      enterTitle(); continue;
+    }
+    for (const code of PAD_CODES) {
+      const k = gp.index + ':' + code;
+      if (!!held[code] === !!padDown[k]) continue;
+      padDown[k] = !!held[code];
+      if (held[code]) padUse(gp);
+      padKey(held[code] ? 'keydown' : 'keyup', code);
+    }
+  }
+}
+// the left stick's sideways push, -1 to 1 past a small dead zone; 0 lets the keys (and the D-pad) steer
+function padSteer() {
+  const gp = padLast && navigator.getGamepads()[padLast.index];
+  const x = gp ? gp.axes[0] : 0;
+  return Math.abs(x) < STEER_DEAD ? 0 : Math.sign(x) * (Math.abs(x) - STEER_DEAD) / (1 - STEER_DEAD);
+}
+// rumble on the controller in use (where the browser can: Chrome and Edge). strong / weak: the two motors, 0 to 1
+function rumble(strong, weak, ms) {
+  const gp = padLast && navigator.getGamepads()[padLast.index], act = gp && gp.vibrationActuator;
+  if (act && act.playEffect) act.playEffect('dual-rumble', { duration: ms, strongMagnitude: strong, weakMagnitude: weak }).catch(() => {});
+}
+// a real key or the mouse: the hints go back to the keyboard's
+for (const type of ['keydown', 'pointerdown']) addEventListener(type, e => { if (!e.pad) document.body.classList.remove('pad'); }, true);
 /* ---------- pose / render sync ---------- */
 const _up = new THREE.Vector3(), _f = new THREE.Vector3(), _x = new THREE.Vector3(), _z = new THREE.Vector3(), _m = new THREE.Matrix4(), _q = new THREE.Quaternion();
 const WORLD_UP = new THREE.Vector3(0, 1, 0);
@@ -4630,12 +4829,13 @@ let prev = performance.now();
 function frame(now) {
   requestAnimationFrame(frame);
   const dt = Math.min(0.05, (now - prev) / 1000); prev = now;
+  pollPads();
   if (state !== 'paused') clock += dt;
 
   if (state === 'countdown') tickCountdown(dt);
   if (state === 'play') {
     run.time += dt;
-    const steer = AUTO ? autopilot() : (keys.right ? 1 : 0) - (keys.left ? 1 : 0);
+    const steer = AUTO ? autopilot() : padSteer() || (keys.right ? 1 : 0) - (keys.left ? 1 : 0);
     const prevS = -P.z;
     physics(dt, steer, AUTO || keys.down, !AUTO && keys.up);
     if (P.crash <= 0) collide(prevS);
