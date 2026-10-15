@@ -49,6 +49,7 @@
   .hud .vcr { display: flex; align-items: center; justify-content: center; }
   .hud .vcr-sound { width: 124px; }
   .hud .vcr-pause { width: 96px; }
+  .hud .vcr[hidden] { display: none; }
   .vcr span { display: flex; align-items: center; gap: 7px; }
   .vcr svg { display: block; }
   .vcr .vcr-down, .vcr[aria-pressed="true"] .vcr-up { display: none; }
@@ -335,6 +336,9 @@
     <button class="vcr vcr-sound" id="btnMute" type="button" aria-label="Sound off" aria-pressed="false">
       <span class="vcr-up"><svg viewBox="0 0 12 10" width="13" height="11" aria-hidden="true"><path d="M0 3h3l4-3v10l-4-3H0z" fill="currentColor"/><path d="M9 2.5q1.6 2.5 0 5M10.5 1q3 4 0 8" stroke="currentColor" fill="none" stroke-width="1.2"/></svg>SOUND ON</span>
       <span class="vcr-down"><svg viewBox="0 0 12 10" width="13" height="11" aria-hidden="true"><path d="M0 3h3l4-3v10l-4-3H0z" fill="currentColor"/><path d="M8.5 3l3 4M11.5 3l-3 4" stroke="currentColor" stroke-width="1.4"/></svg>SOUND OFF</span>
+    </button>
+    <button class="vcr vcr-full" id="btnFull" type="button" aria-label="Full screen" aria-pressed="false" hidden>
+      <span><svg viewBox="0 0 10 10" width="11" height="11" aria-hidden="true"><path d="M0 3V0h3M7 0h3v3M10 7v3H7M3 10H0V7" stroke="currentColor" fill="none" stroke-width="1.6"/></svg>FULL SCREEN</span>
     </button>
     <button class="vcr vcr-pause" id="btnPause" type="button" aria-label="Pause" aria-pressed="false">
       <span class="vcr-up"><svg viewBox="0 0 8 10" width="9" height="11" aria-hidden="true"><path d="M0 0v10l8-5z" fill="currentColor"/></svg>PLAY</span>
@@ -3163,6 +3167,8 @@ const Sound = {
     if (this.ctx) return true;
     const AC = window.AudioContext || window.webkitAudioContext;
     if (!AC) return false;
+    // iOS plays Web Audio as 'ambient' sound, which the ring / silent switch mutes; a game is 'playback' (Safari 17+)
+    try { if (navigator.audioSession) navigator.audioSession.type = 'playback'; } catch (e) {}
     try { this.ctx = new AC(); } catch (e) { return false; }
     const c = this.ctx;
     this.master = c.createGain(); this.master.gain.value = this.muted ? 0 : 0.5; this.master.connect(c.destination);
@@ -3213,7 +3219,7 @@ const Sound = {
     } catch (e) { return false; }
   },
   setMuted(m) { this.muted = m; if (this.master) this.master.gain.setTargetAtTime(m ? 0 : 0.5, this.ctx.currentTime, 0.02); },
-  resume() { if (this.ctx && this.ctx.state === 'suspended') this.ctx.resume(); },
+  resume() { if (this.ctx && this.ctx.state !== 'running') this.ctx.resume().catch(() => {}); },   // iOS: 'interrupted' after a call or an app switch
   suspend() { if (this.ctx && this.ctx.state === 'running') this.ctx.suspend(); },
   tone(type, f0, f1, t, dur, vol, dest, filt, att = 0.008, detune = 0) {
     const c = this.ctx, o = c.createOscillator(), g = c.createGain();
@@ -4948,6 +4954,15 @@ function toggleMute() {
 }
 const click = (id, fn) => $(id).addEventListener('click', e => { e.currentTarget.blur(); fn(); });
 click('btnMute', toggleMute);
+// full screen where the page can have it (not iPhone Safari, which only lets videos go full screen): lit while on
+const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement;
+$('btnFull').hidden = !(document.fullscreenEnabled || document.webkitFullscreenEnabled);
+click('btnFull', () => {
+  const d = document, r = d.documentElement;
+  const p = fsEl() ? (d.exitFullscreen || d.webkitExitFullscreen).call(d) : (r.requestFullscreen || r.webkitRequestFullscreen).call(r);
+  if (p && p.catch) p.catch(() => {});
+});
+for (const t of ['fullscreenchange', 'webkitfullscreenchange']) document.addEventListener(t, () => $('btnFull').setAttribute('aria-pressed', !!fsEl()));
 click('btnPause', () => pause(state === 'play' || state === 'countdown'));
 click('btnSki', () => openSelect('ski'));
 click('btnYeti', () => openSelect('yeti'));
@@ -4971,6 +4986,8 @@ function enterTitle() {
   state = 'title'; show('title'); refreshTitle();
 }
 $('intro').addEventListener('pointerdown', e => { e.preventDefault(); enterTitle(); });
+// iOS Safari only lets a touch's end (or a click) start sound, not its start (pointerdown): every tap tries again
+for (const t of ['touchend', 'click']) addEventListener(t, () => { if (state !== 'paused') Sound.resume(); }, true);
 /* ---------- boot ---------- */
 function boot(data) {
   markMenu();
