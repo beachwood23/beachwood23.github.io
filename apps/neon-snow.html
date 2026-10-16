@@ -91,6 +91,10 @@
     background: linear-gradient(to bottom, #fff 0%, var(--ice) 22%, var(--cyan) 46%, #142050 49%, #142050 51%, var(--magenta) 54%, var(--sun) 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
     filter: drop-shadow(0 0 14px rgba(255,59,107,.55)) drop-shadow(4px 4px 0 #3a0a5e); text-wrap: balance; }
+  /* the skier and mountain pickers' titles: the logo's look, smaller, pinned at the same height on both screens (the
+     rest of the screen centres below it) */
+  #select, #coursePick { padding-top: 92px; }
+  .logo.pick-title { position: absolute; top: 30px; left: 0; right: 0; font-size: min(32px, 5vw); }
   .logo.red { background: linear-gradient(to bottom, #fff 0%, #ffb3c7 30%, var(--magenta) 48%, #142050 50%, #ff4d4d 53%, var(--sun) 100%);
     -webkit-background-clip: text; background-clip: text; font-size: 48px; }
   .keys { display: grid; grid-template-columns: auto auto; gap: 10px 16px; align-items: center; justify-items: start; margin: 0; font: 24px/1 var(--body); color: var(--dim); }
@@ -150,7 +154,6 @@
   @keyframes shake { 0%, 100% { transform: none; } 20% { transform: translate(-8px, 4px); } 40% { transform: translate(7px, -5px); } 60% { transform: translate(-5px, -3px); } 80% { transform: translate(4px, 5px); } }
   .logo.flash { animation: flash .9s steps(2) 3; }
   @keyframes flash { 50% { filter: drop-shadow(0 0 22px #ff2a2a) hue-rotate(-60deg) saturate(2); } }
-  .sel-main { display: flex; gap: 22px; align-items: center; justify-content: center; flex-wrap: wrap; max-width: 760px; }
   .sel-big { width: 192px; height: 192px; image-rendering: pixelated; background: radial-gradient(circle at 50% 45%, #6f86c4, #142050 72%); border: 3px solid var(--ice); box-shadow: 6px 6px 0 var(--magenta); }
   .sel-info { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; text-align: left; min-width: 0; max-width: 420px; }
   .sel-name { margin: 0; font: 16px/1.2 var(--display); color: var(--sun); text-shadow: 3px 3px 0 var(--magenta); }
@@ -163,14 +166,28 @@
   .sel-say { position: relative; padding: 8px 12px; font: 8px/1.5 var(--display); color: var(--night); background: #fff; border: 2px solid var(--night); box-shadow: 3px 3px 0 var(--magenta); }
   .sel-say::before { content: ''; position: absolute; left: 16px; top: -10px; border: 6px solid transparent; border-bottom: 4px solid var(--night); border-top: 0; }
   .sel-say:empty { visibility: hidden; }
-  .roster { gap: 10px; }
-  .roster-rows { display: flex; flex-direction: column; align-items: center; gap: 6px; }
-  .roster button { width: 92px; padding: 6px 4px 8px; display: flex; flex-direction: column; align-items: center; gap: 6px; font: 8px/1.3 var(--display); letter-spacing: .06em; color: var(--ice); background: rgba(20,32,80,.75); border: 2px solid rgba(244,249,255,.4); cursor: pointer; position: relative; }
-  .roster button canvas { width: 72px; height: 72px; image-rendering: pixelated; }
-  .roster button.sel { border-color: var(--sun); background: rgba(43,63,134,.95); outline: 3px solid #fff; outline-offset: 2px; transform: translateY(-3px); }
+  .roster { gap: 14px; align-items: stretch; }
+  .roster-rows { display: flex; flex-direction: column; align-items: center; gap: 6px; width: 100%; }
+  .roster.scroll-row { padding-block: 8px; }
+  /* rider cards: one size, like the course cards: portrait, name, blurb, stats and their line; the highlighted one lit up
+     and its portrait turning */
+  .roster button { width: 468px; height: 216px; padding: 12px 14px; display: flex; align-items: center; gap: 16px; text-align: left; cursor: pointer; position: relative;
+    color: var(--ice); background: rgba(20,32,80,.82); border: 2px solid rgba(244,249,255,.45); box-shadow: 5px 5px 0 rgba(255,59,107,.55); }
+  .roster button.sel { border-color: var(--sun); background: rgba(43,63,134,.95); outline: 3px solid #fff; outline-offset: 3px; }
   .roster button.sel::before { content: none; }
-  @media (max-height: 760px) { .sel-big { width: 144px; height: 144px; } .roster button canvas { width: 56px; height: 56px; } .roster button { width: 78px; } }
+  .roster .sel-big { flex: none; width: 128px; height: 128px; }
+  .roster .sel-info { width: 280px; gap: 8px; }
+  .roster .sel-blurb { font-size: 20px; }
+  @media (max-height: 760px) { .roster button { height: 200px; } .roster .sel-big { width: 104px; height: 104px; } .roster .sel-blurb { font-size: 18px; } }
+  /* the course cards and the rider rows: each one row that scrolls sideways (arrows, wheel, swipe), the highlighted item gliding
+     to the middle, fading out at the edges. Half a screen of padding each side lets even the first
+     and last items sit centered */
   .courses { gap: 22px; align-items: stretch; }
+  .scroll-row { flex-wrap: nowrap; max-width: 100%; overflow-x: auto; scrollbar-width: none;
+    box-sizing: border-box; width: 100%; justify-content: flex-start; padding: 14px 50vw;
+    -webkit-mask-image: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); mask-image: linear-gradient(90deg, transparent, #000 48px, #000 calc(100% - 48px), transparent); }
+  .scroll-row::-webkit-scrollbar { display: none; }
+  .scroll-row > * { flex: none; }
   /* finish screen: course and rider on the left, the run against your best on the right */
   .over-main { display: flex; flex-wrap: wrap; gap: 28px; align-items: flex-start; justify-content: center; }
   .over-left { display: flex; flex-direction: column; align-items: center; gap: 20px; width: 160px; }
@@ -385,12 +402,12 @@
       <dl class="keys">
         <dt><kbd class="arw" aria-label="Stick left"><i class="ico left"></i></kbd><kbd class="arw" aria-label="Stick right"><i class="ico right"></i></kbd></dt><dd>Steer</dd>
         <dt><kbd class="face" data-face="tuck">X / B</kbd></dt><dd>Tuck for speed</dd>
-        <dt><kbd class="arw" aria-label="Stick up"><i class="ico up"></i></kbd></dt><dd>Pizza to slow down</dd>
+        <dt><kbd class="arw" aria-label="Stick up"><i class="ico up"></i></kbd><kbd class="face" data-face="top">TRI / X</kbd></dt><dd>Pizza to slow down</dd>
       </dl>
       <h2>IN THE AIR</h2>
       <dl class="keys">
         <dt><kbd class="face" data-face="spin">O / A</kbd></dt><dd>Spin</dd>
-        <dt><kbd class="arw" aria-label="Stick up"><i class="ico up"></i></kbd></dt><dd>Flip</dd>
+        <dt><kbd class="arw" aria-label="Stick up"><i class="ico up"></i></kbd><kbd class="face" data-face="top">TRI / X</kbd></dt><dd>Flip</dd>
         <dt><kbd class="arw" aria-label="Stick left"><i class="ico left"></i></kbd><kbd class="arw" aria-label="Stick right"><i class="ico right"></i></kbd></dt><dd>Line up your landing</dd>
       </dl>
       <div class="keys-foot"><kbd>START</kbd> pause · <kbd>SELECT</kbd> sound</div>
@@ -408,27 +425,18 @@
 </section>
 
 <section class="screen" id="coursePick" hidden>
-  <div class="eyebrow" id="cpEyebrow">CHOOSE YOUR MOUNTAIN</div>
-  <div class="modes courses" id="courseCards"></div>
+  <h1 class="logo pick-title" id="cpEyebrow">CHOOSE YOUR MOUNTAIN</h1>
+  <div class="modes courses scroll-row" id="courseCards"></div>
   <div class="hint" data-pad-t="STICK TO CHOOSE · {ok} TO SELECT · {back} TO GO BACK">ARROWS TO CHOOSE · SPACE TO SELECT · ESC TO GO BACK</div>
 </section>
 
 <section class="screen" id="select" hidden>
-  <div class="eyebrow" id="selEyebrow">CHOOSE YOUR SKIER</div>
-  <div class="sel-main">
-    <canvas class="sel-big" id="selImg" width="96" height="96"></canvas>
-    <div class="sel-info">
-      <h2 class="sel-name" id="selName">THE YOUTH</h2>
-      <p class="sel-blurb" id="selBlurb"></p>
-      <dl class="stats" id="selStats"></dl>
-      <div class="sel-say" id="selSay"></div>
-    </div>
-  </div>
+  <h1 class="logo pick-title" id="selEyebrow">CHOOSE YOUR SKIER</h1>
   <div class="roster-rows">
     <div class="eyebrow">SKIERS</div>
-    <div class="modes roster" id="roster"></div>
+    <div class="modes roster scroll-row" id="roster"></div>
     <div class="eyebrow">SNOWBOARDERS</div>
-    <div class="modes roster" id="rosterBoard"></div>
+    <div class="modes roster scroll-row" id="rosterBoard"></div>
   </div>
   <div class="hint" id="selHint" data-pad-t="STICK TO CHOOSE · {ok} TO SELECT · {back} TO GO BACK">ARROWS TO CHOOSE · SPACE TO SELECT · ESC TO GO BACK</div>
 </section>
@@ -1452,6 +1460,53 @@ const START_TILT = 0.1;
 const TEST_BUILD = false;   // build.py makes this false in the release build
 const COURSES = [
   {
+    id: 'test', name: 'TEST COURSE', region: 'PRACTICE RUN', small: true, blurb: '',
+    start: 8, finish: 1650,
+    // a steady steep pitch with a 25 m cliff halfway (820), a flatter run-in to the mega kicker at 1400, then the 50 m cliff
+    // at 1425. The profile samples every 0.5 m, so 6 samples make each drop: 6 x 0.5 x (8.95 - 0.62) = 25, 6 x 0.5 x 16.7 = 50
+    slope: [[-70, START_TILT], [5, START_TILT], [6.2, 0.5], [7.5, 0.95], [20, 0.85], [34, 0.62], [819.9, 0.62], [820, 8.95], [822.5, 8.95],
+      [822.6, 0.75], [880, 0.62], [1340, 0.62], [1370, 0.45], [1424.9, 0.45],
+      [1425, 16.7], [1427.5, 16.7], [1427.6, 0.7], [1560, 0.6], [1620, 0.3], [1660, 0.12], [1700, 0.06], [1900, 0.02]],
+    cliffs: [[820, 25, 'BIG CLIFF'], [1425, 50, 'MEGA CLIFF']],   // full width: [s of the lip, drop in m, name]
+    w: [[-70, 13], [30, 12], [80, 60], [200, 120], [1300, 120], [1400, 80], [1650, 50], [1900, 80]],
+    bowl: [[-70, 1], [60, 4], [200, 18], [1300, 18], [1450, 8], [1900, 4]],
+    cx: [[-70, 0], [1900, 0]],
+    split: [[0, 0]],
+    // giant slalom: a turn every 120 m, 24 m either side of the middle, then straight down the middle to the kicker
+    line: [[-70, 0], [60, 0], [150, 24], [270, -24], [390, 24], [510, -24], [630, 24], [750, -24], [870, 24], [990, -24], [1110, 24], [1230, 0], [1900, 0]],
+    // skier's right: a gentle powder bowl with ledges. Skier's left: groomed flat for the terrain park
+    hills(x, s) {
+      const dx = x - CX(s);
+      return (dx > 0 ? -5 * Math.exp(-(((dx - 75) / 25) ** 2)) * band(s, 150, 1200, 40) : 0) + ledgesAndRidges(this, x, s) + parkTerrain(this, x, s);
+    },
+    ledges: [[250, 95, 18, 3, 'LEDGE DROP'], [340, 80, 20, 3.5, 'LEDGE DROP'], [460, 100, 16, 4.5, 'BIG LEDGE'],
+      [560, 70, 18, 3, 'LEDGE DROP'], [680, 100, 16, 3.5, 'LEDGE DROP'], [780, 95, 16, 5, 'BIG LEDGE'],
+      [930, 70, 20, 3.5, 'LEDGE DROP'], [1020, -95, 18, 5, 'BIG LEDGE'], [1140, 85, 18, 4, 'BIG LEDGE']],
+    // THE TERRAIN PARK, down skier's left (shapes: see parkTerrain; boxes and rails: see jibs in buildCourse).
+    // Top to bottom: a jib line, a tabletop jump line and a spine, then below the 25 m cliff a second jib line, bigger tables,
+    // a spine and a kicker line
+    tables: [[440, -60, 6, 2, 6], [490, -60, 6, 2.5, 8], [545, -60, 6, 3, 10], [1050, -60, 7, 3, 10], [1105, -60, 7, 3.5, 12]],
+    spines: [[590, 625, -75, 2, 5], [1170, 1215, -80, 2.2, 5]],
+    jibs: [[228, -55, 'box', 10, 0.6], [262, -62, 'rail', 12, 0.8], [300, -52, 'box', 12, 1.0, 0.6], [340, -64, 'rail', 14, 1.0, 0.6],
+      [380, -55, 'box', 16, 0.6], [900, -55, 'rail', 14, 0.9], [940, -65, 'box', 12, 0.8, 0.5], [985, -52, 'rail', 16, 1.1, 0.7]],
+    parkZones: [[215, 420, -75, -42], [430, 630, -90, -45], [880, 1330, -90, -42]],
+    // kickers: the cliff kicker launches you out over the 25 m cliff; the park kicker line; more around the course; the mega kicker
+    airs: [[800, -45, 'XL', 'CLIFF KICKER'], [1240, -55, 'L', 'PARK KICKER'], [1290, -60, 'XL', 'BIG KICKER'],
+      [430, 55, 'L', 'KICKER'], [610, 42, 'M', 'KICKER'], [980, 40, 'L', 'KICKER'], [1250, 45, 'L', 'KICKER'], [1400, 0, 'XXL', 'MEGA KICKER']],
+    mogulBands() { return 0; },
+    edge: [[-70, 7.5], [40, 8], [150, 12], [1900, 12]],
+    drops: [],
+    gateRule() { return { space: 60, swing: 3 }; },   // spaced out; the line itself makes the big turns
+    kickers: [],
+    // powder field: pillows scattered through the bowl on skier's right
+    pillowFields: [[180, 1200, 14, [70, 95, 60, 110, 85, 120], ['S', 'M', 'S', 'L', 'M'], 'cx']],
+    rocks: [],
+    randomRocks: [200, 1300, 25],
+    treeP(ts, d, w, rel) { return rel > 0.95 ? 0.4 : 0.01; },   // open field, trees on the rims
+    finishHalf: 30,
+    scenery: 'alpine',
+  },
+  {
     id: 'bowl', name: 'CHUTE TO BOWL', region: 'COLORADO',
     blurb: 'Twin rock couloirs drop into a huge open bowl: rollers, drop-offs, a mogul field and a glade.',
     start: 8, finish: 1590,
@@ -1567,52 +1622,65 @@ const COURSES = [
     scenery: 'desert',
     bar: true,
   },
+  // Jackson Hole, top to bottom (from the trail map and accounts of the run): out of the tram dock at the summit, skier's
+  // left down the top of Rendezvous Bowl to build speed, then a hard left to the cornice over Corbet's. A flat run-up to
+  // the lip, then about 7 m of drop onto the steepest pitch in the game: going in fast throws a huge air down the couloir
+  // (rock on three sides, some 10 m wide at the entrance); slower, there's a fast right then an instant left past the
+  // boulders. It opens over its apron into Tensleep Bowl (rollers, pillows, sub-alpine pines). Then the steeper Cheyenne
+  // Bowl (moguls, rock bands on skier's left), the long groomed GV with its rollers, and the Lower Faces to the Mangy Moose
   {
-    id: 'test', name: 'TEST COURSE', region: 'PRACTICE RUN', small: true, blurb: '',
-    start: 8, finish: 1650,
-    // a steady steep pitch with a 25 m cliff halfway (820), a flatter run-in to the mega kicker at 1400, then the 50 m cliff
-    // at 1425. The profile samples every 0.5 m, so 6 samples make each drop: 6 x 0.5 x (8.95 - 0.62) = 25, 6 x 0.5 x 16.7 = 50
-    slope: [[-70, START_TILT], [5, START_TILT], [6.2, 0.5], [7.5, 0.95], [20, 0.85], [34, 0.62], [819.9, 0.62], [820, 8.95], [822.5, 8.95],
-      [822.6, 0.75], [880, 0.62], [1340, 0.62], [1370, 0.45], [1424.9, 0.45],
-      [1425, 16.7], [1427.5, 16.7], [1427.6, 0.7], [1560, 0.6], [1620, 0.3], [1660, 0.12], [1700, 0.06], [1900, 0.02]],
-    cliffs: [[820, 25, 'BIG CLIFF'], [1425, 50, 'MEGA CLIFF']],   // full width: [s of the lip, drop in m, name]
-    w: [[-70, 13], [30, 12], [80, 60], [200, 120], [1300, 120], [1400, 80], [1650, 50], [1900, 80]],
-    bowl: [[-70, 1], [60, 4], [200, 18], [1300, 18], [1450, 8], [1900, 4]],
-    cx: [[-70, 0], [1900, 0]],
+    id: 'corbets', name: "CORBET'S COULOIR", region: 'WYOMING', testOnly: true,   // in the test build only, for now
+    blurb: "Drop the cornice into America's scariest couloir, then ride Tensleep Bowl, the moguls and the GV all the way to the Mangy Moose.",
+    start: 8, finish: 1780,
+    // the cornice at 245: a 7 m drop (6 samples x 0.5 m x 7 / 3), see the test course
+    slope: [[-70, START_TILT], [5, START_TILT], [6.2, 0.5], [8, 0.6], [60, 0.55], [150, 0.5], [190, 0.4], [230, 0.32],
+      [244.9, 0.3], [245, 2.63], [247.5, 2.63], [247.6, 1.1], [300, 1.1], [330, 0.9], [360, 0.75], [400, 0.55], [430, 0.42],
+      [560, 0.4], [640, 0.45], [690, 0.6], [720, 0.7], [820, 0.65], [900, 0.7], [930, 0.5], [960, 0.4], [1030, 0.45],
+      [1060, 0.12], [1070, 0.1], [1078, 0.55], [1150, 0.4], [1240, 0.12], [1250, 0.1], [1258, 0.55], [1330, 0.4],
+      [1420, 0.12], [1430, 0.1], [1438, 0.5], [1510, 0.35], [1680, 0.3], [1740, 0.22], [1780, 0.14], [1820, 0.06], [1900, 0.02]],
+    cliffs: [[245, 7, "CORBET'S"]],   // full width: the whole couloir starts at the cornice
+    // the run-in down Rendezvous Bowl, pinching to the entrance; the couloir opens up quickly below the boulders
+    w: [[-70, 12], [30, 12], [60, 40], [180, 40], [225, 12], [240, 6], [262, 5], [282, 7], [320, 12], [360, 22], [420, 60],
+      [470, 100], [690, 110], [730, 90], [1000, 90], [1040, 40], [1600, 40], [1650, 80], [1780, 70], [1900, 90]],
+    bowl: [[-70, 1], [60, 4], [180, 6], [225, 3], [245, 2], [360, 3], [430, 14], [690, 22], [730, 18], [1000, 18], [1040, 6],
+      [1600, 6], [1680, 4], [1900, 3]],
+    cx: [[-70, 0], [190, 0], [240, -40], [420, -40], [560, -15], [860, 15], [1000, 0], [1300, -10], [1600, 5], [1900, 0]],   // the hard left at 190-240
     split: [[0, 0]],
-    // giant slalom: a turn every 120 m, 24 m either side of the middle, then straight down the middle to the kicker
-    line: [[-70, 0], [60, 0], [150, 24], [270, -24], [390, 24], [510, -24], [630, 24], [750, -24], [870, 24], [990, -24], [1110, 24], [1230, 0], [1900, 0]],
-    // skier's right: a gentle powder bowl with ledges. Skier's left: groomed flat for the terrain park
-    hills(x, s) {
-      const dx = x - CX(s);
-      return (dx > 0 ? -5 * Math.exp(-(((dx - 75) / 25) ** 2)) * band(s, 150, 1200, 40) : 0) + ledgesAndRidges(this, x, s) + parkTerrain(this, x, s);
+    line: [[-70, 0], [120, 6], [185, 4], [215, -14], [240, -38], [255, -40], [262, -37], [280, -43], [300, -40], [390, -40],
+      [460, -15], [560, -50], [640, -5], [720, 15], [820, 45], [920, 30], [1000, 5], [1100, -10], [1200, -15], [1300, -5],
+      [1400, -12], [1500, 0], [1600, 8], [1700, -10], [1760, 0], [1900, 0]],
+    hills(x, s) {   // rollers through Tensleep Bowl
+      return band(s, 430, 640, 30) * 1.6 * Math.sin(x * 0.03 + s * 0.02) * Math.sin(s * 0.013) + ledgesAndRidges(this, x, s);
     },
-    ledges: [[250, 95, 18, 3, 'LEDGE DROP'], [340, 80, 20, 3.5, 'LEDGE DROP'], [460, 100, 16, 4.5, 'BIG LEDGE'],
-      [560, 70, 18, 3, 'LEDGE DROP'], [680, 100, 16, 3.5, 'LEDGE DROP'], [780, 95, 16, 5, 'BIG LEDGE'],
-      [930, 70, 20, 3.5, 'LEDGE DROP'], [1020, -95, 18, 5, 'BIG LEDGE'], [1140, 85, 18, 4, 'BIG LEDGE']],
-    // THE TERRAIN PARK, down skier's left (shapes: see parkTerrain; boxes and rails: see jibs in buildCourse).
-    // Top to bottom: a jib line, a tabletop jump line and a spine, then below the 25 m cliff a second jib line, bigger tables,
-    // a spine and a kicker line
-    tables: [[440, -60, 6, 2, 6], [490, -60, 6, 2.5, 8], [545, -60, 6, 3, 10], [1050, -60, 7, 3, 10], [1105, -60, 7, 3.5, 12]],
-    spines: [[590, 625, -75, 2, 5], [1170, 1215, -80, 2.2, 5]],
-    jibs: [[228, -55, 'box', 10, 0.6], [262, -62, 'rail', 12, 0.8], [300, -52, 'box', 12, 1.0, 0.6], [340, -64, 'rail', 14, 1.0, 0.6],
-      [380, -55, 'box', 16, 0.6], [900, -55, 'rail', 14, 0.9], [940, -65, 'box', 12, 0.8, 0.5], [985, -52, 'rail', 16, 1.1, 0.7]],
-    parkZones: [[215, 420, -75, -42], [430, 630, -90, -45], [880, 1330, -90, -42]],
-    // kickers: the cliff kicker launches you out over the 25 m cliff; the park kicker line; more around the course; the mega kicker
-    airs: [[800, -45, 'XL', 'CLIFF KICKER'], [1240, -55, 'L', 'PARK KICKER'], [1290, -60, 'XL', 'BIG KICKER'],
-      [430, 55, 'L', 'KICKER'], [610, 42, 'M', 'KICKER'], [980, 40, 'L', 'KICKER'], [1250, 45, 'L', 'KICKER'], [1400, 0, 'XXL', 'MEGA KICKER']],
-    mogulBands() { return 0; },
-    edge: [[-70, 7.5], [40, 8], [150, 12], [1900, 12]],
-    drops: [],
-    gateRule() { return { space: 60, swing: 3 }; },   // spaced out; the line itself makes the big turns
-    kickers: [],
-    // powder field: pillows scattered through the bowl on skier's right
-    pillowFields: [[180, 1200, 14, [70, 95, 60, 110, 85, 120], ['S', 'M', 'S', 'L', 'M'], 'cx']],
-    rocks: [],
-    randomRocks: [200, 1300, 25],
-    treeP(ts, d, w, rel) { return rel > 0.95 ? 0.4 : 0.01; },   // open field, trees on the rims
-    finishHalf: 30,
+    // Cheyenne Bowl's rock bands, skier's left of the race line: [s of the lip, x from the corridor centre, half-width, drop, name]
+    ledges: [[720, -50, 22, 5, 'ROCK BAND'], [860, -45, 22, 7, 'BIG ROCK BAND']],
+    airs: [[520, -14, 'M', 'TENSLEEP AIR'], [1720, 2, 'XL', 'FINAL ROLLER']],
+    // Cheyenne Bowl's moguls, either side of the iced race line
+    mogulBands(s, dx) { return band(s, 690, 920, 20) * band(dx, -25, 70, 8) * (1 - iceAt(CX(s) + dx, s)); },
+    edge: [[-70, 7.5], [40, 8], [200, 8], [240, 4.5], [262, 4], [340, 6], [420, 10], [930, 10], [980, 12], [1600, 12], [1680, 14], [1900, 13]],
+    drops: [1070, 1250, 1430],   // the GV's rollers
+    gateRule(s) {
+      if (s < 230) return { space: 45, swing: 4.5 };   // the run-in
+      if (s < 380) return { space: 30, swing: 2 };     // tight in the couloir
+      if (s < 960) return { space: 50, swing: 5.5 };   // the bowls
+      return { space: 44, swing: 5 };                  // the GV and the Lower Faces
+    },
+    kickers: [[470, 'M', -55], [560, 'L', 60], [1650, 'M', -40]].map(([s, size, off]) => ({ s, size, off, side: 'cx', style: 'boulder' })),
+    pillowFields: [[430, 640, 16, [-60, 45, -80, 70, -35, 90], ['S', 'M', 'S', 'L'], 'cx']],
+    rocks: [[268, 5], [292, -6], [700, -80], [800, 85], [900, -70]],   // the couloir's boulders, then Cheyenne Bowl
+    randomRocks: [400, 930, 40],
+    treeP(ts, d, w, rel) {
+      if (ts < 400) return d > w + 20 ? 0.04 : 0;          // the summit, the run-in and the couloir: above the trees
+      if (ts < 640) return rel > 1 ? 0.2 : 0.015;          // Tensleep Bowl: sub-alpine pines
+      if (ts < 930) return rel > 0.9 ? 0.3 : 0.04;         // Cheyenne Bowl
+      if (ts < 1600) return rel > 0.7 ? 0.85 : rel > 0.55 ? 0.1 : 0;   // the GV, cut through the woods
+      return rel > 0.75 ? 0.6 : 0.03;                      // the Lower Faces
+    },
+    finishHalf: 34,
     scenery: 'alpine',
+    bar: { sign: 'MANGY MOOSE', wood: true },   // the saloon at the foot of the tram
+    summit: true,         // the tram dock, Corbet's Cabin and the WyoLink hut around the start (see buildCourse)
+    ropes: [150, 246],    // rope lines up both edges of the run-in, funnelling everyone into the drop: [from, to] (see ROPE_IN)
   },
   // THE LAB (test build only): three straight lanes side by side for trying things out (tuck, speed, big air). Left to
   // right a steady, a medium and a steep pitch, each ending in a mega kicker over a cliff; below, the lanes land and run
@@ -1666,7 +1734,7 @@ const COURSES = [
     finishHalf: 70,
     scenery: 'alpine',
   },
-].filter(c => TEST_BUILD || !c.lab);
+].filter(c => TEST_BUILD || !(c.lab || c.testOnly));
 
 // The active course. These bindings are swapped by setCourse(); everything below reads them at call time.
 let EDGE;
@@ -2427,10 +2495,10 @@ function buildCourse() {
     ring.position.set(rx, ry, rz); add(ring);
     course.ring = { ring, riders, rx, rz, ry, RAD: RAD - 2.6 };
   }
-  // New Mexico ends at an adobe bar just past the finish line
+  // New Mexico ends at an adobe bar just past the finish line; Wyoming at a log saloon (bar: { sign, wood })
   if (c.bar) {
-    const s0 = FINISH_S + 48, bx = CX(s0) + 16, z = -s0, by = groundY(bx, z) - 0.3, bar = new THREE.Group();
-    const adobe = matte(0xc98e60), adobeDark = matte(0xb07a50), viga = matte(0x6b4a30), trim = gloss(0x2bb3a6, { roughness: 0.35 });
+    const s0 = FINISH_S + 48, bx = CX(s0) + 16, z = -s0, by = groundY(bx, z) - 0.3, bar = new THREE.Group(), wood = c.bar.wood, txt = c.bar.sign || 'BAR';
+    const adobe = matte(wood ? 0x7a4a2a : 0xc98e60), adobeDark = matte(wood ? 0x5c3820 : 0xb07a50), viga = matte(0x6b4a30), trim = gloss(wood ? 0xc81e1e : 0x2bb3a6, { roughness: 0.35 });
     const body = new THREE.Mesh(new THREE.BoxGeometry(16, 5, 10), adobe); body.position.y = 2.5; bar.add(body);
     const parapet = new THREE.Mesh(new THREE.BoxGeometry(16.6, 0.8, 10.6), adobeDark); parapet.position.y = 5.3; bar.add(parapet);
     const snowRoof = new THREE.Mesh(new THREE.BoxGeometry(15.4, 0.25, 9.4), MAT.drift); snowRoof.position.y = 5.35; bar.add(snowRoof);
@@ -2442,23 +2510,90 @@ function buildCourse() {
       const w = new THREE.Mesh(new THREE.PlaneGeometry(2, 1.4), glow); w.position.set(wx, 2.4, 5.02); bar.add(w);
       const fr = new THREE.Mesh(new THREE.BoxGeometry(2.3, 1.7, 0.1), trim); fr.position.set(wx, 2.4, 4.99); bar.add(fr);
     }
-    // ristras: strings of red chiles by the door
+    // ristras: strings of red chiles by the door (the adobe bar only)
     const chile = gloss(0xc81e1e, { roughness: 0.3 });
-    for (const rx of [-4.2, -0.8]) for (let k = 0; k < 9; k++) {
+    if (!wood) for (const rx of [-4.2, -0.8]) for (let k = 0; k < 9; k++) {
       const ch = new THREE.Mesh(new THREE.CapsuleGeometry(0.09, 0.22, 3, 6), chile); ch.position.set(rx + Math.sin(k * 2.1) * 0.12, 3.4 - k * 0.22, 5.2); ch.rotation.z = Math.sin(k * 1.7) * 0.5; bar.add(ch);
     }
-    const signTex = canvasTex(128, 48, (g, w, h) => {
+    const sw = 128 * Math.ceil(txt.length / 3), k = sw > 128 ? 0.85 : 1;   // 32 px letters, three to every 128 px (4.6 m of sign; a long one a bit smaller)
+    const signTex = canvasTex(sw, 48, (g, w, h) => {
       g.fillStyle = '#142050'; g.fillRect(0, 0, w, h);
       g.font = '32px "Press Start 2P"'; g.textAlign = 'center'; g.textBaseline = 'middle';
-      g.fillStyle = '#ff3b6b'; g.fillText('BAR', w / 2 + 3, h / 2 + 4); g.fillStyle = '#ffe28a'; g.fillText('BAR', w / 2, h / 2 + 1);
+      g.fillStyle = '#ff3b6b'; g.fillText(txt, w / 2 + 3, h / 2 + 4); g.fillStyle = '#ffe28a'; g.fillText(txt, w / 2, h / 2 + 1);
     }, true);
-    const sign = new THREE.Mesh(new THREE.PlaneGeometry(4.6, 1.7), new THREE.MeshBasicMaterial({ map: signTex })); sign.position.set(-0.5, 6.7, 5.2); bar.add(sign);
+    const sign = new THREE.Mesh(new THREE.PlaneGeometry(4.6 * sw / 128 * k, 1.7 * k), new THREE.MeshBasicMaterial({ map: signTex })); sign.position.set(-0.5, 6.7, 5.2); bar.add(sign);
     for (const sx of [-2.4, 1.4]) { const p = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 1.2, 6), viga); p.position.set(sx, 6.0, 5.1); bar.add(p); }
     // skis stuck in the snow out front
     for (let k = 0; k < 5; k++) for (const o of [-0.09, 0.09]) {
       const ski = new THREE.Mesh(new THREE.BoxGeometry(0.1, 1.7, 0.03), k % 2 ? MAT.red : MAT.blue); ski.position.set(-6 + k * 0.6 + o, 0.85, 7.5); ski.rotation.z = (k - 2) * 0.05; bar.add(ski);
     }
     bar.position.set(bx, by, z); add(bar);
+  }
+
+  // a sign board facing uphill: a canvas with its text, on two posts
+  const signBoard = (text, w, h, bg, fg, x, s) => {
+    const g = new THREE.Group(), tex = canvasTex(64 * Math.ceil(text.length * 0.6), 64, (cx, cw, ch) => {
+      cx.fillStyle = bg; cx.fillRect(0, 0, cw, ch); cx.font = '26px "Press Start 2P"'; cx.textAlign = 'center'; cx.textBaseline = 'middle';
+      cx.fillStyle = fg; cx.fillText(text, cw / 2, ch / 2 + 2);
+    }, true);
+    const board = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: tex })); board.position.y = 1.3 + h / 2; g.add(board);
+    for (const px of [-w / 2 + 0.2, w / 2 - 0.2]) { const p = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 1.4 + h, 6), matte(0x6b4a30)); p.position.set(px, (1.4 + h) / 2, -0.05); g.add(p); }
+    g.position.set(x, groundY(x, -s) - 0.1, -s); return add(g);
+  };
+  // Corbet's: rope lines (bamboo poles with orange flags) up both edges of the run-in to the cornice. You can't cross them
+  // (see physics), so everyone funnels into the drop
+  if (c.ropes) {
+    const pole = new THREE.CylinderGeometry(0.035, 0.035, 1.3, 6), bamboo = matte(0xd8c27a), flagM = new THREE.MeshBasicMaterial({ color: 0xff7a1a, side: THREE.DoubleSide });
+    const ropeM = matte(0xffd23a), flag = new THREE.PlaneGeometry(0.34, 0.24);
+    for (const side of [-1, 1]) {
+      let prev = null;
+      for (let s = c.ropes[0]; s <= c.ropes[1] + 0.01; s += 3) {
+        const x = CX(s) + side * (W(s) - ROPE_IN), top = new THREE.Vector3(x, groundY(x, -s) + 1.15, -s);
+        const p = new THREE.Mesh(pole, bamboo); p.position.set(x, top.y - 0.5, -s); add(p);
+        const f = new THREE.Mesh(flag, flagM); f.position.set(x + side * 0.18, top.y + 0.02, -s); add(f);
+        if (prev) {   // the rope: a thin cylinder from post to post
+          const len = prev.distanceTo(top), r = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, len, 4), ropeM);
+          r.position.copy(prev).add(top).multiplyScalar(0.5); r.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), top.clone().sub(prev).normalize()); add(r);
+        }
+        prev = top;
+      }
+    }
+    const s0 = c.ropes[0] + 4;
+    signBoard('EXPERTS ONLY', 3.2, 0.8, '#ffd23a', '#111', CX(s0) + W(s0) - ROPE_IN - 2.2, s0);
+    signBoard("CORBET'S COULOIR", 4, 0.8, '#142050', '#ffe28a', CX(s0) - W(s0) + ROPE_IN + 2.6, s0);
+  }
+  // Jackson Hole's summit, beside the run-in where you ride past them: the tram dock with the red tram car, Corbet's Cabin
+  // (waffles), the WyoLink hut
+  if (c.summit) {
+    const concrete = matte(0x9aa0aa), concreteDark = matte(0x6c727c), red = matte(0xc81e1e), glass = new THREE.MeshBasicMaterial({ color: 0x9fd4ff }), wood = matte(0x7a4a2a);
+    const at = (g, x, s, ry = 0) => { g.position.set(x, groundY(x, -s) - 0.3, -s); g.rotation.y = ry; return add(g); };
+    const dock = new THREE.Group();
+    const base = new THREE.Mesh(new THREE.BoxGeometry(14, 7, 12), concrete); base.position.y = 3.5; dock.add(base);
+    const roof = new THREE.Mesh(new THREE.BoxGeometry(15, 0.8, 13), concreteDark); roof.position.y = 7.4; dock.add(roof);
+    const snowTop = new THREE.Mesh(new THREE.BoxGeometry(14.4, 0.25, 12.4), MAT.drift); snowTop.position.y = 7.9; dock.add(snowTop);
+    const car = new THREE.Group();   // the "big red box", parked in the dock's open side
+    const box = new THREE.Mesh(new THREE.BoxGeometry(5, 3.6, 7), red); car.add(box);
+    for (const z of [-2.2, 0, 2.2]) { const w = new THREE.Mesh(new THREE.PlaneGeometry(1.6, 1.2), glass); w.position.set(-2.51, 0.5, z); w.rotation.y = -Math.PI / 2; car.add(w); }
+    const hanger = new THREE.Mesh(new THREE.BoxGeometry(0.3, 2.2, 0.3), concreteDark); hanger.position.y = 2.9; car.add(hanger);
+    car.position.set(-7.6, 4.2, 0); dock.add(car);
+    for (const ox of [-1.2, 1.2]) {   // the cables, running off up and away
+      const cable = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 120, 4).rotateX(Math.PI / 2), concreteDark); cable.position.set(-7.6 + ox, 8.3, 60); cable.rotation.x = -0.18; dock.add(cable);
+    }
+    at(dock, 47, 95);
+    const cabin = new THREE.Group();
+    const body = new THREE.Mesh(new THREE.BoxGeometry(9, 3.6, 7), wood); body.position.y = 1.8; cabin.add(body);
+    const rs = new THREE.Shape(); rs.moveTo(-5, 0); rs.lineTo(0, 2.6); rs.lineTo(5, 0); rs.lineTo(-5, 0);
+    const cr = new THREE.Mesh(new THREE.ExtrudeGeometry(rs, { depth: 7.6, bevelEnabled: false }), MAT.drift); cr.position.set(0, 3.6, -3.8); cabin.add(cr);
+    const door = new THREE.Mesh(new THREE.PlaneGeometry(1.4, 2.4), matte(0x3b2416)); door.position.set(-2, 1.2, 3.51); cabin.add(door);
+    const win = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 1.2), new THREE.MeshBasicMaterial({ color: 0xffb54d })); win.position.set(1.8, 2, 3.51); cabin.add(win);
+    const cabinTex = canvasTex(384, 48, (g, w, h) => { g.fillStyle = '#3b2416'; g.fillRect(0, 0, w, h); g.font = '22px "Press Start 2P"'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = '#ffe28a'; g.fillText("CORBET'S CABIN", w / 2, h / 2 + 2); }, true);
+    const cs = new THREE.Mesh(new THREE.PlaneGeometry(7.2, 0.9), new THREE.MeshBasicMaterial({ map: cabinTex })); cs.position.set(0, 4.1, 3.9); cabin.add(cs);
+    at(cabin, -46, 115);
+    const hut = new THREE.Group();   // WyoLink: a concrete radio hut with its mast
+    const hb = new THREE.Mesh(new THREE.BoxGeometry(4, 3, 4), concrete); hb.position.y = 1.5; hut.add(hb);
+    const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.18, 9, 6), concreteDark); mast.position.set(1, 7.5, 1); hut.add(mast);
+    for (const y of [6, 8.5, 11]) { const dish = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 0.2, 10).rotateX(Math.PI / 2), MAT.white); dish.position.set(1, y, 1.4); hut.add(dish); }
+    at(hut, 47, 150);
   }
 
   // trees and rocks: scattered by zone, kept clear of the race line, the freeride line and the jumps
@@ -2558,7 +2693,7 @@ function loadCourse(id) {
   buildCourse();
 }
 const SHARED = new Set([GEO.pole, GEO.knob, GEO.panel, GEO.pillow, ...GEO.trees, ...GEO.rocks, ...Object.values(MAT)]);   // used by every course: never freed
-const startCourse = COURSES[0].id;   // the left-hand mountain is always the default
+const startCourse = 'bowl';   // the mountain behind the title until a run picks another (TEST COURSE is first in the list)
 loadCourse(startCourse);
 
 function cullCourse(s) {
@@ -3088,6 +3223,8 @@ const Voice = {
     return pick;
   },
   line(ch) {   // a skier's line on the select screen
+    // some riders have a recorded clip and the rest browser speech: whichever the last one used, it stops
+    Sound.stopVo(); if (window.speechSynthesis) speechSynthesis.cancel();
     if (Sound.muted) return;
     if (VO[ch.id] && Sound.vo(ch.id)) return;   // recorded clip; browser speech is only the fallback
     if (!window.speechSynthesis) return;
@@ -3190,10 +3327,11 @@ const Sound = {
     return true;
   },
   // recorded voice clips: decoded on first use, one line at a time
-  voBuf: {}, voSrc: null,
+  voBuf: {}, voSrc: null, voWant: null,
+  stopVo() { this.voWant = null; if (this.voSrc) { try { this.voSrc.stop(); } catch (e) {} this.voSrc = null; } },
   vo(key, fx = {}) {
     if (!this.init()) return false;
-    this.resume();
+    this.resume(); this.voWant = key;
     const go = buf => {
       if (this.voSrc) { try { this.voSrc.stop(); } catch (e) {} }
       const c = this.ctx, src = c.createBufferSource(), g = c.createGain();
@@ -3214,7 +3352,8 @@ const Sound = {
     try {
       const bin = atob(VO[key].split(',')[1]), u8 = new Uint8Array(bin.length);
       for (let i = 0; i < bin.length; i++) u8[i] = bin.charCodeAt(i);
-      this.ctx.decodeAudioData(u8.buffer).then(b => { this.voBuf[key] = b; go(b); }).catch(() => { delete VO[key]; });   // can't decode: later lines use browser speech
+      // played once decoded, unless another line took over meanwhile; can't decode: later lines use browser speech
+      this.ctx.decodeAudioData(u8.buffer).then(b => { this.voBuf[key] = b; if (this.voWant === key) go(b); }).catch(() => { delete VO[key]; });
       return true;
     } catch (e) { return false; }
   },
@@ -3645,17 +3784,31 @@ function menuMove(dx, dy) {
   const bs = menuButtons(), n = bs.length;
   if (!n) return;
   const r0 = bs[menuSel].getBoundingClientRect(), cx = r0.left + r0.width / 2, cy = r0.top + r0.height / 2;
+  const row = bs[menuSel].closest('.scroll-row');   // a scrolling row (courses, riders): left / right stay in it
   let best = -1, bestD = Infinity;
   bs.forEach((b, i) => {
     const r = b.getBoundingClientRect(), ox = r.left + r.width / 2 - cx, oy = r.top + r.height / 2 - cy;
     const ahead = ox * dx + oy * dy, side = Math.abs(ox * dy - oy * dx);   // distance that way, and off to the side
-    if (i === menuSel || ahead < 8 || (dx && Math.abs(oy) > r0.height / 2)) return;
+    if (i === menuSel || ahead < 8 || (dx && Math.abs(oy) > r0.height / 2) || (row && dx && b.parentElement !== row)) return;
     const d = ahead + side * 2;   // prefer straight ahead over diagonal
     if (d < bestD) { bestD = d; best = i; }
   });
+  if (best < 0 && row) return;   // a scrolling row's end: stay put, no wrapping round
   const oneRow = bs.every(b => Math.abs(b.getBoundingClientRect().top - r0.top) < 8);
   menuSel = best >= 0 ? best : dx || oneRow ? (menuSel + dx + dy + n) % n : menuSel;
   markMenu();
+  glide(bs[menuSel]);
+}
+// a scrolling row glides the highlighted item to its middle (0.2 s); elsewhere the item just scrolls into view
+function glide(b, now) {
+  const row = b.closest('.scroll-row');
+  if (!row) return b.scrollIntoView({ block: 'nearest' });
+  const r = row.getBoundingClientRect(), c = b.getBoundingClientRect(), to = row.scrollLeft + c.left + c.width / 2 - (r.left + r.width / 2);
+  cancelAnimationFrame(row.glide);
+  if (now) { row.scrollLeft = to; return; }
+  const from = row.scrollLeft; let t0 = 0;
+  const step = t => { t0 ||= t; const k = Math.min(1, (t - t0) / 200); row.scrollLeft = from + (to - from) * k * k * (3 - 2 * k); if (k < 1) row.glide = requestAnimationFrame(step); };
+  row.glide = requestAnimationFrame(step);
 }
 // The mouse picks menu items too, but only once it actually moves: a resting cursor never highlights an item or pulls the
 // selection away from the keyboard (a new screen appearing under it doesn't count as a move). Clicking an item picks it.
@@ -3680,8 +3833,20 @@ function markMenu() {
 (function buildRoster() {
   CHARS.forEach((ch, i) => {
     const b = document.createElement('button'); b.type = 'button'; b.dataset.char = i;
-    if (portrait) { const cv = document.createElement('canvas'); cv.width = cv.height = 96; b.appendChild(cv); portrait(i, 0.5, cv.getContext('2d')); }   // drawn once, standing still
-    b.append(ch.name);
+    // a card like a course card: portrait (turning while highlighted, see spinPortraits), name, blurb, stats and their line
+    if (portrait) { const cv = document.createElement('canvas'); cv.className = 'sel-big'; cv.width = cv.height = 96; b.appendChild(cv); portrait(i, 0.5, cv.getContext('2d')); }
+    const info = document.createElement('div'); info.className = 'sel-info';
+    info.innerHTML = '<div class="sel-name"></div><p class="sel-blurb"></p><dl class="stats"></dl><div class="sel-say"></div>';
+    info.querySelector('.sel-name').textContent = ch.name;
+    info.querySelector('.sel-blurb').textContent = ch.blurb;
+    for (const [k, label] of [['speed', 'SPEED'], ['turn', 'TURNING'], ['tricks', 'TRICKS']]) {
+      const dt = document.createElement('dt'); dt.textContent = label;
+      const dd = document.createElement('dd');
+      for (let n = 1; n <= 6; n++) { const pip = document.createElement('i'); if (n <= ch.stats[k]) pip.className = 'on'; dd.appendChild(pip); }
+      info.querySelector('.stats').append(dt, dd);
+    }
+    info.querySelector('.sel-say').textContent = '"' + ch.line + '"';
+    b.append(info);
     b.addEventListener('click', () => pickChar(i));   // Space on the highlighted skier
     $(ch.board ? 'rosterBoard' : 'roster').appendChild(b);   // keep boarders last in CHARS so arrow order matches the rows
   });
@@ -3689,27 +3854,19 @@ function markMenu() {
 let shownChar = -1;
 function previewChar(i) {
   if (shownChar === i) return;
+  if (shownChar >= 0 && portrait) portrait(shownChar, 0.5, portraitCanvas(shownChar).getContext('2d'));   // the last one stands still again
   shownChar = i;
   const ch = CHARS[i];
-  $('selName').textContent = ch.name;
-  $('selBlurb').textContent = ch.blurb;
-  const st = $('selStats'); st.textContent = '';
-  for (const [k, label] of [['speed', 'SPEED'], ['turn', 'TURNING'], ['tricks', 'TRICKS']]) {
-    const dt = document.createElement('dt'); dt.textContent = label;
-    const dd = document.createElement('dd');
-    for (let n = 1; n <= 6; n++) { const pip = document.createElement('i'); if (n <= ch.stats[k]) pip.className = 'on'; dd.appendChild(pip); }
-    st.append(dt, dd);
-  }
-  $('selSay').textContent = '"' + ch.line + '"';
   if (i !== charIdx) setSkier(i);   // the skier on the slope behind the menu changes too
   Voice.line(ch);
 }
-// the big preview turns, about 16 s per turn; held still for people who ask for less motion
+// the highlighted rider's portrait turns, about 16 s per turn; held still for people who ask for less motion
 const stillPortraits = matchMedia('(prefers-reduced-motion: reduce)').matches;
+const portraitCanvas = i => document.querySelector('#select button[data-char="' + i + '"] canvas');
 function spinPortraits(now) {
   if (!portrait) return;
   const a = 0.5 + (stillPortraits ? 0 : now / 1000 * 0.4);
-  if (shownChar >= 0) portrait(shownChar, a, $('selImg').getContext('2d'));
+  if (shownChar >= 0) portrait(shownChar, a, portraitCanvas(shownChar).getContext('2d'));
 }
 // mountain picker: one card per course, with a top-down map drawn from the course's own terrain
 const courseFacts = {};
@@ -3787,10 +3944,11 @@ function openCourse(m) {
   if (state !== 'title' && state !== 'select' && state !== 'course') resetRun();
   state = 'course';
   $('hud').hidden = true; $('course').hidden = true; $('hYeti').hidden = true;
-  $('cpEyebrow').textContent = modeLabel() + ' · CHOOSE YOUR MOUNTAIN';
+  $('cpEyebrow').textContent = 'CHOOSE YOUR MOUNTAIN';
   refreshCourseCards(); loadRecords();
   show('coursePick');
-  menuSel = 0; markMenu();
+  // the mountain last played starts highlighted, in the middle
+  menuSel = Math.max(0, menuButtons().findIndex(b => b.dataset.course === COURSE.id)); markMenu(); centerRows('coursePick');
 }
 function pickCourse(id) {
   if (id === COURSE.id) return startGame();
@@ -3803,10 +3961,17 @@ function openSelect(m) {
   if (state !== 'title' && state !== 'select' && state !== 'course') resetRun();
   state = 'select';
   $('hud').hidden = true; $('course').hidden = true; $('hYeti').hidden = true;
-  $('selEyebrow').textContent = modeLabel() + ' · CHOOSE YOUR SKIER';
+  $('selEyebrow').textContent = 'CHOOSE YOUR SKIER';
   shownChar = -1;
   show('select');
-  menuSel = charIdx; markMenu();
+  menuSel = charIdx; markMenu(); centerRows('select');
+}
+// a screen's scrolling rows open with the highlighted item in the middle (a row without it: its middle item)
+function centerRows(id) {
+  for (const row of $(id).querySelectorAll('.scroll-row')) {
+    const b = row.querySelector('.sel') || row.children[row.children.length >> 1];
+    if (b) glide(b, true);
+  }
 }
 function pickChar(i) {
   if (i !== charIdx) setSkier(i);
@@ -3953,6 +4118,27 @@ function results(caughtBy) {
   if (newTime || newStyle) celebrate([...tbl.querySelectorAll('td.new')]);   // after show: the bursts start from the cells
   worldBoard(!caughtBy);
 }
+
+// TEST BUILD ONLY: straight to the finish screen with a made-up run, for tests/finish.cjs (or by hand, in the console):
+//   __finish({ course, char, mode, clock, gates, style, tricks, trick, pts, crashes, caught })
+// Gate times and trick awards are spread through the run so they add up the way the worker checks them (the biggest
+// trick's pts is one award, the rest of the style split over the other tricks). Then the game's own results() takes over.
+if (TEST_BUILD) window.__finish = (o = {}) => {
+  if (o.course && o.course !== COURSE.id) loadCourse(o.course);
+  const ci = CHARS.findIndex(c => c.id === o.char);
+  if (ci >= 0 && ci !== charIdx) setSkier(ci);
+  mode = o.mode || 'ski';
+  resetRun();
+  const clock = o.clock ?? 60, gates = Math.min(o.gates ?? course.gates.length, course.gates.length), style = o.style ?? 0;
+  const pts = o.pts ?? 0, n = o.tricks ?? (style ? 1 : 0), rest = style - pts, others = n - (pts ? 1 : 0);
+  const awards = pts ? [pts] : [];
+  for (let k = 0; k < others; k++) awards.push(Math.floor(rest / others) + (k < rest % others ? 1 : 0));
+  Object.assign(run, { time: clock, gatesHit: gates, gateT: Array.from({ length: gates }, (_, i) => clock * (i + 1) / (gates + 1)),
+    style, tricks: n, bestTrick: pts, bestTrickName: pts ? o.trick || 'BACKFLIP' : '', crashes: o.crashes ?? 0, dodges: o.dodges ?? 0,
+    events: awards.map((p, k) => [clock * (k + 1) / (awards.length + 1), p]), done: true });
+  if (o.caught) P.z = -FINISH_S * 0.6;   // where the yeti got you: 60% down
+  results(o.caught ? 'yeti' : false);
+};
 
 // The share image: the finish screen redrawn as a 1200 x 630 picture (the usual size for a post or a link preview), in the
 // game's fonts and colours: NEON SNOW on top, the rider and course on the left, the results table on the right, and the
@@ -4243,6 +4429,7 @@ const LANDING_GRIP_LOSS = 0.8;          // grip drops by up to 80% just after bi
 // Snowboards: one edge instead of two, no poles, and a stand-up stance. Each value is the board's version
 // of a number used for skis, which is given in the comment.
 const BOARD_ICE_GRIP = 0.85;            // boards hold 85% of ICE_GRIP, so they slide a little wider on ice (skis: 1)
+const ROPE_IN = 1;                     // rope lines stand this far inside the corridor's edge (m)
 const UPRIGHT_TOP = 0.9;               // top speed standing up, against tucked
 const BOARD_TUCK_DRAG = 0.0018;         // air drag while tucked: a rider can't fold as small (skis: 0.0014, upright: 0.0024)
 const BOARD_FLAT_DRAG = 0.2;            // extra rolling drag (m/s²) with no poles to push on, felt on the flats (skis: 0)
@@ -4437,6 +4624,15 @@ function physics(dt, steer, tuck, brake) {
   if (!P.air) P.travel += (P.heading - P.travel) * Math.min(1, dt * grip);
   P.slip = Math.abs(P.heading - P.travel);
   P.x = clamp(P.x + Math.sin(P.travel) * P.speed * dt, -HALF_X + 8, HALF_X - 8);
+  // rope lines (course.ropes): nobody gets across. Running into one turns you back along it and costs a little speed
+  const rp = COURSE.ropes, rs = -P.z;
+  if (rp && rs > rp[0] && rs < rp[1]) {
+    const dx = P.x - CX(rs), lim = W(rs) - ROPE_IN;
+    if (Math.abs(dx) > lim) {
+      P.x = CX(rs) + Math.sign(dx) * lim;
+      if (Math.sign(P.travel) === Math.sign(dx)) { P.heading *= -0.3; P.travel *= -0.3; P.speed *= 0.85; }
+    }
+  }
   P.z = Math.min(P.z - Math.cos(P.travel) * P.speed * dt, 30);
   const g1 = groundY(P.x, P.z);
   // kickers: ride up the ramp (the same H * t^2 curve as its mesh), and leave the ground off the lip
@@ -4586,19 +4782,23 @@ function finish() {
 // for the partial turns a key can't give (padSteer). Standard layout only (pad.mapping 'standard'). Browsers show a
 // controller only once one of its buttons is pressed.
 // The face buttons go by where they sit, so their letters change with the brand: in a run the bottom one tucks and the
-// right one spins (Switch B / A, PlayStation X / O, Xbox A / B); in menus each brand's own confirm button selects and
+// right one spins (Switch B / A, PlayStation X / O, Xbox A / B), and the top one is up: pizza on the ground, a flip in
+// the air (Switch X, PlayStation triangle, Xbox Y); in menus each brand's own confirm button selects and
 // the other goes back (Switch: A, the right one; PlayStation and Xbox: the bottom one)
-const FACES = { xbox: { bottom: 'A', right: 'B' }, ps: { bottom: 'X', right: 'O' }, switch: { bottom: 'B', right: 'A' } };
-const padFamily = gp => /054c|sony|playstation|dualsense|dualshock/i.test(gp.id) ? 'ps' : /057e|nintendo|pro controller|joy-con/i.test(gp.id) ? 'switch' : 'xbox';
+const FACES = { xbox: { bottom: 'A', right: 'B', top: 'Y' }, ps: { bottom: 'X', right: 'O', top: 'TRI' }, switch: { bottom: 'B', right: 'A', top: 'X' } };   // the pixel font has no triangle
+// (Chrome on macOS names PlayStation pads just "Wireless Controller")
+const padFamily = gp => /054c|sony|playstation|dualsense|dualshock|wireless controller/i.test(gp.id) ? 'ps' : /057e|nintendo|pro controller|joy-con/i.test(gp.id) ? 'switch' : 'xbox';
 const PAD_CODES = ['Space', 'Escape', 'KeyP', 'KeyM', 'ArrowUp', 'ArrowDown', 'ArrowLeft', 'ArrowRight'];
 const PAD_KEY = { Space: ' ', Escape: 'Escape', KeyP: 'p', KeyM: 'm' };
 const STICK_ON = 0.5, STICK_OFF = 0.35, STEER_DEAD = 0.15;   // the stick as arrows: pressed past ON, let go under OFF
 const padDown = {};   // 'pad index:code' -> held
+const padSince = {};  // 'pad index:code' -> when a held arrow next repeats (a held key repeats; so does a held stick)
+const REPEAT_DELAY = 400, REPEAT_EVERY = 120;
 let padLast = null, padFam = '';   // the controller used last: it rumbles, and the hints show its buttons while it's the last input
 // the keys a controller is holding down right now
 function padHeld(gp) {
   const btn = i => gp.buttons[i] && gp.buttons[i].pressed, held = {}, [x, y] = gp.axes;
-  if (state === 'play' || state === 'countdown') { if (btn(0)) held.ArrowDown = true; if (btn(1)) held.Space = true; }
+  if (state === 'play' || state === 'countdown') { if (btn(0)) held.ArrowDown = true; if (btn(1)) held.Space = true; if (btn(3)) held.ArrowUp = true; }
   else { const ok = padFamily(gp) === 'switch' ? 1 : 0; if (btn(ok)) held.Space = true; if (btn(1 - ok)) held.Escape = true; }
   if (btn(9)) held.KeyP = true;   // Start
   if (btn(8)) held.KeyM = true;   // Back / Share / minus
@@ -4607,10 +4807,10 @@ function padHeld(gp) {
   });
   return held;
 }
-// the button letters on screen: hints carry data-pad-t templates ({ok} {back} {tuck} {spin}), the controls box data-face
+// the button letters on screen: hints carry data-pad-t templates ({ok} {back} {tuck} {spin} {top}), the controls box data-face
 function padLabels(fam = padFam || 'xbox') {
   const f = FACES[fam], ok = fam === 'switch' ? f.right : f.bottom, back = fam === 'switch' ? f.bottom : f.right;
-  const word = { ok, back, tuck: f.bottom, spin: f.right };
+  const word = { ok, back, tuck: f.bottom, spin: f.right, top: f.top };
   document.querySelectorAll('[data-pad-t]').forEach(el => { el.dataset.pad = el.dataset.padT.replace(/\{(\w+)\}/g, (m, k) => word[k]); });
   if (padFam) document.querySelectorAll('[data-face]').forEach(el => { el.textContent = word[el.dataset.face]; });
 }
@@ -4618,9 +4818,9 @@ function padUse(gp) {
   padLast = gp; document.body.classList.add('pad');
   const fam = padFamily(gp); if (fam !== padFam) { padFam = fam; padLabels(); }
 }
-function padKey(type, code) {
+function padKey(type, code, repeat = false) {
   // sent where a real key would go, so the initials form sees its keys; e.pad marks it
-  const e = new KeyboardEvent(type, { code, key: PAD_KEY[code] || code, bubbles: true, cancelable: true });
+  const e = new KeyboardEvent(type, { code, key: PAD_KEY[code] || code, repeat, bubbles: true, cancelable: true });
   e.pad = true;
   (document.activeElement || document.body).dispatchEvent(e);
 }
@@ -4635,9 +4835,12 @@ function pollPads() {
       enterTitle(); continue;
     }
     for (const code of PAD_CODES) {
-      const k = gp.index + ':' + code;
-      if (!!held[code] === !!padDown[k]) continue;
-      padDown[k] = !!held[code];
+      const k = gp.index + ':' + code, now = performance.now();
+      if (!!held[code] === !!padDown[k]) {
+        if (held[code] && code.startsWith('Arrow') && now >= padSince[k]) { padSince[k] = now + REPEAT_EVERY; padKey('keydown', code, true); }
+        continue;
+      }
+      padDown[k] = !!held[code]; padSince[k] = now + REPEAT_DELAY;
       if (held[code]) padUse(gp);
       padKey(held[code] ? 'keydown' : 'keyup', code);
     }
@@ -4913,6 +5116,7 @@ window.addEventListener('resize', resize);
 
 /* ---------- input ---------- */
 const KEYMAP = { ArrowLeft: 'left', KeyA: 'left', ArrowRight: 'right', KeyD: 'right', ArrowUp: 'up', KeyW: 'up', ArrowDown: 'down', KeyS: 'down' };
+let lastRepeat = 0;
 window.addEventListener('keydown', e => {
   if (e.target.closest('.over-initials')) return;   // typing initials or on SAVE: the form has its own keys (see 82-world.js)
   if (state === 'intro') { e.preventDefault(); return enterTitle(); }
@@ -4922,7 +5126,9 @@ window.addEventListener('keydown', e => {
   if (state === 'title' || state === 'course' || state === 'select' || state === 'paused' || state === 'over') {
     const nav = { ArrowLeft: [-1, 0], KeyA: [-1, 0], ArrowRight: [1, 0], KeyD: [1, 0], ArrowUp: [0, -1], KeyW: [0, -1], ArrowDown: [0, 1], KeyS: [0, 1] }[e.code];
     if (nav || e.code === 'Space' || e.code === 'Enter') e.preventDefault();
-    if (nav) { if (!e.repeat) menuMove(...nav); return; }
+    // a held left / right keeps going along a scrolling row (courses, riders), at most ~8 steps a second
+    const rowRepeat = nav && nav[0] && menuButtons()[menuSel] && menuButtons()[menuSel].closest('.scroll-row') && performance.now() - lastRepeat > 120;
+    if (nav) { if (!e.repeat || rowRepeat) { lastRepeat = performance.now(); menuMove(...nav); } return; }
     if ((e.code === 'Space' || e.code === 'Enter') && !e.repeat) { const b = menuButtons()[menuSel]; if (b) b.click(); return; }
   }
   const k = KEYMAP[e.code];
