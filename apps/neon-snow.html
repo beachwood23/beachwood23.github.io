@@ -41,14 +41,14 @@
   .yeti { position: fixed; left: 50%; top: calc(env(safe-area-inset-top, 0px) + 104px); transform: translateX(-50%);
     font: 16px/1 var(--display); letter-spacing: .1em; color: #ff4d4d; text-shadow: 0 0 10px #ff2a2a; animation: blink .5s steps(2) infinite; white-space: nowrap; }
   .hud button { pointer-events: auto; font: 8px/1 var(--display); letter-spacing: .1em; color: var(--cyan); background: rgba(20,32,80,.6);
-    border: 2px solid var(--cyan); padding: 8px 9px; cursor: pointer; box-shadow: 0 0 8px rgba(88,200,255,.45); }
+    border: 2px solid var(--cyan); padding: 5px 7px; cursor: pointer; box-shadow: 0 0 8px rgba(88,200,255,.45); }
   /* the pause button, like a VCR's on-screen display: PLAY while the run is going, a blinking PAUSE while it's paused.
      Pressed in (sunk, lit) while paused */
   /* VCR keys (sound, pause): pressed in (sunk, lit) while aria-pressed, each label shown in its own state. A fixed width,
      so a key takes the same space up or down. Pause blinks while paused, like a VCR's on-screen PAUSE */
   .hud .vcr { display: flex; align-items: center; justify-content: center; }
-  .hud .vcr-sound { width: 124px; }
-  .hud .vcr-pause { width: 96px; }
+  .hud .vcr-sound { width: 104px; }
+  .hud .vcr-pause { width: 80px; }
   .hud .vcr[hidden] { display: none; }
   .vcr span { display: flex; align-items: center; gap: 7px; }
   .vcr svg { display: block; }
@@ -56,8 +56,12 @@
   .vcr[aria-pressed="true"] .vcr-down { display: flex; }
   .vcr[aria-pressed="true"], .vcr[aria-pressed="true"]:hover { color: var(--night); background: var(--sun); border-color: var(--sun); box-shadow: inset 2px 2px 0 rgba(20,32,80,.5), 0 0 10px rgba(255,207,58,.6); }
   .vcr-pause[aria-pressed="true"] .vcr-down { animation: blink 1s steps(2) infinite; }
+  /* in menus only the sound and full screen keys show, in their in-game spots (the rest hold their space), above the screens */
+  .hud.menu { z-index: 9; }
+  .hud.menu .stats, .hud.menu .best, .hud.menu .vcr-pause { visibility: hidden; }
   body.paused .hud, body.paused .course { z-index: 9; }   /* paused: the run's stats stay bright above the pause screen's shade */
   .hud button:hover { color: var(--night); background: var(--cyan); }
+  :fullscreen body.still, :fullscreen body.still * { cursor: none; }
   button:focus-visible { outline: 2px solid var(--sun); outline-offset: 3px; }
 
   /* Toasts */
@@ -148,12 +152,7 @@
   @keyframes cdpop { 0% { opacity: .5; transform: scale(1.6); } 8% { opacity: 1; transform: scale(1); } 100% { opacity: 1; transform: scale(.94); } }
   .legend { font: 8px/1.4 var(--display); letter-spacing: .18em; color: var(--dim); opacity: .55; }
   .go.yeti-btn { background: var(--magenta); color: #fff; box-shadow: 4px 4px 0 var(--night), 0 0 22px rgba(255,59,107,.6); animation: reveal .6s cubic-bezier(.2,1.6,.4,1) both; }
-  .legend.woke { font-size: 8px; color: #ff4d4d; opacity: 1; text-shadow: 0 0 10px rgba(255,42,42,.7); animation: blink .5s steps(2) 6; }
   @keyframes reveal { 0% { transform: scale(0) rotate(-12deg); } 100% { transform: scale(1) rotate(0); } }
-  .shake { animation: shake .5s linear; }
-  @keyframes shake { 0%, 100% { transform: none; } 20% { transform: translate(-8px, 4px); } 40% { transform: translate(7px, -5px); } 60% { transform: translate(-5px, -3px); } 80% { transform: translate(4px, 5px); } }
-  .logo.flash { animation: flash .9s steps(2) 3; }
-  @keyframes flash { 50% { filter: drop-shadow(0 0 22px #ff2a2a) hue-rotate(-60deg) saturate(2); } }
   .sel-big { width: 192px; height: 192px; image-rendering: pixelated; background: radial-gradient(circle at 50% 45%, #6f86c4, #142050 72%); border: 3px solid var(--ice); box-shadow: 6px 6px 0 var(--magenta); }
   .sel-info { display: flex; flex-direction: column; gap: 10px; align-items: flex-start; text-align: left; min-width: 0; max-width: 420px; }
   .sel-name { margin: 0; font: 16px/1.2 var(--display); color: var(--sun); text-shadow: 3px 3px 0 var(--magenta); }
@@ -330,7 +329,7 @@
   }
   @media (max-height: 560px) { .screen .keys, .screen .tag { display: none; } }
   @media (prefers-reduced-motion: reduce) {
-    .intro-press, .hint, .yeti, .cd-num.pop, .vcr span, .over-table td.new, .shake, .logo.flash, .yeti-btn, .yeti-face { animation: none; }
+    .intro-press, .hint, .yeti, .cd-num.pop, .vcr span, .over-table td.new, .yeti-btn, .yeti-face { animation: none; }
     .toast { animation: fade 1.3s linear forwards; }
     @keyframes fade { 0%, 75% { opacity: 1; } 100% { opacity: 0; } }
   }
@@ -340,7 +339,7 @@
 <div id="game"></div>
 <div class="crt" aria-hidden="true"></div>
 
-<header class="hud" id="hud" hidden>
+<header class="hud menu" id="hud">
   <div class="stats">
     <div class="stat"><span class="lab">TIME</span><span class="val" id="hTime">0:00.0</span></div>
     <div class="stat"><span class="lab">SPEED</span><span class="val" id="hSpeed">0<small>KM/H</small></span></div>
@@ -350,16 +349,16 @@
   <div class="right">
     <div class="stat best"><span class="lab">YOUR BEST TIME</span><span class="val" id="hBestTime">--</span></div>
     <div class="stat best"><span class="lab">YOUR BEST STYLE</span><span class="val" id="hBestStyle">--</span></div>
+    <button class="vcr vcr-pause" id="btnPause" type="button" aria-label="Pause" aria-pressed="false">
+      <span class="vcr-up"><svg viewBox="0 0 8 10" width="9" height="11" aria-hidden="true"><path d="M0 0v10l8-5z" fill="currentColor"/></svg>PLAY</span>
+      <span class="vcr-down"><svg viewBox="0 0 8 10" width="9" height="11" aria-hidden="true"><rect width="3" height="10" fill="currentColor"/><rect x="5" width="3" height="10" fill="currentColor"/></svg>PAUSE</span>
+    </button>
     <button class="vcr vcr-sound" id="btnMute" type="button" aria-label="Sound off" aria-pressed="false">
       <span class="vcr-up"><svg viewBox="0 0 12 10" width="13" height="11" aria-hidden="true"><path d="M0 3h3l4-3v10l-4-3H0z" fill="currentColor"/><path d="M9 2.5q1.6 2.5 0 5M10.5 1q3 4 0 8" stroke="currentColor" fill="none" stroke-width="1.2"/></svg>SOUND ON</span>
       <span class="vcr-down"><svg viewBox="0 0 12 10" width="13" height="11" aria-hidden="true"><path d="M0 3h3l4-3v10l-4-3H0z" fill="currentColor"/><path d="M8.5 3l3 4M11.5 3l-3 4" stroke="currentColor" stroke-width="1.4"/></svg>SOUND OFF</span>
     </button>
     <button class="vcr vcr-full" id="btnFull" type="button" aria-label="Full screen" aria-pressed="false" hidden>
       <span><svg viewBox="0 0 10 10" width="11" height="11" aria-hidden="true"><path d="M0 3V0h3M7 0h3v3M10 7v3H7M3 10H0V7" stroke="currentColor" fill="none" stroke-width="1.6"/></svg>FULL SCREEN</span>
-    </button>
-    <button class="vcr vcr-pause" id="btnPause" type="button" aria-label="Pause" aria-pressed="false">
-      <span class="vcr-up"><svg viewBox="0 0 8 10" width="9" height="11" aria-hidden="true"><path d="M0 0v10l8-5z" fill="currentColor"/></svg>PLAY</span>
-      <span class="vcr-down"><svg viewBox="0 0 8 10" width="9" height="11" aria-hidden="true"><rect width="3" height="10" fill="currentColor"/><rect x="5" width="3" height="10" fill="currentColor"/></svg>PAUSE</span>
     </button>
   </div>
 </header>
@@ -393,7 +392,7 @@
         <dt><kbd class="arw" aria-label="Up arrow"><i class="ico up"></i></kbd></dt><dd>Flip</dd>
         <dt><kbd class="arw" aria-label="Left arrow"><i class="ico left"></i></kbd><kbd class="arw" aria-label="Right arrow"><i class="ico right"></i></kbd></dt><dd>Line up your landing</dd>
       </dl>
-      <div class="keys-foot"><kbd>P</kbd> pause · <kbd>M</kbd> sound</div>
+      <div class="keys-foot"><kbd>P</kbd> pause · <kbd>M</kbd> sound · <kbd>F</kbd> full screen</div>
     </div>
     <!-- the face buttons' letters follow the controller in use (padLabels); until one is used, PlayStation / Switch -->
     <div class="controls pad-controls">
@@ -1460,53 +1459,6 @@ const START_TILT = 0.1;
 const TEST_BUILD = false;   // build.py makes this false in the release build
 const COURSES = [
   {
-    id: 'test', name: 'TEST COURSE', region: 'PRACTICE RUN', small: true, blurb: '',
-    start: 8, finish: 1650,
-    // a steady steep pitch with a 25 m cliff halfway (820), a flatter run-in to the mega kicker at 1400, then the 50 m cliff
-    // at 1425. The profile samples every 0.5 m, so 6 samples make each drop: 6 x 0.5 x (8.95 - 0.62) = 25, 6 x 0.5 x 16.7 = 50
-    slope: [[-70, START_TILT], [5, START_TILT], [6.2, 0.5], [7.5, 0.95], [20, 0.85], [34, 0.62], [819.9, 0.62], [820, 8.95], [822.5, 8.95],
-      [822.6, 0.75], [880, 0.62], [1340, 0.62], [1370, 0.45], [1424.9, 0.45],
-      [1425, 16.7], [1427.5, 16.7], [1427.6, 0.7], [1560, 0.6], [1620, 0.3], [1660, 0.12], [1700, 0.06], [1900, 0.02]],
-    cliffs: [[820, 25, 'BIG CLIFF'], [1425, 50, 'MEGA CLIFF']],   // full width: [s of the lip, drop in m, name]
-    w: [[-70, 13], [30, 12], [80, 60], [200, 120], [1300, 120], [1400, 80], [1650, 50], [1900, 80]],
-    bowl: [[-70, 1], [60, 4], [200, 18], [1300, 18], [1450, 8], [1900, 4]],
-    cx: [[-70, 0], [1900, 0]],
-    split: [[0, 0]],
-    // giant slalom: a turn every 120 m, 24 m either side of the middle, then straight down the middle to the kicker
-    line: [[-70, 0], [60, 0], [150, 24], [270, -24], [390, 24], [510, -24], [630, 24], [750, -24], [870, 24], [990, -24], [1110, 24], [1230, 0], [1900, 0]],
-    // skier's right: a gentle powder bowl with ledges. Skier's left: groomed flat for the terrain park
-    hills(x, s) {
-      const dx = x - CX(s);
-      return (dx > 0 ? -5 * Math.exp(-(((dx - 75) / 25) ** 2)) * band(s, 150, 1200, 40) : 0) + ledgesAndRidges(this, x, s) + parkTerrain(this, x, s);
-    },
-    ledges: [[250, 95, 18, 3, 'LEDGE DROP'], [340, 80, 20, 3.5, 'LEDGE DROP'], [460, 100, 16, 4.5, 'BIG LEDGE'],
-      [560, 70, 18, 3, 'LEDGE DROP'], [680, 100, 16, 3.5, 'LEDGE DROP'], [780, 95, 16, 5, 'BIG LEDGE'],
-      [930, 70, 20, 3.5, 'LEDGE DROP'], [1020, -95, 18, 5, 'BIG LEDGE'], [1140, 85, 18, 4, 'BIG LEDGE']],
-    // THE TERRAIN PARK, down skier's left (shapes: see parkTerrain; boxes and rails: see jibs in buildCourse).
-    // Top to bottom: a jib line, a tabletop jump line and a spine, then below the 25 m cliff a second jib line, bigger tables,
-    // a spine and a kicker line
-    tables: [[440, -60, 6, 2, 6], [490, -60, 6, 2.5, 8], [545, -60, 6, 3, 10], [1050, -60, 7, 3, 10], [1105, -60, 7, 3.5, 12]],
-    spines: [[590, 625, -75, 2, 5], [1170, 1215, -80, 2.2, 5]],
-    jibs: [[228, -55, 'box', 10, 0.6], [262, -62, 'rail', 12, 0.8], [300, -52, 'box', 12, 1.0, 0.6], [340, -64, 'rail', 14, 1.0, 0.6],
-      [380, -55, 'box', 16, 0.6], [900, -55, 'rail', 14, 0.9], [940, -65, 'box', 12, 0.8, 0.5], [985, -52, 'rail', 16, 1.1, 0.7]],
-    parkZones: [[215, 420, -75, -42], [430, 630, -90, -45], [880, 1330, -90, -42]],
-    // kickers: the cliff kicker launches you out over the 25 m cliff; the park kicker line; more around the course; the mega kicker
-    airs: [[800, -45, 'XL', 'CLIFF KICKER'], [1240, -55, 'L', 'PARK KICKER'], [1290, -60, 'XL', 'BIG KICKER'],
-      [430, 55, 'L', 'KICKER'], [610, 42, 'M', 'KICKER'], [980, 40, 'L', 'KICKER'], [1250, 45, 'L', 'KICKER'], [1400, 0, 'XXL', 'MEGA KICKER']],
-    mogulBands() { return 0; },
-    edge: [[-70, 7.5], [40, 8], [150, 12], [1900, 12]],
-    drops: [],
-    gateRule() { return { space: 60, swing: 3 }; },   // spaced out; the line itself makes the big turns
-    kickers: [],
-    // powder field: pillows scattered through the bowl on skier's right
-    pillowFields: [[180, 1200, 14, [70, 95, 60, 110, 85, 120], ['S', 'M', 'S', 'L', 'M'], 'cx']],
-    rocks: [],
-    randomRocks: [200, 1300, 25],
-    treeP(ts, d, w, rel) { return rel > 0.95 ? 0.4 : 0.01; },   // open field, trees on the rims
-    finishHalf: 30,
-    scenery: 'alpine',
-  },
-  {
     id: 'bowl', name: 'CHUTE TO BOWL', region: 'COLORADO',
     blurb: 'Twin rock couloirs drop into a huge open bowl: rollers, drop-offs, a mogul field and a glade.',
     start: 8, finish: 1590,
@@ -1622,65 +1574,52 @@ const COURSES = [
     scenery: 'desert',
     bar: true,
   },
-  // Jackson Hole, top to bottom (from the trail map and accounts of the run): out of the tram dock at the summit, skier's
-  // left down the top of Rendezvous Bowl to build speed, then a hard left to the cornice over Corbet's. A flat run-up to
-  // the lip, then about 7 m of drop onto the steepest pitch in the game: going in fast throws a huge air down the couloir
-  // (rock on three sides, some 10 m wide at the entrance); slower, there's a fast right then an instant left past the
-  // boulders. It opens over its apron into Tensleep Bowl (rollers, pillows, sub-alpine pines). Then the steeper Cheyenne
-  // Bowl (moguls, rock bands on skier's left), the long groomed GV with its rollers, and the Lower Faces to the Mangy Moose
   {
-    id: 'corbets', name: "CORBET'S COULOIR", region: 'WYOMING', testOnly: true,   // in the test build only, for now
-    blurb: "Drop the cornice into America's scariest couloir, then ride Tensleep Bowl, the moguls and the GV all the way to the Mangy Moose.",
-    start: 8, finish: 1780,
-    // the cornice at 245: a 7 m drop (6 samples x 0.5 m x 7 / 3), see the test course
-    slope: [[-70, START_TILT], [5, START_TILT], [6.2, 0.5], [8, 0.6], [60, 0.55], [150, 0.5], [190, 0.4], [230, 0.32],
-      [244.9, 0.3], [245, 2.63], [247.5, 2.63], [247.6, 1.1], [300, 1.1], [330, 0.9], [360, 0.75], [400, 0.55], [430, 0.42],
-      [560, 0.4], [640, 0.45], [690, 0.6], [720, 0.7], [820, 0.65], [900, 0.7], [930, 0.5], [960, 0.4], [1030, 0.45],
-      [1060, 0.12], [1070, 0.1], [1078, 0.55], [1150, 0.4], [1240, 0.12], [1250, 0.1], [1258, 0.55], [1330, 0.4],
-      [1420, 0.12], [1430, 0.1], [1438, 0.5], [1510, 0.35], [1680, 0.3], [1740, 0.22], [1780, 0.14], [1820, 0.06], [1900, 0.02]],
-    cliffs: [[245, 7, "CORBET'S"]],   // full width: the whole couloir starts at the cornice
-    // the run-in down Rendezvous Bowl, pinching to the entrance; the couloir opens up quickly below the boulders
-    w: [[-70, 12], [30, 12], [60, 40], [180, 40], [225, 12], [240, 6], [262, 5], [282, 7], [320, 12], [360, 22], [420, 60],
-      [470, 100], [690, 110], [730, 90], [1000, 90], [1040, 40], [1600, 40], [1650, 80], [1780, 70], [1900, 90]],
-    bowl: [[-70, 1], [60, 4], [180, 6], [225, 3], [245, 2], [360, 3], [430, 14], [690, 22], [730, 18], [1000, 18], [1040, 6],
-      [1600, 6], [1680, 4], [1900, 3]],
-    cx: [[-70, 0], [190, 0], [240, -40], [420, -40], [560, -15], [860, 15], [1000, 0], [1300, -10], [1600, 5], [1900, 0]],   // the hard left at 190-240
+    id: 'test', name: 'TEST COURSE', region: 'PRACTICE RUN', small: true, blurb: '',
+    start: 8, finish: 1650,
+    // a steady steep pitch with a 25 m cliff halfway (820), a flatter run-in to the mega kicker at 1400, then the 50 m cliff
+    // at 1425. The profile samples every 0.5 m, so 6 samples make each drop: 6 x 0.5 x (8.95 - 0.62) = 25, 6 x 0.5 x 16.7 = 50
+    slope: [[-70, START_TILT], [5, START_TILT], [6.2, 0.5], [7.5, 0.95], [20, 0.85], [34, 0.62], [819.9, 0.62], [820, 8.95], [822.5, 8.95],
+      [822.6, 0.75], [880, 0.62], [1340, 0.62], [1370, 0.45], [1424.9, 0.45],
+      [1425, 16.7], [1427.5, 16.7], [1427.6, 0.7], [1560, 0.6], [1620, 0.3], [1660, 0.12], [1700, 0.06], [1900, 0.02]],
+    cliffs: [[820, 25, 'BIG CLIFF'], [1425, 50, 'MEGA CLIFF']],   // full width: [s of the lip, drop in m, name]
+    w: [[-70, 13], [30, 12], [80, 60], [200, 120], [1300, 120], [1400, 80], [1650, 50], [1900, 80]],
+    bowl: [[-70, 1], [60, 4], [200, 18], [1300, 18], [1450, 8], [1900, 4]],
+    cx: [[-70, 0], [1900, 0]],
     split: [[0, 0]],
-    line: [[-70, 0], [120, 6], [185, 4], [215, -14], [240, -38], [255, -40], [262, -37], [280, -43], [300, -40], [390, -40],
-      [460, -15], [560, -50], [640, -5], [720, 15], [820, 45], [920, 30], [1000, 5], [1100, -10], [1200, -15], [1300, -5],
-      [1400, -12], [1500, 0], [1600, 8], [1700, -10], [1760, 0], [1900, 0]],
-    hills(x, s) {   // rollers through Tensleep Bowl
-      return band(s, 430, 640, 30) * 1.6 * Math.sin(x * 0.03 + s * 0.02) * Math.sin(s * 0.013) + ledgesAndRidges(this, x, s);
+    // giant slalom: a turn every 120 m, 24 m either side of the middle, then straight down the middle to the kicker
+    line: [[-70, 0], [60, 0], [150, 24], [270, -24], [390, 24], [510, -24], [630, 24], [750, -24], [870, 24], [990, -24], [1110, 24], [1230, 0], [1900, 0]],
+    // skier's right: a gentle powder bowl with ledges. Skier's left: groomed flat for the terrain park
+    hills(x, s) {
+      const dx = x - CX(s);
+      return (dx > 0 ? -5 * Math.exp(-(((dx - 75) / 25) ** 2)) * band(s, 150, 1200, 40) : 0) + ledgesAndRidges(this, x, s) + parkTerrain(this, x, s);
     },
-    // Cheyenne Bowl's rock bands, skier's left of the race line: [s of the lip, x from the corridor centre, half-width, drop, name]
-    ledges: [[720, -50, 22, 5, 'ROCK BAND'], [860, -45, 22, 7, 'BIG ROCK BAND']],
-    airs: [[520, -14, 'M', 'TENSLEEP AIR'], [1720, 2, 'XL', 'FINAL ROLLER']],
-    // Cheyenne Bowl's moguls, either side of the iced race line
-    mogulBands(s, dx) { return band(s, 690, 920, 20) * band(dx, -25, 70, 8) * (1 - iceAt(CX(s) + dx, s)); },
-    edge: [[-70, 7.5], [40, 8], [200, 8], [240, 4.5], [262, 4], [340, 6], [420, 10], [930, 10], [980, 12], [1600, 12], [1680, 14], [1900, 13]],
-    drops: [1070, 1250, 1430],   // the GV's rollers
-    gateRule(s) {
-      if (s < 230) return { space: 45, swing: 4.5 };   // the run-in
-      if (s < 380) return { space: 30, swing: 2 };     // tight in the couloir
-      if (s < 960) return { space: 50, swing: 5.5 };   // the bowls
-      return { space: 44, swing: 5 };                  // the GV and the Lower Faces
-    },
-    kickers: [[470, 'M', -55], [560, 'L', 60], [1650, 'M', -40]].map(([s, size, off]) => ({ s, size, off, side: 'cx', style: 'boulder' })),
-    pillowFields: [[430, 640, 16, [-60, 45, -80, 70, -35, 90], ['S', 'M', 'S', 'L'], 'cx']],
-    rocks: [[268, 5], [292, -6], [700, -80], [800, 85], [900, -70]],   // the couloir's boulders, then Cheyenne Bowl
-    randomRocks: [400, 930, 40],
-    treeP(ts, d, w, rel) {
-      if (ts < 400) return d > w + 20 ? 0.04 : 0;          // the summit, the run-in and the couloir: above the trees
-      if (ts < 640) return rel > 1 ? 0.2 : 0.015;          // Tensleep Bowl: sub-alpine pines
-      if (ts < 930) return rel > 0.9 ? 0.3 : 0.04;         // Cheyenne Bowl
-      if (ts < 1600) return rel > 0.7 ? 0.85 : rel > 0.55 ? 0.1 : 0;   // the GV, cut through the woods
-      return rel > 0.75 ? 0.6 : 0.03;                      // the Lower Faces
-    },
-    finishHalf: 34,
+    ledges: [[250, 95, 18, 3, 'LEDGE DROP'], [340, 80, 20, 3.5, 'LEDGE DROP'], [460, 100, 16, 4.5, 'BIG LEDGE'],
+      [560, 70, 18, 3, 'LEDGE DROP'], [680, 100, 16, 3.5, 'LEDGE DROP'], [780, 95, 16, 5, 'BIG LEDGE'],
+      [930, 70, 20, 3.5, 'LEDGE DROP'], [1020, -95, 18, 5, 'BIG LEDGE'], [1140, 85, 18, 4, 'BIG LEDGE']],
+    // THE TERRAIN PARK, down skier's left (shapes: see parkTerrain; boxes and rails: see jibs in buildCourse).
+    // Top to bottom: a jib line, a tabletop jump line and a spine, then below the 25 m cliff a second jib line, bigger tables,
+    // a spine and a kicker line
+    tables: [[440, -60, 6, 2, 6], [490, -60, 6, 2.5, 8], [545, -60, 6, 3, 10], [1050, -60, 7, 3, 10], [1105, -60, 7, 3.5, 12]],
+    spines: [[590, 625, -75, 2, 5], [1170, 1215, -80, 2.2, 5]],
+    jibs: [[228, -55, 'box', 10, 0.6], [262, -62, 'rail', 12, 0.8], [300, -52, 'box', 12, 1.0, 0.6], [340, -64, 'rail', 14, 1.0, 0.6],
+      [380, -55, 'box', 16, 0.6], [900, -55, 'rail', 14, 0.9], [940, -65, 'box', 12, 0.8, 0.5], [985, -52, 'rail', 16, 1.1, 0.7]],
+    parkZones: [[215, 420, -75, -42], [430, 630, -90, -45], [880, 1330, -90, -42]],
+    // kickers: the cliff kicker launches you out over the 25 m cliff; the park kicker line; more around the course; the mega kicker
+    airs: [[800, -45, 'XL', 'CLIFF KICKER'], [1240, -55, 'L', 'PARK KICKER'], [1290, -60, 'XL', 'BIG KICKER'],
+      [430, 55, 'L', 'KICKER'], [610, 42, 'M', 'KICKER'], [980, 40, 'L', 'KICKER'], [1250, 45, 'L', 'KICKER'], [1400, 0, 'XXL', 'MEGA KICKER']],
+    mogulBands() { return 0; },
+    edge: [[-70, 7.5], [40, 8], [150, 12], [1900, 12]],
+    drops: [],
+    gateRule() { return { space: 60, swing: 3 }; },   // spaced out; the line itself makes the big turns
+    kickers: [],
+    // powder field: pillows scattered through the bowl on skier's right
+    pillowFields: [[180, 1200, 14, [70, 95, 60, 110, 85, 120], ['S', 'M', 'S', 'L', 'M'], 'cx']],
+    rocks: [],
+    randomRocks: [200, 1300, 25],
+    treeP(ts, d, w, rel) { return rel > 0.95 ? 0.4 : 0.01; },   // open field, trees on the rims
+    finishHalf: 30,
     scenery: 'alpine',
-    bar: { sign: 'MANGY MOOSE', wood: true },   // the saloon at the foot of the tram
-    summit: true,         // the tram dock, Corbet's Cabin and the WyoLink hut around the start (see buildCourse)
-    ropes: [150, 246],    // rope lines up both edges of the run-in, funnelling everyone into the drop: [from, to] (see ROPE_IN)
   },
   // THE LAB (test build only): three straight lanes side by side for trying things out (tuck, speed, big air). Left to
   // right a steady, a medium and a steep pitch, each ending in a mega kicker over a cliff; below, the lanes land and run
@@ -1734,7 +1673,7 @@ const COURSES = [
     finishHalf: 70,
     scenery: 'alpine',
   },
-].filter(c => TEST_BUILD || !(c.lab || c.testOnly));
+].filter(c => TEST_BUILD || !c.lab);
 
 // The active course. These bindings are swapped by setCourse(); everything below reads them at call time.
 let EDGE;
@@ -2495,10 +2434,10 @@ function buildCourse() {
     ring.position.set(rx, ry, rz); add(ring);
     course.ring = { ring, riders, rx, rz, ry, RAD: RAD - 2.6 };
   }
-  // New Mexico ends at an adobe bar just past the finish line; Wyoming at a log saloon (bar: { sign, wood })
+  // New Mexico ends at an adobe bar just past the finish line
   if (c.bar) {
-    const s0 = FINISH_S + 48, bx = CX(s0) + 16, z = -s0, by = groundY(bx, z) - 0.3, bar = new THREE.Group(), wood = c.bar.wood, txt = c.bar.sign || 'BAR';
-    const adobe = matte(wood ? 0x7a4a2a : 0xc98e60), adobeDark = matte(wood ? 0x5c3820 : 0xb07a50), viga = matte(0x6b4a30), trim = gloss(wood ? 0xc81e1e : 0x2bb3a6, { roughness: 0.35 });
+    const s0 = FINISH_S + 48, bx = CX(s0) + 16, z = -s0, by = groundY(bx, z) - 0.3, bar = new THREE.Group();
+    const adobe = matte(0xc98e60), adobeDark = matte(0xb07a50), viga = matte(0x6b4a30), trim = gloss(0x2bb3a6, { roughness: 0.35 });
     const body = new THREE.Mesh(new THREE.BoxGeometry(16, 5, 10), adobe); body.position.y = 2.5; bar.add(body);
     const parapet = new THREE.Mesh(new THREE.BoxGeometry(16.6, 0.8, 10.6), adobeDark); parapet.position.y = 5.3; bar.add(parapet);
     const snowRoof = new THREE.Mesh(new THREE.BoxGeometry(15.4, 0.25, 9.4), MAT.drift); snowRoof.position.y = 5.35; bar.add(snowRoof);
@@ -2510,90 +2449,23 @@ function buildCourse() {
       const w = new THREE.Mesh(new THREE.PlaneGeometry(2, 1.4), glow); w.position.set(wx, 2.4, 5.02); bar.add(w);
       const fr = new THREE.Mesh(new THREE.BoxGeometry(2.3, 1.7, 0.1), trim); fr.position.set(wx, 2.4, 4.99); bar.add(fr);
     }
-    // ristras: strings of red chiles by the door (the adobe bar only)
+    // ristras: strings of red chiles by the door
     const chile = gloss(0xc81e1e, { roughness: 0.3 });
-    if (!wood) for (const rx of [-4.2, -0.8]) for (let k = 0; k < 9; k++) {
+    for (const rx of [-4.2, -0.8]) for (let k = 0; k < 9; k++) {
       const ch = new THREE.Mesh(new THREE.CapsuleGeometry(0.09, 0.22, 3, 6), chile); ch.position.set(rx + Math.sin(k * 2.1) * 0.12, 3.4 - k * 0.22, 5.2); ch.rotation.z = Math.sin(k * 1.7) * 0.5; bar.add(ch);
     }
-    const sw = 128 * Math.ceil(txt.length / 3), k = sw > 128 ? 0.85 : 1;   // 32 px letters, three to every 128 px (4.6 m of sign; a long one a bit smaller)
-    const signTex = canvasTex(sw, 48, (g, w, h) => {
+    const signTex = canvasTex(128, 48, (g, w, h) => {
       g.fillStyle = '#142050'; g.fillRect(0, 0, w, h);
       g.font = '32px "Press Start 2P"'; g.textAlign = 'center'; g.textBaseline = 'middle';
-      g.fillStyle = '#ff3b6b'; g.fillText(txt, w / 2 + 3, h / 2 + 4); g.fillStyle = '#ffe28a'; g.fillText(txt, w / 2, h / 2 + 1);
+      g.fillStyle = '#ff3b6b'; g.fillText('BAR', w / 2 + 3, h / 2 + 4); g.fillStyle = '#ffe28a'; g.fillText('BAR', w / 2, h / 2 + 1);
     }, true);
-    const sign = new THREE.Mesh(new THREE.PlaneGeometry(4.6 * sw / 128 * k, 1.7 * k), new THREE.MeshBasicMaterial({ map: signTex })); sign.position.set(-0.5, 6.7, 5.2); bar.add(sign);
+    const sign = new THREE.Mesh(new THREE.PlaneGeometry(4.6, 1.7), new THREE.MeshBasicMaterial({ map: signTex })); sign.position.set(-0.5, 6.7, 5.2); bar.add(sign);
     for (const sx of [-2.4, 1.4]) { const p = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 1.2, 6), viga); p.position.set(sx, 6.0, 5.1); bar.add(p); }
     // skis stuck in the snow out front
     for (let k = 0; k < 5; k++) for (const o of [-0.09, 0.09]) {
       const ski = new THREE.Mesh(new THREE.BoxGeometry(0.1, 1.7, 0.03), k % 2 ? MAT.red : MAT.blue); ski.position.set(-6 + k * 0.6 + o, 0.85, 7.5); ski.rotation.z = (k - 2) * 0.05; bar.add(ski);
     }
     bar.position.set(bx, by, z); add(bar);
-  }
-
-  // a sign board facing uphill: a canvas with its text, on two posts
-  const signBoard = (text, w, h, bg, fg, x, s) => {
-    const g = new THREE.Group(), tex = canvasTex(64 * Math.ceil(text.length * 0.6), 64, (cx, cw, ch) => {
-      cx.fillStyle = bg; cx.fillRect(0, 0, cw, ch); cx.font = '26px "Press Start 2P"'; cx.textAlign = 'center'; cx.textBaseline = 'middle';
-      cx.fillStyle = fg; cx.fillText(text, cw / 2, ch / 2 + 2);
-    }, true);
-    const board = new THREE.Mesh(new THREE.PlaneGeometry(w, h), new THREE.MeshBasicMaterial({ map: tex })); board.position.y = 1.3 + h / 2; g.add(board);
-    for (const px of [-w / 2 + 0.2, w / 2 - 0.2]) { const p = new THREE.Mesh(new THREE.CylinderGeometry(0.06, 0.06, 1.4 + h, 6), matte(0x6b4a30)); p.position.set(px, (1.4 + h) / 2, -0.05); g.add(p); }
-    g.position.set(x, groundY(x, -s) - 0.1, -s); return add(g);
-  };
-  // Corbet's: rope lines (bamboo poles with orange flags) up both edges of the run-in to the cornice. You can't cross them
-  // (see physics), so everyone funnels into the drop
-  if (c.ropes) {
-    const pole = new THREE.CylinderGeometry(0.035, 0.035, 1.3, 6), bamboo = matte(0xd8c27a), flagM = new THREE.MeshBasicMaterial({ color: 0xff7a1a, side: THREE.DoubleSide });
-    const ropeM = matte(0xffd23a), flag = new THREE.PlaneGeometry(0.34, 0.24);
-    for (const side of [-1, 1]) {
-      let prev = null;
-      for (let s = c.ropes[0]; s <= c.ropes[1] + 0.01; s += 3) {
-        const x = CX(s) + side * (W(s) - ROPE_IN), top = new THREE.Vector3(x, groundY(x, -s) + 1.15, -s);
-        const p = new THREE.Mesh(pole, bamboo); p.position.set(x, top.y - 0.5, -s); add(p);
-        const f = new THREE.Mesh(flag, flagM); f.position.set(x + side * 0.18, top.y + 0.02, -s); add(f);
-        if (prev) {   // the rope: a thin cylinder from post to post
-          const len = prev.distanceTo(top), r = new THREE.Mesh(new THREE.CylinderGeometry(0.02, 0.02, len, 4), ropeM);
-          r.position.copy(prev).add(top).multiplyScalar(0.5); r.quaternion.setFromUnitVectors(new THREE.Vector3(0, 1, 0), top.clone().sub(prev).normalize()); add(r);
-        }
-        prev = top;
-      }
-    }
-    const s0 = c.ropes[0] + 4;
-    signBoard('EXPERTS ONLY', 3.2, 0.8, '#ffd23a', '#111', CX(s0) + W(s0) - ROPE_IN - 2.2, s0);
-    signBoard("CORBET'S COULOIR", 4, 0.8, '#142050', '#ffe28a', CX(s0) - W(s0) + ROPE_IN + 2.6, s0);
-  }
-  // Jackson Hole's summit, beside the run-in where you ride past them: the tram dock with the red tram car, Corbet's Cabin
-  // (waffles), the WyoLink hut
-  if (c.summit) {
-    const concrete = matte(0x9aa0aa), concreteDark = matte(0x6c727c), red = matte(0xc81e1e), glass = new THREE.MeshBasicMaterial({ color: 0x9fd4ff }), wood = matte(0x7a4a2a);
-    const at = (g, x, s, ry = 0) => { g.position.set(x, groundY(x, -s) - 0.3, -s); g.rotation.y = ry; return add(g); };
-    const dock = new THREE.Group();
-    const base = new THREE.Mesh(new THREE.BoxGeometry(14, 7, 12), concrete); base.position.y = 3.5; dock.add(base);
-    const roof = new THREE.Mesh(new THREE.BoxGeometry(15, 0.8, 13), concreteDark); roof.position.y = 7.4; dock.add(roof);
-    const snowTop = new THREE.Mesh(new THREE.BoxGeometry(14.4, 0.25, 12.4), MAT.drift); snowTop.position.y = 7.9; dock.add(snowTop);
-    const car = new THREE.Group();   // the "big red box", parked in the dock's open side
-    const box = new THREE.Mesh(new THREE.BoxGeometry(5, 3.6, 7), red); car.add(box);
-    for (const z of [-2.2, 0, 2.2]) { const w = new THREE.Mesh(new THREE.PlaneGeometry(1.6, 1.2), glass); w.position.set(-2.51, 0.5, z); w.rotation.y = -Math.PI / 2; car.add(w); }
-    const hanger = new THREE.Mesh(new THREE.BoxGeometry(0.3, 2.2, 0.3), concreteDark); hanger.position.y = 2.9; car.add(hanger);
-    car.position.set(-7.6, 4.2, 0); dock.add(car);
-    for (const ox of [-1.2, 1.2]) {   // the cables, running off up and away
-      const cable = new THREE.Mesh(new THREE.CylinderGeometry(0.05, 0.05, 120, 4).rotateX(Math.PI / 2), concreteDark); cable.position.set(-7.6 + ox, 8.3, 60); cable.rotation.x = -0.18; dock.add(cable);
-    }
-    at(dock, 47, 95);
-    const cabin = new THREE.Group();
-    const body = new THREE.Mesh(new THREE.BoxGeometry(9, 3.6, 7), wood); body.position.y = 1.8; cabin.add(body);
-    const rs = new THREE.Shape(); rs.moveTo(-5, 0); rs.lineTo(0, 2.6); rs.lineTo(5, 0); rs.lineTo(-5, 0);
-    const cr = new THREE.Mesh(new THREE.ExtrudeGeometry(rs, { depth: 7.6, bevelEnabled: false }), MAT.drift); cr.position.set(0, 3.6, -3.8); cabin.add(cr);
-    const door = new THREE.Mesh(new THREE.PlaneGeometry(1.4, 2.4), matte(0x3b2416)); door.position.set(-2, 1.2, 3.51); cabin.add(door);
-    const win = new THREE.Mesh(new THREE.PlaneGeometry(2.4, 1.2), new THREE.MeshBasicMaterial({ color: 0xffb54d })); win.position.set(1.8, 2, 3.51); cabin.add(win);
-    const cabinTex = canvasTex(384, 48, (g, w, h) => { g.fillStyle = '#3b2416'; g.fillRect(0, 0, w, h); g.font = '22px "Press Start 2P"'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillStyle = '#ffe28a'; g.fillText("CORBET'S CABIN", w / 2, h / 2 + 2); }, true);
-    const cs = new THREE.Mesh(new THREE.PlaneGeometry(7.2, 0.9), new THREE.MeshBasicMaterial({ map: cabinTex })); cs.position.set(0, 4.1, 3.9); cabin.add(cs);
-    at(cabin, -46, 115);
-    const hut = new THREE.Group();   // WyoLink: a concrete radio hut with its mast
-    const hb = new THREE.Mesh(new THREE.BoxGeometry(4, 3, 4), concrete); hb.position.y = 1.5; hut.add(hb);
-    const mast = new THREE.Mesh(new THREE.CylinderGeometry(0.12, 0.18, 9, 6), concreteDark); mast.position.set(1, 7.5, 1); hut.add(mast);
-    for (const y of [6, 8.5, 11]) { const dish = new THREE.Mesh(new THREE.CylinderGeometry(0.5, 0.5, 0.2, 10).rotateX(Math.PI / 2), MAT.white); dish.position.set(1, y, 1.4); hut.add(dish); }
-    at(hut, 47, 150);
   }
 
   // trees and rocks: scattered by zone, kept clear of the race line, the freeride line and the jumps
@@ -2693,7 +2565,7 @@ function loadCourse(id) {
   buildCourse();
 }
 const SHARED = new Set([GEO.pole, GEO.knob, GEO.panel, GEO.pillow, ...GEO.trees, ...GEO.rocks, ...Object.values(MAT)]);   // used by every course: never freed
-const startCourse = 'bowl';   // the mountain behind the title until a run picks another (TEST COURSE is first in the list)
+const startCourse = COURSES[0].id;   // the left-hand mountain is always the default
 loadCourse(startCourse);
 
 function cullCourse(s) {
@@ -3744,23 +3616,10 @@ function updateHud() {
 }
 let yetiUnlocked = false;   // not saved: every visit has to find the yeti again
 function refreshTitle() {
-  $('btnYeti').hidden = !yetiUnlocked; $('legend').hidden = yetiUnlocked && !$('legend').classList.contains('woke');
+  $('btnYeti').hidden = !yetiUnlocked; $('legend').hidden = yetiUnlocked;
   $('startHint').textContent = yetiUnlocked ? 'ARROWS TO CHOOSE · SPACE TO SELECT' : 'PRESS SPACE TO DROP IN';
   $('startHint').dataset.padT = yetiUnlocked ? 'STICK TO CHOOSE · {ok} TO SELECT' : 'PRESS {ok} TO DROP IN';
   if (document.body.classList.contains('pad')) padLabels();   // else the first controller press fills it in (padUse)
-}
-// SkiFree's F key: press F on the title screen to wake the yeti
-function unlockYeti() {
-  if (yetiUnlocked) return;
-  yetiUnlocked = true;
-  if (Sound.init()) { Sound.resume(); setTimeout(() => Sound.play('roar'), 60); }
-  const t = $('title'), logo = t.querySelector('.logo');
-  t.classList.remove('shake'); void t.offsetWidth; t.classList.add('shake');
-  logo.classList.add('flash'); setTimeout(() => logo.classList.remove('flash'), 2800);
-  const lg = $('legend');
-  lg.textContent = 'YOU WOKE THE YETI · YETI CHASE UNLOCKED'; lg.classList.add('woke');
-  refreshTitle(); markMenu();
-  setTimeout(() => { lg.classList.remove('woke'); refreshTitle(); }, 4500);
 }
 refreshTitle();
 const SCREENS = ['intro', 'title', 'coursePick', 'select', 'paused', 'over', 'boards'];
@@ -3943,7 +3802,7 @@ function openCourse(m) {
   if (m) mode = m;
   if (state !== 'title' && state !== 'select' && state !== 'course') resetRun();
   state = 'course';
-  $('hud').hidden = true; $('course').hidden = true; $('hYeti').hidden = true;
+  $('hud').classList.add('menu'); $('course').hidden = true; $('hYeti').hidden = true;
   $('cpEyebrow').textContent = 'CHOOSE YOUR MOUNTAIN';
   refreshCourseCards(); loadRecords();
   show('coursePick');
@@ -3960,7 +3819,7 @@ function openSelect(m) {
   if (m) mode = m;
   if (state !== 'title' && state !== 'select' && state !== 'course') resetRun();
   state = 'select';
-  $('hud').hidden = true; $('course').hidden = true; $('hYeti').hidden = true;
+  $('hud').classList.add('menu'); $('course').hidden = true; $('hYeti').hidden = true;
   $('selEyebrow').textContent = 'CHOOSE YOUR SKIER';
   shownChar = -1;
   show('select');
@@ -3986,7 +3845,7 @@ function startGame(m) {
   resetRun();
   state = 'play';
   show(null);
-  $('hud').hidden = false; $('course').hidden = false;
+  $('hud').classList.remove('menu'); $('course').hidden = false;
   for (const k in last) delete last[k];
   P.speed = 0;
   updateHud();
@@ -4021,7 +3880,7 @@ function toTitle() {
   if (window.speechSynthesis) speechSynthesis.cancel();
   Sound.resume(); $('countdown').hidden = true;
   state = 'title'; show('title'); refreshTitle();
-  $('hud').hidden = true; $('course').hidden = true; $('hYeti').hidden = true;
+  $('hud').classList.add('menu'); $('course').hidden = true; $('hYeti').hidden = true;
   resetRun();
 }
 let pausedFrom = 'play';
@@ -4112,7 +3971,7 @@ function results(caughtBy) {
   wipe.append(cell('th', 'WIPEOUTS', '', 'row'), cell('td', run.crashes), cell('td', '', 'best'), cell('td', '', 'world'));
   if (newTime) saveBest('time', { value: total, clock: run.time, gates: run.gatesHit });
   if (newStyle) saveBest('style', { value: run.style, tricks: run.tricks, trick: run.bestTrickName, pts: run.bestTrick });
-  $('hYeti').hidden = true; $('hud').hidden = true; $('course').hidden = true;   // the finish screen has all of these numbers
+  $('hYeti').hidden = true; $('hud').classList.add('menu'); $('course').hidden = true;   // the finish screen has all of these numbers
   refreshTitle();
   show('over');
   if (newTime || newStyle) celebrate([...tbl.querySelectorAll('td.new')]);   // after show: the bursts start from the cells
@@ -5139,7 +4998,6 @@ window.addEventListener('keydown', e => {
   }
   if (e.repeat) return;
   if ((state === 'title' || state === 'over') && $('boards').hidden) {
-    if (e.code === 'KeyF' && state === 'title') return unlockYeti();
     if (e.code === 'Digit1' || e.code === 'Numpad1') return openSelect('ski');
     if ((e.code === 'Digit2' || e.code === 'Numpad2') && yetiUnlocked) return openSelect('yeti');
     if (e.code === 'Escape' && state === 'over') return toTitle();
@@ -5148,6 +5006,7 @@ window.addEventListener('keydown', e => {
   if (e.code === 'Space') trick('spin');
   if (e.code === 'KeyP' || e.code === 'Escape') pause(state === 'play' || state === 'countdown');
   if (e.code === 'KeyM') toggleMute();
+  if (e.code === 'KeyF' && !$('btnFull').hidden) toggleFull();   // only a real key press may go full screen, not a controller's (padKey)
 });
 window.addEventListener('keyup', e => { const k = KEYMAP[e.code]; if (k) keys[k] = false; });
 window.addEventListener('blur', () => { for (const k in keys) keys[k] = false; pause(true); });
@@ -5163,12 +5022,17 @@ click('btnMute', toggleMute);
 // full screen where the page can have it (not iPhone Safari, which only lets videos go full screen): lit while on
 const fsEl = () => document.fullscreenElement || document.webkitFullscreenElement;
 $('btnFull').hidden = !(document.fullscreenEnabled || document.webkitFullscreenEnabled);
-click('btnFull', () => {
+function toggleFull() {
   const d = document, r = d.documentElement;
   const p = fsEl() ? (d.exitFullscreen || d.webkitExitFullscreen).call(d) : (r.requestFullscreen || r.webkitRequestFullscreen).call(r);
   if (p && p.catch) p.catch(() => {});
-});
-for (const t of ['fullscreenchange', 'webkitfullscreenchange']) document.addEventListener(t, () => $('btnFull').setAttribute('aria-pressed', !!fsEl()));
+}
+click('btnFull', toggleFull);
+for (const t of ['fullscreenchange', 'webkitfullscreenchange']) document.addEventListener(t, () => { $('btnFull').setAttribute('aria-pressed', !!fsEl()); stillMouse(); });
+// full screen hides a mouse left still for 2 s (see body.still); moving it brings it back
+let stillT = 0;
+function stillMouse() { document.body.classList.remove('still'); clearTimeout(stillT); stillT = setTimeout(() => document.body.classList.add('still'), 2000); }
+addEventListener('pointermove', e => { if (e.pointerType === 'mouse') stillMouse(); });
 click('btnPause', () => pause(state === 'play' || state === 'countdown'));
 click('btnSki', () => openSelect('ski'));
 click('btnYeti', () => openSelect('yeti'));
