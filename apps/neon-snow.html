@@ -1460,6 +1460,7 @@ const TEST_BUILD = false;   // build.py makes this false in the release build
 const COURSES = [
   {
     id: 'test', name: 'TEST COURSE', region: 'PRACTICE RUN', small: true, blurb: '',
+    lb: 1,   // its leaderboard version, as in the worker's V: bump both when its gates change, for fresh boards
     start: 8, finish: 1650,
     // a steady steep pitch with a 25 m cliff halfway (820), a flatter run-in to the mega kicker at 1400, then the 50 m cliff
     // at 1425. The profile samples every 0.5 m, so 6 samples make each drop: 6 x 0.5 x (8.95 - 0.62) = 25, 6 x 0.5 x 16.7 = 50
@@ -1507,6 +1508,7 @@ const COURSES = [
   },
   {
     id: 'bowl', name: 'CHUTE TO BOWL', region: 'COLORADO',
+    lb: 1,   // its leaderboard version (see the test course)
     blurb: 'Twin rock couloirs drop into a huge open bowl: rollers, drop-offs, a mogul field and a glade.',
     start: 8, finish: 1590,
     slope: [[-70, START_TILT], [5, START_TILT], [6.2, 0.5], [7.5, 1.0], [20, 0.95], [34, 0.68], [120, 0.66], [200, 0.6], [255, 0.72], [330, 0.62], [380, 0.45], [430, 0.3],
@@ -1572,6 +1574,7 @@ const COURSES = [
   },
   {
     id: 'taos', name: 'SANGRE DE CRISTO', region: 'NEW MEXICO',
+    lb: 1,   // its leaderboard version (see the test course)
     blurb: 'One huge chute, then pick a side: the steep race line right, or pillows and cliff drops left. Both meet in the woods and the ravine, and the run ends at the bar.',
     start: 8, finish: 1440,
     slope: [[-70, START_TILT], [5, START_TILT], [6.2, 0.5], [7.5, 1.05], [20, 1.0], [34, 0.74], [150, 0.72], [230, 0.76], [300, 0.68], [340, 0.6],
@@ -1640,6 +1643,7 @@ const COURSES = [
   // The tram's cables run from the dock to its base station by the bar, the red car going up and down them
   {
     id: 'corbets', name: "CORBET'S COULOIR", region: 'WYOMING',
+    lb: 2,   // its leaderboard version (see the test course): 2, the course rebuilt
     blurb: "Off the tram, along the ridge and over the cornice into America's scariest couloir. Pick a chute out of Tensleep, then ride Cheyenne Bowl and the GV to the Mangy Moose.",
     start: 8, finish: 1780,
     // the cliff at 210: 9 m (3.55 x 2.5 m and a bit, see the test course) under the cornice's 3.5 (see hills), onto 1.15
@@ -4493,7 +4497,6 @@ async function shareRun() {
 /* ---------- world bests: the online leaderboard (the worker in worker/) ---------- */
 // opened from disk (a local build), it talks to `npx wrangler dev` in worker/ instead of the live board
 const API = location.protocol === 'file:' ? 'http://localhost:8787' : 'https://api.beachwood23.com';
-const LB_V = 2;   // the worker's board version: bump both when a course changes
 let lbSeq = 0, lbRun = null, lbMine = 0;   // lbSeq drops answers that come back after the player has moved on; lbMine: this run's saved id
 const r3 = t => Math.round(t * 1000) / 1000;
 const lbFetch = (path, opt) => fetch(API + path, opt).then(r => r.ok ? r.json() : Promise.reject(r.status));
@@ -4515,7 +4518,7 @@ function worldBoard(finished) {
   $('overTable').classList.add('no-world'); form.hidden = true; lbMine = 0;
   if (COURSE.lab) return;   // the lab has no leaderboard
   // the run as the worker checks it; the time is worked out there from the clock and the gates
-  lbRun = finished ? { v: LB_V, course: COURSE.id, char: CH.id, clock: r3(run.time), style: run.style, tricks: run.tricks,
+  lbRun = finished ? { v: COURSE.lb, course: COURSE.id, char: CH.id, clock: r3(run.time), style: run.style, tricks: run.tricks,
     trick: run.bestTrickName, pts: run.bestTrick, gates: run.gateT.map(r3), events: run.events.map(([t, p]) => [r3(t), p]) } : null;
   lbFetch('/top?course=' + COURSE.id).then(b => {
     if (id !== lbSeq) return;
